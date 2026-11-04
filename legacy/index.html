@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arpit Patel | Environmental & Energy Engineer</title>
+    <meta name="description" content="Portfolio of Arpit Patel, Earth & Environmental Engineer at Columbia University.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <!-- Animated Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="custom-cursor"></div>
+
+    <nav class="navbar">
+        <div class="logo">AP<span class="dot">.</span></div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about" class="hover-underline">About</a></li>
+            <li><a href="#skills" class="hover-underline">Skills</a></li>
+            <li><a href="#projects" class="hover-underline">Projects</a></li>
+            <li><a href="#experience" class="hover-underline">Experience</a></li>
+            <li><a href="#field" class="hover-underline">Field Work</a></li>
+            <li><a href="#hobbies" class="hover-underline">Life</a></li>
+            <li><a href="#contact" class="hover-underline">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <p class="greeting reveal-up">Hello, I am</p>
+            <h1 class="hero-title reveal-up" style="transition-delay: 0.1s;">Arpit Patel</h1>
+            <h2 class="hero-subtitle reveal-up" style="transition-delay: 0.2s;">Engineering the Future of Energy.</h2>
+            <p class="hero-desc reveal-up" style="transition-delay: 0.3s;">Earth & Environmental Engineer | Columbia University <br> Focused on Energy Systems Economics, Grid Decarbonization & Real-world Implementations.</p>
+            <div class="hero-buttons reveal-up" style="transition-delay: 0.4s;">
+                <a href="#projects" class="btn btn-glow">See My Work</a>
+                <a href="#contact" class="btn btn-outline">Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">About Me</h2>
+            <div class="about-grid reveal-up">
+                <div class="about-text glass-panel">
+                    <p>I’ve always learned best by taking things apart. Long before I started modeling grid decarbonization or running battery optimization algorithms, I was the kid replacing an iPad screen on the kitchen table or designing a 3D-printed, obstacle-avoiding robot from the ground up.</p>
+                    <p>Today, I’m an Earth and Environmental Engineering Master’s student at <strong>Columbia University</strong>, focused on energy systems economics. With a Mechanical Engineering background from Shiv Nadar University, I bring that same hands-on, build-it-to-break-it energy into my technical work.</p>
+                    <p>Whether I’m running techno-economic analyses for carbon capture, dispatching battery storage models, or predicting peak demand on the NYCA grid, I don’t just want the numbers to balance—I want to understand exactly how the system works in the real world.</p>
+                </div>
+                <div class="about-visual glass-panel">
+                    <div class="stat-box">
+                        <span class="stat-num">28+</span>
+                        <span class="stat-label">GW Capacity Modeled</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-num">1Mt</span>
+                        <span class="stat-label">CCUS Evaluated</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-num">100%</span>
+                        <span class="stat-label">Hands-On Reality</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">Skills & Tools</h2>
+            <div class="skills-grid reveal-up">
+                <div class="skill-card glass-panel hover-tilt">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Modeling & Analysis</h3>
+                    <ul>
+                        <li>Optimization & Linear Programming</li>
+                        <li>Dispatch Modeling</li>
+                        <li>Techno-Economic Analysis (TEA)</li>
+                        <li>Grid Decarbonization</li>
+                        <li>Machine Learning Forecasting</li>
+                    </ul>
+                </div>
+                <div class="skill-card glass-panel hover-tilt">
+                    <div class="skill-icon">💻</div>
+                    <h3>Software & Tools</h3>
+                    <ul>
+                        <li>Python (PyTorch, Scikit-Learn)</li>
+                        <li>MATLAB R2024b</li>
+                        <li>Advanced Excel</li>
+                        <li>Pandas, NumPy</li>
+                    </ul>
+                </div>
+                <div class="skill-card glass-panel hover-tilt">
+                    <div class="skill-icon">🌍</div>
+                    <h3>Domain Knowledge</h3>
+                    <ul>
+                        <li>Energy Systems Economics</li>
+                        <li>Battery Energy Storage (BESS)</li>
+                        <li>Carbon Capture (CCUS)</li>
+                        <li>Enhanced Geothermal (EGS)</li>
+                        <li>NYCA Grid & Local Law 97</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">Technical Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card glass-panel reveal-up">
+                    <div class="project-img-wrapper">
+                        <img src="images/peak_shaving_page_1.webp" alt="Peak Shaving Analysis" class="project-img" loading="lazy">
+                        <div class="project-overlay">
+                            <span class="tag">Energy Storage</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Peak Shaving Analysis</h3>
+                        <p>Conducted an economic analysis of efficiency loss in energy storage systems. Compared the round-trip efficiency costs of Lithium-Ion Batteries versus Thermal Energy Storage, calculating an optimal discharge system size of 710 kW to minimize grid-excess charging costs.</p>
+                        <div class="tech-stack">
+                            <span>Economic Analysis</span><span>Peak Shaving</span>
+                        </div>
+                        <button class="btn view-pdf-btn" data-pdf="docs/Peak_Shaving.pdf">👁️ View Presentation</button>
+                    </div>
+                </div>
+
+                <div class="project-card glass-panel reveal-up" style="transition-delay: 0.1s;">
+                    <div class="project-img-wrapper">
+                        <img src="images/capacity_expansion_cover.webp" alt="NYCA Decarbonization Forecast" class="project-img" loading="lazy">
+                        <div class="project-overlay">
+                            <span class="tag">Machine Learning</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>NYCA Renewable Generation Forecast</h3>
+                        <p>Performed a gap analysis for the New York Control Area (NYCA). Utilized Machine Learning tailored for Environmental Engineering to forecast renewable energy generation capabilities and identify infrastructure bottlenecks in the state's decarbonization pathway.</p>
+                        <div class="tech-stack">
+                            <span>Grid Forecasting</span><span>Decarbonization</span>
+                        </div>
+                        <button class="btn view-pdf-btn" data-pdf="docs/Capacity_Expansion.pdf">👁️ View Presentation</button>
+                    </div>
+                </div>
+
+                <div class="project-card glass-panel reveal-up" style="transition-delay: 0.2s;">
+                    <div class="project-img-wrapper">
+                        <img src="images/carbon_capture_cover.webp" alt="Waste-to-Energy Carbon Management" class="project-img" loading="lazy">
+                        <div class="project-overlay">
+                            <span class="tag">Carbon Capture</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Waste-to-Energy Carbon Management Plan</h3>
+                        <p>Developed a 1-Megaton (1Mt) Carbon Management Plan specifically targeting Waste-to-Energy (WtE) plants across the United States. Analyzed point-source capture feasibility and systemic integration to neutralize major municipal emissions.</p>
+                        <div class="tech-stack">
+                            <span>Waste-to-Energy</span><span>Policy & Planning</span>
+                        </div>
+                        <button class="btn view-pdf-btn" data-pdf="docs/CarbonManagement.pdf">👁️ View Presentation</button>
+                    </div>
+                </div>
+                
+                <div class="project-card glass-panel reveal-up" style="transition-delay: 0.3s;">
+                    <div class="project-img-wrapper">
+                        <div class="carousel" data-slide="0">
+                            <div class="carousel-inner">
+                                <img src="images/eahe_cover.webp" alt="EAHE HVAC Integration Cover" class="active" loading="lazy">
+                                <video src="images/projects/eahe/video.mp4" controls preload="metadata"></video>
+                                <img src="images/projects/eahe/img_1.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_2.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_3.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_4.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_5.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_6.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_7.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_8.webp" alt="EAHE" loading="lazy">
+                                <img src="images/projects/eahe/img_9.webp" alt="EAHE" loading="lazy">
+                            </div>
+                            <button class="carousel-control prev">❮</button>
+                            <button class="carousel-control next">❯</button>
+                            <div class="carousel-dots">
+                                <span class="dot active" data-index="0"></span>
+                                <span class="dot" data-index="1"></span>
+                                <span class="dot" data-index="2"></span>
+                                <span class="dot" data-index="3"></span>
+                                <span class="dot" data-index="4"></span>
+                                <span class="dot" data-index="5"></span>
+                                <span class="dot" data-index="6"></span>
+                                <span class="dot" data-index="7"></span>
+                                <span class="dot" data-index="8"></span>
+                                <span class="dot" data-index="9"></span>
+                                <span class="dot" data-index="10"></span>
+                            </div>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="tag">Geothermal HVAC</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Earth Air Heat Exchanger (EAHE)</h3>
+                        <p>Addressed the exponential rise in space cooling demands in India. Designed an Earth Air Heat Exchanger system to integrate geothermal principles into building HVAC, dramatically reducing cooling loads and associated carbon emissions.</p>
+                        <div class="tech-stack">
+                            <span>Thermodynamics</span><span>Sustainable Buildings</span>
+                        </div>
+                        <button class="btn view-pdf-btn" data-pdf="docs/EAHE.pdf">👁️ View Presentation</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <div class="exp-header">
+                            <h3>Steam Turbine Manufacturing Intern</h3>
+                            <span class="company">Siemens</span>
+                        </div>
+                        <div class="carousel" data-slide="0">
+                            <div class="carousel-inner">
+                                <img src="images/field/siemens/img_1.webp" alt="Siemens Manufacturing Floor" class="active" loading="lazy">
+                                <img src="images/field/siemens/img_2.webp" alt="Siemens Manufacturing Floor" loading="lazy">
+                                <img src="images/field/siemens/img_3.webp" alt="Siemens Manufacturing Floor" loading="lazy">
+                                <img src="images/field/siemens/img_4.webp" alt="Siemens Manufacturing Floor" loading="lazy">
+                            </div>
+                            <button class="carousel-control prev">❮</button>
+                            <button class="carousel-control next">❯</button>
+                            <div class="carousel-dots">
+                                <span class="dot active" data-index="0"></span>
+                                <span class="dot" data-index="1"></span>
+                                <span class="dot" data-index="2"></span>
+                                <span class="dot" data-index="3"></span>
+                            </div>
+                        </div>
+                        <p class="impact">Optimized manufacturing workflows on the steam turbine production floor, turning theoretical mechanical principles into tangible process improvements.</p>
+                        <ul class="exp-bullets">
+                            <li>Analyzed assembly lines for heavy-duty turbines, identifying CNC machining bottlenecks.</li>
+                            <li>Collaborated with floor technicians to adjust parameters, reducing material waste.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="field" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">Field Experiences</h2>
+            <p class="section-subtitle reveal-up">Where engineering theory meets brutal physical reality.</p>
+            
+            <div class="field-grid">
+                <div class="field-card glass-panel hover-tilt reveal-up">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/field/beam/img_1.webp" alt="BEAM Implementation" class="active" loading="lazy">
+                            <img src="images/field/beam/img_2.webp" alt="BEAM Implementation" loading="lazy">
+                            <img src="images/field/beam/img_3.webp" alt="BEAM Implementation" loading="lazy">
+                            <img src="images/field/beam/img_4.webp" alt="BEAM Implementation" loading="lazy">
+                            <img src="images/field/beam/img_5.webp" alt="BEAM Implementation" loading="lazy">
+                            <img src="images/field/beam/img_6.webp" alt="BEAM Implementation" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                            <span class="dot" data-index="4"></span>
+                            <span class="dot" data-index="5"></span>
+                        </div>
+                    </div>
+                    <div class="field-info">
+                        <div class="field-header">
+                            <h3>BEAM Implementation</h3>
+                            <span class="location">Peter Cooper Village | Apr 2026</span>
+                        </div>
+                        <p>A complex ecosystem of retrofitted sensors communicating with decades-old legacy piping. Seeing the physical integration of modern algorithms with mid-century infrastructure proves building decarbonization is an intense game of digital-to-analog translation.</p>
+                    </div>
+                </div>
+
+                <div class="field-card glass-panel hover-tilt reveal-up" style="transition-delay: 0.1s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/field/chiller/img_1.webp" alt="Central Chiller Room" class="active" loading="lazy">
+                            <img src="images/field/chiller/img_2.webp" alt="Central Chiller Room" loading="lazy">
+                            <img src="images/field/chiller/img_3.webp" alt="Central Chiller Room" loading="lazy">
+                            <img src="images/field/chiller/img_4.webp" alt="Central Chiller Room" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                        </div>
+                    </div>
+                    <div class="field-info">
+                        <div class="field-header">
+                            <h3>Central Chiller Room</h3>
+                            <span class="location">Columbia University | Nov 2025</span>
+                        </div>
+                        <p>Discovered operators strategically pre-cool thermal masses overnight based on forecasts instead of just ramping capacity. The elegant load-shifting solutions we design in Python are actively practiced by operators using pure intuition.</p>
+                    </div>
+                </div>
+
+                <div class="field-card glass-panel hover-tilt reveal-up" style="transition-delay: 0.2s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/field/boiler/img_1.webp" alt="Steam Boiler Room" class="active" loading="lazy">
+                            <img src="images/field/boiler/img_2.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_3.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_4.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_5.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_6.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_7.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_8.webp" alt="Steam Boiler Room" loading="lazy">
+                            <img src="images/field/boiler/img_9.webp" alt="Steam Boiler Room" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                            <span class="dot" data-index="4"></span>
+                            <span class="dot" data-index="5"></span>
+                            <span class="dot" data-index="6"></span>
+                            <span class="dot" data-index="7"></span>
+                            <span class="dot" data-index="8"></span>
+                        </div>
+                    </div>
+                    <div class="field-info">
+                        <div class="field-header">
+                            <h3>Steam Boiler Room</h3>
+                            <span class="location">New York, NY | Oct 2025</span>
+                        </div>
+                        <p>Expecting clear inefficiencies to flag for electrification, I instead found a beautifully maintained, robust machine operating without downtime for decades. Displacing fossil fuels means matching their brutal, unwavering reliability.</p>
+                    </div>
+                </div>
+
+                <div class="field-card glass-panel hover-tilt reveal-up" style="transition-delay: 0.3s;">
+                    <img src="images/nycha_hp.webp" alt="NYCHA Heat Pump" class="field-img">
+                    <div class="field-info">
+                        <div class="field-header">
+                            <h3>NYCHA Heat Pump Retrofit</h3>
+                            <span class="location">New York, NY | Nov 2025</span>
+                        </div>
+                        <p>Observed the intricate logistical dance of installing heavy compressor units without disrupting residents. The bottleneck for urban decarbonization is rarely the technology—it’s the sheer physical friction of installation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hobbies" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal-left">Beyond the Engineering</h2>
+            <div class="hobbies-grid">
+                <div class="hobby-item reveal-up">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/hobbies/football/img_1.webp" alt="Football" class="active" loading="lazy">
+                            <img src="images/hobbies/football/img_2.webp" alt="Football" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                        </div>
+                    </div>
+                    <h3>Football</h3>
+                </div>
+                
+                <div class="hobby-item reveal-up" style="transition-delay: 0.1s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/hobbies/volleyball/img_1.webp" alt="Volleyball" class="active" loading="lazy">
+                        </div>
+                        <!-- Single image, no controls needed -->
+                    </div>
+                    <h3>Volleyball</h3>
+                </div>
+
+                <div class="hobby-item reveal-up" style="transition-delay: 0.2s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/hobbies/dance/img_1.webp" alt="Dance" class="active" loading="lazy">
+                            <img src="images/hobbies/dance/img_2.webp" alt="Dance" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                        </div>
+                    </div>
+                    <h3>Dance</h3>
+                </div>
+
+                <div class="hobby-item reveal-up" style="transition-delay: 0.3s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/hobbies/nature/n_1.webp" alt="Nature" class="active" loading="lazy">
+                            <img src="images/hobbies/nature/n_2.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_3.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_4.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_5.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_6.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_7.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_8.webp" alt="Nature" loading="lazy">
+                            <img src="images/hobbies/nature/n_9.webp" alt="Nature" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                            <span class="dot" data-index="4"></span>
+                            <span class="dot" data-index="5"></span>
+                            <span class="dot" data-index="6"></span>
+                            <span class="dot" data-index="7"></span>
+                            <span class="dot" data-index="8"></span>
+                        </div>
+                    </div>
+                    <h3>Nature</h3>
+                </div>
+
+                <div class="hobby-item reveal-up" style="transition-delay: 0.4s;">
+                    <div class="carousel" data-slide="0">
+                        <div class="carousel-inner">
+                            <img src="images/hobbies/exploration/e_1.webp" alt="Exploration" class="active" loading="lazy">
+                            <img src="images/hobbies/exploration/e_2.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_3.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_4.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_5.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_6.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_7.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_8.webp" alt="Exploration" loading="lazy">
+                            <img src="images/hobbies/exploration/e_9.webp" alt="Exploration" loading="lazy">
+                        </div>
+                        <button class="carousel-control prev">❮</button>
+                        <button class="carousel-control next">❯</button>
+                        <div class="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                            <span class="dot" data-index="4"></span>
+                            <span class="dot" data-index="5"></span>
+                            <span class="dot" data-index="6"></span>
+                            <span class="dot" data-index="7"></span>
+                            <span class="dot" data-index="8"></span>
+                        </div>
+                    </div>
+                    <h3>Exploration</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="section-container">
+            <div class="footer-content glass-panel reveal-up">
+                <h2>Let's Build the Future</h2>
+                <p>Always open to discussing energy systems economics, grid decarbonization, or my next physical build.</p>
+                <div class="contact-links">
+                    <a href="mailto:anp2173@columbia.edu" class="contact-btn">
+                        <span class="icon">✉️</span> anp2173@columbia.edu
+                    </a>
+                    <a href="tel:+18483199772" class="contact-btn">
+                        <span class="icon">📞</span> (848) 319-9772
+                    </a>
+                    <a href="https://linkedin.com/in/arpit-patel0909" target="_blank" class="contact-btn linkedin">
+                        <span class="icon">🔗</span> LinkedIn
+                    </a>
+                </div>
+            </div>
+            <p class="copyright">© 2026 Arpit Patel. Designed & Built with intent.</p>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdf-modal" class="pdf-modal">
+        <div class="pdf-modal-content glass-panel">
+            <span class="close-modal">&times;</span>
+            <div class="iframe-container">
+                <iframe id="pdf-iframe" src=""></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

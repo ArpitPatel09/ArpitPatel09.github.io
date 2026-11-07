@@ -403,28 +403,118 @@ export async function localApi(url, body) {
     if (url === '/api/scenarios') {
         const details = await loadStatic('details.json');
         const d = details[body.caps?.id] || Object.values(details)[0];
+        const cost_musd = (d.total_decision_cost_usd || 330.9e6) / 1e6;
+        const per_mwh = d.decision_cost_usd_per_requested_mwh || 66.1;
+        const intensity = d.combined_electricity_co2_kg_per_mwh || 54.8;
+        const clean = d.clean_energy_share || 0.833;
+
+        const best = {
+            key: "best",
+            label: "Best case",
+            story: "On-schedule grid, delivered gas -25%, wind/solar availability +10% (favourable year).",
+            delay: 0,
+            gas_price_start: 3.20,
+            total_cost_musd: cost_musd * 0.95,
+            levelized: per_mwh * 0.95,
+            intensity: intensity * 0.96,
+            clean: Math.min(1.0, clean * 1.05),
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.16,
+            gas_mwh: 1.18e6,
+            relocated_mwh: 916.8,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd * 0.95,
+            levelized_adj: per_mwh * 0.95
+        };
+
+        const baseline = {
+            key: "baseline",
+            label: "Official baseline",
+            story: "Official benchmark inputs, base grid schedule, 2023 reference year.",
+            delay: 0,
+            gas_price_start: 4.27,
+            total_cost_musd: cost_musd,
+            levelized: per_mwh,
+            intensity: intensity,
+            clean: clean,
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.23,
+            gas_mwh: 1.08e6,
+            relocated_mwh: 916.8,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd,
+            levelized_adj: per_mwh
+        };
+
+        const worst = {
+            key: "worst",
+            label: "Worst-case stress",
+            story: "6-month grid delay, 104 F heat wave (turbines -8.5%, engines -3% on summer afternoons), delivered gas +25%.",
+            delay: 6,
+            gas_price_start: 5.34,
+            total_cost_musd: cost_musd * 1.05,
+            levelized: per_mwh * 1.05,
+            intensity: intensity * 0.98,
+            clean: clean * 0.95,
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.30,
+            gas_mwh: 0.81e6,
+            relocated_mwh: 1533.0,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd * 1.05,
+            levelized_adj: per_mwh * 1.05
+        };
+
+        const curvePts = [];
+        for (let d = 0; d <= 12; d++) {
+            const factor = d === 0 ? 1.0 : (1.0 + 0.002 * d);
+            const cm = cost_musd * factor;
+            const dm = cm - cost_musd;
+            const dpct = 100 * dm / cost_musd;
+            const z = dpct <= 0.5 ? "safe" : (dpct <= 3.0 ? "manageable" : "stress");
+            curvePts.push({
+                delay: d,
+                cost_musd: cm,
+                delta_musd: dm,
+                delta_per_mwh: dm * 1e6 / 4.85e6,
+                unmet_mwh: 0,
+                intensity: intensity * (1 + 0.001 * d),
+                gas_mwh: 1.08e6 * factor,
+                delta_pct: dpct,
+                zone: z
+            });
+        }
+
         return {
-            suite: {
-                baseline: { name: "Baseline (official)", unmet_mwh: 0, cost_musd: d.total_decision_cost_usd / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh },
-                good: { name: "Good year (cheaper gas, +10% sun/wind)", unmet_mwh: 0, cost_musd: (d.total_decision_cost_usd * 0.94) / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh * 0.96 },
-                worst: { name: "Worst year (6-mo grid delay, +25% gas)", unmet_mwh: 0, cost_musd: (d.total_decision_cost_usd * 1.12) / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh * 1.05 }
+            suite: { best, baseline, worst },
+            curve: {
+                points: curvePts,
+                rule: "Safe: all load served and <= +0.5% total cost. Manageable: all load served and <= +3%. High stress: unserved energy or > +3%."
             },
-            curve: [
-                { delay: 0, cost_musd: d.total_decision_cost_usd / 1e6, unmet_mwh: 0 },
-                { delay: 3, cost_musd: (d.total_decision_cost_usd * 1.04) / 1e6, unmet_mwh: 0 },
-                { delay: 6, cost_musd: (d.total_decision_cost_usd * 1.08) / 1e6, unmet_mwh: 0 },
-                { delay: 9, cost_musd: (d.total_decision_cost_usd * 1.13) / 1e6, unmet_mwh: 0 },
-                { delay: 12, cost_musd: (d.total_decision_cost_usd * 1.18) / 1e6, unmet_mwh: 0 },
-            ],
             all_served: true,
             unserved_total: 0
         };
     }
 
     if (url === '/api/staged') {
+        const details = await loadStatic('details.json');
+        const d = details[body.caps?.id] || Object.values(details)[0];
+        const cost_musd = (d.total_decision_cost_usd || 330.9e6) / 1e6;
         return {
-            upfront_musd: 330.9,
-            staged_musd: 326.4,
+            upfront_musd: cost_musd,
+            staged_musd: cost_musd - 4.5,
             saving_musd: 4.5,
             stage: {
                 utility_solar: { mw2: 25, month: 24 },
@@ -433,8 +523,8 @@ export async function localApi(url, body) {
             intensity_up: 54.8,
             intensity_staged: 55.1,
             ledger: [
-                { option_id: "utility_solar", stage2_mw: 25, stage2_month: 24, months_deferred: 7 },
-                { option_id: "wind", stage2_mw: 50, stage2_month: 30, months_deferred: 13 }
+                { option_id: "utility_solar", label: "Solar contract", stage2_mw: 25, stage1_mw: 50, stage2_month: 24, months_deferred: 7 },
+                { option_id: "wind", label: "Wind contract", stage2_mw: 50, stage1_mw: 100, stage2_month: 30, months_deferred: 13 }
             ]
         };
     }
@@ -442,35 +532,109 @@ export async function localApi(url, body) {
     if (url === '/api/harden') {
         const details = await loadStatic('details.json');
         const d = details[body.caps?.id] || Object.values(details)[0];
+        const cost_musd = (d.total_decision_cost_usd || 330.9e6) / 1e6;
+        const per_mwh = d.decision_cost_usd_per_requested_mwh || 66.1;
+        const intensity = d.combined_electricity_co2_kg_per_mwh || 54.8;
+        const clean = d.clean_energy_share || 0.833;
+
+        const best = {
+            key: "best",
+            label: "Best case",
+            story: "On-schedule grid, delivered gas -25%, wind/solar availability +10% (favourable year).",
+            delay: 0,
+            gas_price_start: 3.20,
+            total_cost_musd: cost_musd * 0.95,
+            levelized: per_mwh * 0.95,
+            intensity: intensity * 0.96,
+            clean: Math.min(1.0, clean * 1.05),
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.16,
+            gas_mwh: 1.18e6,
+            relocated_mwh: 916.8,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd * 0.95,
+            levelized_adj: per_mwh * 0.95
+        };
+
+        const baseline = {
+            key: "baseline",
+            label: "Official baseline",
+            story: "Official benchmark inputs, base grid schedule, 2023 reference year.",
+            delay: 0,
+            gas_price_start: 4.27,
+            total_cost_musd: cost_musd,
+            levelized: per_mwh,
+            intensity: intensity,
+            clean: clean,
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.23,
+            gas_mwh: 1.08e6,
+            relocated_mwh: 916.8,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd,
+            levelized_adj: per_mwh
+        };
+
+        const worst = {
+            key: "worst",
+            label: "Worst-case stress (hardened)",
+            story: "6-month grid delay, 104 F heat wave, delivered gas +25%, fortified with additional firm capacity.",
+            delay: 6,
+            gas_price_start: 5.34,
+            total_cost_musd: cost_musd * 1.03,
+            levelized: per_mwh * 1.03,
+            intensity: intensity * 1.02,
+            clean: clean * 0.96,
+            unmet_mwh: 0,
+            unmet_hours: 0,
+            merchant_share: 0.28,
+            gas_mwh: 0.95e6,
+            relocated_mwh: 1100.0,
+            interrupted_mwh: 0,
+            max_import: 75.0,
+            requested_mwh: 4.85e6,
+            unserved_penalty_musd: 0,
+            total_adj_musd: cost_musd * 1.03,
+            levelized_adj: per_mwh * 1.03
+        };
+
         return {
             result: {
                 caps: { ...body.caps, gas_turbine: (body.caps?.gas_turbine || 0) + 10 },
-                added: { gas_turbine: 10 },
-                extra_musd: 6.2
+                adds: { gas_turbine: 10 },
+                extra_cost_musd: 6.2,
+                ok: true
             },
-            suite: {
-                baseline: { name: "Baseline (official)", unmet_mwh: 0, cost_musd: d.total_decision_cost_usd / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh },
-                worst: { name: "Worst year (hardened)", unmet_mwh: 0, cost_musd: (d.total_decision_cost_usd * 1.03) / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh * 1.02 }
-            }
+            suite: { best, baseline, worst }
         };
     }
 
     if (url === '/api/verify') {
+        const details = await loadStatic('details.json');
+        const d = details[body.caps?.id] || Object.values(details)[0];
         return {
             ok: true,
             checker: {
-                total_decision_cost_usd: 330939547,
-                combined_electricity_co2_kg_per_mwh: 54.8,
-                clean_energy_share: 0.833,
-                land_acres: 3.75,
+                total_decision_cost_usd: d.total_decision_cost_usd || 330939547,
+                combined_electricity_co2_kg_per_mwh: d.combined_electricity_co2_kg_per_mwh || 54.8,
+                clean_energy_share: d.clean_energy_share || 0.833,
+                land_acres: d.land_acres || 3.75,
                 max_grid_import_mw: 75.0,
                 physical_checks_passed: true
             },
             audit: [
-                { ok: true, check: "87,600 hours chronological adequacy", detail: "0 MWh unserved" },
-                { ok: true, check: "ERCOT stress window imports", detail: "draw <= 60% in all 7 windows" },
-                { ok: true, check: "BESS SOC bounds & cycling", detail: "SOC within 0..1, <= 365 cycles/yr" },
-                { ok: true, check: "Onsite land constraint", detail: "3.75 acres <= 8.00 acres" }
+                { check: "87,600 hours chronological adequacy", ok: true, detail: "0 MWh unserved" },
+                { check: "ERCOT stress window imports", ok: true, detail: "draw <= 60% in all 7 windows" },
+                { check: "BESS SOC bounds & cycling", ok: true, detail: "SOC within 0..1, <= 365 cycles/yr" },
+                { check: "Onsite land constraint", ok: true, detail: "3.75 acres <= 8.00 acres" }
             ]
         };
     }

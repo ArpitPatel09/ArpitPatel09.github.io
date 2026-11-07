@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
     <link rel="stylesheet" href="gridtech/embed.css?v=2">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -78,6 +78,7 @@
             <a href="#research">Research</a>
             <a href="#experience">Experience</a>
             <a href="#field">Field Work</a>
+            <a href="#insights">Insights</a>
             <a href="#life">Life</a>
         </div>
         <a href="#contact" class="nav__cta magnetic">Let's Talk <svg><use href="#i-bolt"/></svg></a>
@@ -93,8 +94,9 @@
             <a href="#research" style="--i:4">Research</a>
             <a href="#experience" style="--i:5">Experience</a>
             <a href="#field" style="--i:6">Field Work</a>
-            <a href="#life" style="--i:7">Life</a>
-            <a href="#contact" style="--i:8">Contact</a>
+            <a href="#insights" style="--i:7">Insights</a>
+            <a href="#life" style="--i:8">Life</a>
+            <a href="#contact" style="--i:9">Contact</a>
         </div>
         <p class="menu__foot">anp2173@columbia.edu</p>
     </div>
@@ -1132,12 +1134,83 @@
             </div>
         </section>
 
+        <!-- ============ INSIGHTS ============ -->
+        <section id="insights" class="section insights">
+            <div class="container">
+                <div class="sec-head">
+                    <div>
+                        <span class="eyebrow" data-reveal>08 &mdash; Industry Insights</span>
+                        <h2 class="sec-title split">Learning from the Field</h2>
+                    </div>
+                    <p class="sec-desc" data-reveal style="--d:.15s">First-hand takeaways from industry practitioners building the next generation of utility-scale storage.</p>
+                </div>
+
+                <div class="insights-grid">
+
+                    <!-- Card 1: Siemens / Volta -->
+                    <article class="insight-card glass" data-reveal data-spotlight>
+                        <div class="insight-card__head">
+                            <div class="insight-card__meta">
+                                <span class="label">Volta Foundation x Siemens Digital Industries</span>
+                                <span class="insight-card__date">November 2026</span>
+                            </div>
+                            <h3>BESS at Scale: Connected Engineering Workflows</h3>
+                            <div class="insight-card__speakers">
+                                <span>Dr. Katharina Gerber &mdash; Global Battery Industry Lead, Siemens</span>
+                                <span>John Flood &mdash; Sr. Solution Consultant, Siemens</span>
+                            </div>
+                        </div>
+                        <ul class="insight-card__bullets">
+                            <li><strong>71% of utility-scale BESS failures are locked in before commercial operation</strong> (EPRI 2024): 36% from assembly, 21% design, 14% manufacturing.</li>
+                            <li>46% of field failures trace to <strong>controls and firmware</strong>; 43% to balance-of-system &mdash; not the cells.</li>
+                            <li>Connected PLM enforces a repeatable loop: <strong>Standardize what repeats &rarr; Control what changes &rarr; Learn from every deployment.</strong></li>
+                            <li>Industrial AI compresses supplier disruption assessment from <strong>weeks to minutes</strong>, enabling proactive design corrections at scale.</li>
+                        </ul>
+                        <div class="chips">
+                            <span class="chip">BESS Reliability</span>
+                            <span class="chip">PLM</span>
+                            <span class="chip">Industrial AI</span>
+                            <span class="chip">Systems Engineering</span>
+                        </div>
+                    </article>
+
+                    <!-- Card 2: Women in Battery -->
+                    <article class="insight-card glass" data-reveal style="--d:.12s" data-spotlight>
+                        <div class="insight-card__head">
+                            <div class="insight-card__meta">
+                                <span class="label">Women in Battery</span>
+                                <span class="insight-card__date">October 2026</span>
+                            </div>
+                            <h3>Next-Generation Grid Storage: Iron-Air &amp; Sodium-Ion</h3>
+                            <div class="insight-card__speakers">
+                                <span>Dr. Jocelyn Newhouse &mdash; Sr. Director Electrode &amp; Cell Development, Form Energy</span>
+                                <span>Katlyn Meggers &mdash; Project Engineering Director, Peak Energy</span>
+                            </div>
+                        </div>
+                        <ul class="insight-card__bullets">
+                            <li>Form Energy's <strong>100-hour Iron-Air system</strong> targets below <strong>$20/kWh</strong> capital cost &mdash; solving multi-day grid lulls that lithium cannot address.</li>
+                            <li>Reversible rusting electrochemistry (Fe &rarr; FeOH/FeO on discharge) <strong>eliminates critical mineral dependencies</strong> entirely.</li>
+                            <li>Peak Energy's Sodium-Ion uses a <strong>domestic, abundant supply chain</strong>: zero cobalt, nickel, or overseas lithium refining &mdash; a direct energy security advantage.</li>
+                            <li>Na-ion delivers non-flammable thermal stability, zero-volt shipping safety, and operation from <strong>&minus;20&deg;C to +50&deg;C</strong> without active thermal overhead.</li>
+                        </ul>
+                        <div class="chips">
+                            <span class="chip">Iron-Air</span>
+                            <span class="chip">Sodium-Ion</span>
+                            <span class="chip">Long-Duration Storage</span>
+                            <span class="chip">Critical Minerals</span>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
         <!-- ============ LIFE ============ -->
         <section id="life" class="section life">
             <div class="container">
                 <div class="sec-head">
                     <div>
-                        <span class="eyebrow" data-reveal>08 — Life</span>
+                        <span class="eyebrow" data-reveal>09 &mdash; Life</span>
                         <h2 class="sec-title split">Beyond the Engineering</h2>
                     </div>
                     <p class="sec-desc" data-reveal style="--d:.15s">Hover a panel to open it, click to browse the photos.</p>

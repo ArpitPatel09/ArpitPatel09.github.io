@@ -347,3 +347,4 @@ export async function localApi(url, body) {
 
     throw new Error(`Endpoint not found: ${url}`);
 }
+

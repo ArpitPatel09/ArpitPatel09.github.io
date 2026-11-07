@@ -14,7 +14,7 @@
         open = true;
         clearTimeout(unloadTimer);
         returnFocus = document.activeElement;
-        if (!frame.src.includes('gridtech')) frame.src = 'gridtech/?embed';
+        frame.src = 'gridtech/index.html?v=' + Date.now();
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('demo-open');
@@ -27,8 +27,7 @@
         modal.classList.remove('is-open');
         modal.setAttribute('aria-hidden', 'true');
         document.documentElement.classList.remove('demo-open');
-        // free the GPU and the ~10 MB of hourly results once the fade-out has finished
-        unloadTimer = setTimeout(() => { frame.src = 'about:blank'; }, 600);
+        unloadTimer = setTimeout(() => { frame.src = 'about:blank'; }, 400);
         if (returnFocus) returnFocus.focus({ preventScroll: true });
     }
 

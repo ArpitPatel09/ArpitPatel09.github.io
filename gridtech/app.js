@@ -1,8 +1,8 @@
-import { COLORS, NAMES, ICONS, dot, fmt, fmt0, donut, capacityBars, barGroups, delayCurve, annualChart, eventTrace, waitingCurve } from './charts.js';
+import { COLORS, NAMES, ICONS, dot, fmt, fmt0, donut, capacityBars, barGroups, delayCurve, annualChart, eventTrace, waitingCurve } from './charts.js?v=5';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-import { localApi as api } from './client-api.js';
+import { localApi as api } from './client-api.js?v=5';
 const M = v => '$' + fmt(v, Math.abs(v) >= 100 ? 0 : 1) + 'M';
 const V = { cost: [230, 36], speed: [36, 372], env: [424, 372] };
 const tip = t => `<p class="insight"><span>Takeaway</span>${t}</p>`;

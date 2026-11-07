@@ -1,283 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>GridTech Studio 3D</title>
-    <meta name="description" content="Interactive 3D simulation of the GridTech hackathon engine: an hour-by-hour energy portfolio optimizer for a data center waiting on the grid.">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232b3c44'/%3E%3Cpath d='M18.5 4 8 18h7.5l-2 10L24 14h-7.6z' fill='%23f5c542'/%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/app.css?v=1">
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-        }
-    }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GridTech Studio: plan the power for a data-center campus</title>
+<meta name="description" content="Say what matters most (speed, cost or climate) and get a power plan for a 75 MW data-center campus, checked hour by hour.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C50 14 56 36 32 58 8 36 14 14 32 6z' fill='%235fb98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#home"><svg viewBox="0 0 64 64"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8e6c6"/><stop offset="1" stop-color="#4fb584"/></linearGradient></defs><rect width="64" height="64" rx="18" fill="#e3f5e8"/><path d="M32 10C48 17 53 36 32 54 11 36 16 17 32 10z" fill="url(#lg1)"/><path d="M32 18v30M32 30l9-8M32 38l-8-7" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg>GridTech Studio</a>
+  <nav class="tabs" id="tabs">
+    <button data-tab="home">Home</button><button data-tab="studio">Plan</button><button data-tab="stress">Grid emergencies</button><button data-tab="scenarios">What if</button><button data-tab="questions">Common questions</button><button data-tab="export">Export</button>
+  </nav>
+</div></header>
+
+<div class="tab" id="tab-home">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">A fictional 75 MW data-center campus in Texas</span>
+      <h1>Power your data center campus</h1>
+      <p class="lead">Sooner, cheaper or cleaner: tell us what matters most. We pick a mix of power sources, test it hour by hour for ten years, and show you plainly what you gain and what you give up.</p>
+      <div class="cta"><button class="btn primary" data-go="studio">Start planning</button><button class="btn ghost" data-go="how">How it works</button></div>
+      <div class="statrow">
+        <div class="stat"><b id="st3">-</b><span>ready-made plans to choose from</span></div>
+        <div class="stat"><b>87,600</b><span>hours tested for every plan</span></div>
+        <div class="stat"><b>0 MWh</b><span>of demand left unpowered in a recommended plan</span></div>
+      </div>
+    </div>
+    <div class="scene">
+      <svg viewBox="0 0 560 480" aria-hidden="true">
         <defs>
-            <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
-            <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></symbol>
-            <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.6A8.4 8.4 0 0 1 9.4 4a8.4 8.4 0 1 0 10.6 10.6z" fill="currentColor"/></symbol>
-            <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M14.6 1 3.4 13.6h7.3L8.9 23 20.6 9.9h-7.4z" fill="currentColor"/></symbol>
-            <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-            <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20zM12 10v4.5M12 17.2v.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-            <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.4" fill="currentColor"/></symbol>
-            <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-            <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5M12 7.6v.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-            <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 5.5v13L14 12zM15.5 5.5H19v13h-3.5z" fill="currentColor"/></symbol>
-            <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/></symbol>
-            <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-7 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f6ea"/><stop offset="1" stop-color="#f6fbe9"/></linearGradient>
+          <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9e5c6"/><stop offset="1" stop-color="#9ad5ae"/></linearGradient>
+          <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fdab3"/><stop offset="1" stop-color="#7dc79a"/></linearGradient>
+          <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc99a"/><stop offset="1" stop-color="#5fb98a"/></linearGradient>
+          <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6c8"/><stop offset="1" stop-color="#ffe9a0"/></radialGradient>
         </defs>
-    </svg>
-
-    <div id="stage" class="stage"></div>
-
-    <div class="loader" id="loader">
-        <div class="loader__mark"><svg><use href="#i-bolt"/></svg></div>
-        <p class="loader__text" id="loader-text">Loading 8,760 hours of ERCOT reference data</p>
-        <div class="loader__bar"><i id="loader-bar"></i></div>
+        <rect x="10" y="10" width="540" height="460" rx="44" fill="url(#sky)"/>
+        <circle class="pulse" cx="440" cy="110" r="52" fill="url(#sun)"/>
+        <g class="cloud" fill="#fff" opacity=".9"><ellipse cx="130" cy="96" rx="48" ry="17"/><ellipse cx="160" cy="84" rx="34" ry="19"/><ellipse cx="100" cy="88" rx="26" ry="14"/></g>
+        <g class="cloud c2" fill="#fff" opacity=".8"><ellipse cx="330" cy="150" rx="38" ry="13"/><ellipse cx="352" cy="140" rx="26" ry="14"/></g>
+        <path d="M10 330 C110 270 190 300 280 280 C380 255 460 290 550 262 V470 H10Z" fill="url(#h1)"/>
+        <!-- turbines -->
+        <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+          <line x1="90" y1="300" x2="90" y2="215"/><line x1="175" y1="285" x2="175" y2="220"/><line x1="470" y1="282" x2="470" y2="200"/></g>
+        <g fill="#fff" stroke="#fff"><g class="blade"><path d="M90 215 L90 170 M90 215 L128 237 M90 215 L52 237" stroke-width="5" stroke-linecap="round"/></g>
+          <g class="blade b2"><path d="M175 220 L175 184 M175 220 L206 238 M175 220 L144 238" stroke-width="4" stroke-linecap="round"/></g>
+          <g class="blade b3"><path d="M470 200 L470 152 M470 200 L511 224 M470 200 L429 224" stroke-width="5" stroke-linecap="round"/></g></g>
+        <circle cx="90" cy="215" r="6" fill="#e4f5ea"/><circle cx="175" cy="220" r="5" fill="#e4f5ea"/><circle cx="470" cy="200" r="6" fill="#e4f5ea"/>
+        <path d="M10 372 C120 330 210 358 300 340 C400 322 470 350 550 330 V470 H10Z" fill="url(#h2)"/>
+        <!-- data center -->
+        <g transform="translate(205,262)">
+          <rect x="0" y="22" width="168" height="86" rx="14" fill="#fff"/>
+          <rect x="0" y="22" width="168" height="18" rx="9" fill="#d2efdb"/>
+          <g fill="#bfe3c9"><rect x="14" y="52" width="22" height="14" rx="4"/><rect x="42" y="52" width="22" height="14" rx="4"/><rect x="70" y="52" width="22" height="14" rx="4"/><rect x="98" y="52" width="22" height="14" rx="4"/><rect x="126" y="52" width="28" height="14" rx="4"/>
+            <rect x="14" y="74" width="22" height="14" rx="4"/><rect x="42" y="74" width="22" height="14" rx="4"/><rect x="70" y="74" width="22" height="14" rx="4"/></g>
+          <rect x="98" y="74" width="56" height="34" rx="6" fill="#9bd7ae"/>
+          <g class="pulse"><circle cx="84" cy="8" r="24" fill="#e3f5e8"/><path d="M84 -10C98 -4 102 14 84 28 66 14 70 -4 84 -10z" fill="#5fb98a"/><path d="M84 -2v24M84 8l7-6M84 14l-6-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g>
+        </g>
+        <!-- solar -->
+        <g transform="translate(40,372)" fill="#bfe3f4" stroke="#fff" stroke-width="2"><path d="M0 40 L36 22 L128 22 L92 40Z"/><path d="M0 40 L92 40 L92 52 L0 52Z" fill="#9ccbe4"/><path d="M30 31 L98 31 M62 22 L40 40 M94 22 L72 40" stroke="#fff" stroke-width="1.5" fill="none"/></g>
+        <g transform="translate(400,380)"><rect x="0" y="0" width="70" height="46" rx="10" fill="#fff"/><rect x="10" y="10" width="14" height="26" rx="4" fill="#9bd7ae"/><rect x="28" y="16" width="14" height="20" rx="4" fill="#b9e5c6"/><rect x="46" y="22" width="14" height="14" rx="4" fill="#d2efdb"/><text x="35" y="-6" text-anchor="middle" font-size="11" font-weight="800" fill="#2f7d5b">battery</text></g>
+        <path d="M10 420 C140 390 260 420 380 404 C450 395 510 410 550 400 V470 H10Z" fill="url(#h3)"/>
+        <g stroke="#fff" stroke-width="2.5" fill="none" stroke-dasharray="5 6" opacity=".9"><path d="M90 300 C140 360 180 330 205 350"/><path d="M470 282 C440 330 400 330 373 350"/></g>
+      </svg>
     </div>
+  </div>
+</section>
+<section class="block" id="how"><div class="wrap">
+  <div class="sec-head"><div><h2>How it works</h2><p>Three simple steps. Every plan is checked against the competition's own checker.</p></div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>Say what matters</h3><p class="muted">Drag the marker toward Speed, Cost or Environment. That sets your preference.</p></div>
+    <div class="step"><div class="n">2</div><h3>Set your limits</h3><p class="muted">Optional lines you will not cross, such as the latest opening month or the highest cost.</p></div>
+    <div class="step"><div class="n">3</div><h3>Read the plan</h3><p class="muted">See what to build, what it costs, how clean it is, and how it copes when the grid is stressed.</p></div>
+  </div>
+</div></section>
+<section class="block"><div class="wrap">
+  <div class="sec-head"><div><h2>Key terms in plain words</h2><p>Hover over any label in the app for a short explanation, or use the assistant at the bottom right.</p></div></div>
+  <div class="grid3" id="terms"></div>
+</div></section>
+</div>
 
-    <!-- top bar -->
-    <header class="topbar">
-        <div class="brand">
-            <span class="brand__mark"><svg><use href="#i-bolt"/></svg></span>
-            <div>
-                <b>GridTech Studio</b>
-                <span id="world-badge">Benchmark · 75 MW campus · Williamson County, TX</span>
-            </div>
-        </div>
-        <div class="topbar__actions">
-            <button class="chip-btn" type="button" id="btn-panel" aria-pressed="true"><svg><use href="#i-panel"/></svg><span>Planner</span></button>
-            <button class="chip-btn" type="button" id="btn-live" aria-pressed="true"><svg><use href="#i-chart"/></svg><span>Live</span></button>
-            <button class="chip-btn" type="button" id="btn-labels" aria-pressed="true"><svg><use href="#i-tag"/></svg><span>Labels</span></button>
-            <button class="chip-btn" type="button" id="btn-intro"><svg><use href="#i-info"/></svg><span>How it works</span></button>
-            <button class="chip-btn icon-only" type="button" id="btn-full" aria-label="Full screen"><svg><use href="#i-full"/></svg></button>
-            <button class="chip-btn icon-only" type="button" id="btn-close" aria-label="Close demo" hidden><svg><use href="#i-close"/></svg></button>
-        </div>
-    </header>
-
-    <div class="alert" id="alert" hidden>
-        <svg><use href="#i-alert"/></svg>
-        <div><b id="alert-title">ERCOT conservation window</b><span id="alert-text">Campus import limit cut to 60%</span></div>
+<div class="tab" id="tab-studio"><div class="wrap">
+  <div class="sec-head"><div><h2>Your power plan</h2><p>Drag the marker to say what matters. Set limits if you have hard lines. The plan updates instantly.</p></div><div id="busy" class="muted"></div></div>
+  <div class="top">
+    <div class="card tri-card">
+      <h3>What matters most?</h3>
+      <p class="what">Drag the marker toward a corner. The closer it is, the more that goal counts.</p>
+      <svg class="tri" id="tri" viewBox="0 0 460 420"></svg>
+      <div class="wchips" id="wchips"></div>
+      <div class="presets" id="presets"></div>
     </div>
-
-    <!-- planner -->
-    <aside class="panel panel--left" id="planner" aria-label="Planner">
-        <nav class="tabs" role="tablist">
-            <button role="tab" class="is-active" data-tab="site">1 · Site</button>
-            <button role="tab" data-tab="prefs">2 · Priorities</button>
-            <button role="tab" data-tab="plan">3 · Plan</button>
-            <button role="tab" data-tab="stress">Stress</button>
-        </nav>
-
-        <section class="tabpane is-active" data-pane="site">
-            <p class="hint">Describe the campus. The default is the hackathon benchmark; any change re-optimizes the portfolio live in your browser.</p>
-            <label class="field">
-                <span>Location profile</span>
-                <select id="in-location"></select>
-                <small id="loc-note"></small>
-            </label>
-            <div class="field-row">
-                <label class="field"><span>Peak demand</span><div class="num"><input type="number" id="in-peak" min="25" max="300" step="5" value="75"><em>MW</em></div></label>
-                <label class="field"><span>Onsite land</span><div class="num"><input type="number" id="in-land" min="1" max="40" step="0.5" value="8"><em>acres</em></div></label>
-            </div>
-            <div class="field">
-                <span>Grid access schedule <small class="inline">(import limit the utility can give, by month)</small></span>
-                <div class="grid-sched" id="grid-sched"></div>
-            </div>
-            <label class="field">
-                <span>Grid delay <b id="out-delay">0 months</b></span>
-                <input type="range" id="in-delay" min="0" max="12" step="1" value="0">
-            </label>
-            <details class="adv">
-                <summary>Resource &amp; price data</summary>
-                <div class="field-row">
-                    <label class="field"><span>Solar resource</span><div class="num"><input type="number" id="in-solar" min="0.3" max="1.6" step="0.01" value="1"><em>×</em></div></label>
-                    <label class="field"><span>Wind resource</span><div class="num"><input type="number" id="in-wind" min="0.3" max="1.6" step="0.01" value="1"><em>×</em></div></label>
-                </div>
-                <div class="field-row">
-                    <label class="field"><span>Wholesale price</span><div class="num"><input type="number" id="in-price" min="0.3" max="3" step="0.05" value="1"><em>×</em></div></label>
-                    <label class="field"><span>Gas price</span><div class="num"><input type="number" id="in-gas" min="0.3" max="3" step="0.05" value="1"><em>×</em></div></label>
-                </div>
-                <div class="field-row three">
-                    <label class="field"><span>Solar PPA</span><div class="num"><input type="number" id="in-ppa-solar" min="10" max="150" step="1" value="40"><em>$/MWh</em></div></label>
-                    <label class="field"><span>Wind PPA</span><div class="num"><input type="number" id="in-ppa-wind" min="10" max="150" step="1" value="35"><em>$/MWh</em></div></label>
-                    <label class="field"><span>Nuclear PPA</span><div class="num"><input type="number" id="in-ppa-nuc" min="30" max="250" step="1" value="95"><em>$/MWh</em></div></label>
-                </div>
-                <small class="note">Multipliers scale the 2023 ERCOT hourly shapes. They are a screening shortcut, not a weather model of another region.</small>
-            </details>
-            <button class="btn btn--ghost" type="button" id="btn-reset">Reset to hackathon benchmark</button>
-        </section>
-
-        <section class="tabpane" data-pane="prefs">
-            <p class="hint">Drag the marker to trade speed, cost and climate. Limits below are hard requirements.</p>
-            <div class="tri-wrap">
-                <svg class="tri" id="tri" viewBox="0 0 260 232" aria-label="Preference triangle">
-                    <defs>
-                        <linearGradient id="tri-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5c542" stop-opacity=".28"/><stop offset="1" stop-color="#4fd6ff" stop-opacity=".16"/></linearGradient>
-                    </defs>
-                    <polygon points="130,22 22,208 238,208" fill="url(#tri-g)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-                    <polyline id="tri-guides" fill="none" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 4"/>
-                    <text x="130" y="14" text-anchor="middle">Cost</text>
-                    <text x="16" y="226" text-anchor="start">Speed</text>
-                    <text x="244" y="226" text-anchor="end">Climate</text>
-                    <circle id="tri-dot" cx="130" cy="146" r="10"/>
-                </svg>
-                <div class="weights" id="weights"></div>
-            </div>
-            <div class="presets" id="presets">
-                <button type="button" data-w="1,1,1" class="is-active">Balanced</button>
-                <button type="button" data-w="1,0,0">Fastest</button>
-                <button type="button" data-w="0,1,0">Cheapest</button>
-                <button type="button" data-w="0,0,1">Greenest</button>
-            </div>
-            <div class="limits">
-                <label class="lim"><input type="checkbox" id="lim-full-on" checked><span>Full demand by month</span><input type="number" id="lim-full" min="24" max="52" value="30"></label>
-                <label class="lim"><input type="checkbox" id="lim-usd-on"><span>Max cost</span><input type="number" id="lim-usd" min="20" max="200" value="75"><em>$/MWh</em></label>
-                <label class="lim"><input type="checkbox" id="lim-kg-on"><span>Max CO₂</span><input type="number" id="lim-kg" min="0" max="400" value="100"><em>kg/MWh</em></label>
-                <label class="lim"><input type="checkbox" id="lim-clean-on"><span>Min clean share</span><input type="number" id="lim-clean" min="0" max="100" value="70"><em>%</em></label>
-                <label class="lim"><input type="checkbox" id="lim-pause" checked><span>Never pause AI work (Tier 2)</span></label>
-                <label class="lim"><span>Climate hurdle</span><input type="number" id="lim-hurdle" min="0" max="1000" value="100"><em>$/t CO₂</em></label>
-            </div>
-            <button class="btn btn--sun" type="button" id="btn-run"><svg><use href="#i-bolt"/></svg>Find best portfolio</button>
-            <div class="run-status" id="run-status"></div>
-        </section>
-
-        <section class="tabpane" data-pane="plan">
-            <div class="plan-head">
-                <span class="eyebrow" id="plan-kind">Recommended portfolio</span>
-                <h2 id="plan-title">Opens month 16 · full demand month 26</h2>
-                <p id="plan-why" class="hint"></p>
-            </div>
-            <div class="kpis" id="kpis"></div>
-            <div class="caps" id="caps"></div>
-            <div class="climate" id="climate"></div>
-            <h3 class="sub">Cost vs. CO₂ trade-off <small>click any dot to load it</small></h3>
-            <canvas class="pareto" id="pareto" height="190"></canvas>
-            <h3 class="sub">Alternatives</h3>
-            <div class="alts" id="alts"></div>
-        </section>
-
-        <section class="tabpane" data-pane="stress">
-            <p class="hint">The seven 2023 ERCOT conservation windows repeat every year. During each one the campus can import only 60% of its grid limit.</p>
-            <div class="events" id="events"></div>
-            <div class="limits">
-                <label class="lim"><input type="checkbox" id="w-t1" checked><span>Allow moving Tier 1 work to a remote site</span></label>
-                <label class="lim"><input type="checkbox" id="w-t2" checked><span>Allow pausing Tier 2 work ($1,000/MWh)</span></label>
-                <label class="lim"><input type="checkbox" id="w-heat"><span>105 °F summer-afternoon gas derate</span></label>
-            </div>
-            <button class="btn btn--sun" type="button" id="btn-run2"><svg><use href="#i-bolt"/></svg>Re-optimize for this world</button>
-        </section>
-    </aside>
-
-    <!-- live telemetry -->
-    <aside class="panel panel--right" id="live" aria-label="Live telemetry">
-        <div class="clock">
-            <div><b id="clk-date">Aug 24</b><span id="clk-time">16:00</span></div>
-            <div class="clock__meta"><span id="clk-month">Month 32 · Year 3</span><span id="clk-phase" class="phase">Full load</span></div>
-        </div>
-        <div class="demand">
-            <div><span>Campus demand</span><b id="tl-load">75.0<em>MW</em></b></div>
-            <div><span>This hour</span><b id="tl-cost">$4,210<em>/h</em></b></div>
-        </div>
-        <div class="stackbar" id="stackbar"></div>
-        <ul class="sources" id="sources"></ul>
-        <div class="meter">
-            <div class="meter__top"><span>Grid wire (shared by all offsite supply)</span><b id="tl-import">0 / 75 MW</b></div>
-            <div class="meter__track"><i id="tl-import-bar"></i><u id="tl-import-cap"></u></div>
-        </div>
-        <div class="meter">
-            <div class="meter__top"><span>Battery state of charge</span><b id="tl-soc">-</b></div>
-            <div class="meter__track meter__track--green"><i id="tl-soc-bar"></i></div>
-        </div>
-        <div class="mini">
-            <div><span>CO₂ this hour</span><b id="tl-co2">-</b></div>
-            <div><span>Clean this hour</span><b id="tl-clean">-</b></div>
-            <div><span>Price signal</span><b id="tl-price">-</b></div>
-        </div>
-        <canvas class="spark" id="spark" height="120"></canvas>
-        <p class="spark-cap">72-hour dispatch around the playhead</p>
-    </aside>
-
-    <!-- dock -->
-    <footer class="dock">
-        <div class="dock__row">
-            <div class="transport">
-                <button class="round" type="button" id="btn-play" aria-label="Play"><svg><use href="#i-play"/></svg></button>
-                <select id="in-speed" aria-label="Playback speed">
-                    <option value="1">1 h / s</option>
-                    <option value="3" selected>3 h / s</option>
-                    <option value="24">1 day / s</option>
-                    <option value="168">1 week / s</option>
-                    <option value="730">1 month / s</option>
-                </select>
-                <div class="seg" role="group" aria-label="Day or night">
-                    <button type="button" id="btn-day"><svg><use href="#i-sun"/></svg><span>Day</span></button>
-                    <button type="button" id="btn-night"><svg><use href="#i-moon"/></svg><span>Night</span></button>
-                </div>
-                <button class="chip-btn alert-btn" type="button" id="btn-stress"><svg><use href="#i-alert"/></svg><span>Next grid emergency</span></button>
-            </div>
-            <div class="views" id="views"></div>
-        </div>
-        <div class="timeline" id="timeline">
-            <div class="timeline__track" id="tl-track">
-                <div class="timeline__marks" id="tl-marks"></div>
-                <div class="timeline__fill" id="tl-fill"></div>
-                <div class="timeline__head" id="tl-head"><span id="tl-head-label">M32</span></div>
-            </div>
-            <div class="timeline__scale"><span>M0</span><span>Year 2</span><span>Year 3</span><span>Year 4</span><span>Year 5</span><span>Year 6</span><span>Year 7</span><span>Year 8</span><span>Year 9</span><span>Year 10</span><span>M120</span></div>
-        </div>
-    </footer>
-
-    <!-- asset info card -->
-    <div class="card" id="card" hidden>
-        <button class="card__x" type="button" id="card-x" aria-label="Close"><svg><use href="#i-close"/></svg></button>
-        <span class="eyebrow" id="card-kind"></span>
-        <h3 id="card-title"></h3>
-        <p id="card-text"></p>
-        <dl id="card-dl"></dl>
+    <div class="card" id="limits"></div>
+  </div>
+  <details class="card" style="margin-top:14px"><summary><b>Advanced valuations</b> <span class="muted">(your own price on emissions and on opening sooner)</span></summary>
+    <label class="valrng" style="grid-template-columns:1fr 120px 64px"><span>Climate hurdle: what you would pay to cut one tonne of CO2</span><input id="hurdle" type="range" min="0" max="400" step="10" value="100"><b id="hurdleV">$100/t</b></label>
+    <div id="vals"></div>
+  </details>
+  <div class="resblock" style="margin-top:18px">
+      <div class="card" id="resCard"><div id="res"><p class="muted">Loading...</p></div></div>
+      <div class="grid2" style="margin-top:18px">
+        <div class="card"><h3>Where your energy comes from</h3><p class="what">Share of all electricity the campus uses over ten years.</p><div id="donut"></div><div id="donutTip"></div></div>
+        <div class="card"><h3>What gets built and how much land it uses</h3><p class="what">Size of each source. Only onsite equipment uses the 8 acres.</p><div id="capbars"></div><div id="capTip"></div></div>
+      </div>
+      <div class="card" style="margin-top:18px"><h3>Why isn't every source in the plan?</h3><p class="what">We tested adding one more block of each source to this exact plan and re-ran all 87,600 hours. These are real results, not estimates.</p><div id="addOne"></div><div id="addTip"></div></div>
+      <div class="grid2" style="margin-top:18px">
+        <div class="card"><h3>Cost and emissions year by year</h3><p class="what">Bars are yearly cost. The line is emissions per unit of energy.</p><div id="annual"></div><div id="annualTip"></div></div>
+        <div class="card"><h3>What waiting would change</h3><p class="what">Cheapest and cleanest plans for each possible opening month.</p><div id="waiting"></div><div id="waitTip"></div></div>
+      </div>
+      <div class="card" style="margin-top:18px"><h3>Four customer archetypes</h3><p class="what">Each archetype is optimized separately with its own goal and rules from the framework. Load one to inspect it.</p><div id="demoBody"></div><div id="demoTip"></div></div>
     </div>
+  </div>
+</div></div>
 
-    <!-- intro -->
-    <div class="intro" id="intro" hidden>
-        <div class="intro__panel">
-            <button class="card__x" type="button" id="intro-x" aria-label="Close"><svg><use href="#i-close"/></svg></button>
-            <span class="eyebrow">GridTech Hackathon · interactive model</span>
-            <h2>A data center is ready before the grid is.</h2>
-            <p>A 75 MW AI campus can open in month 14, but the utility can only deliver 25 MW at month 18, 50 MW at month 24 and the full 75 MW at month 30. Until then it must bridge the gap with solar and wind contracts, onsite gas, fuel cells, batteries or a future nuclear deal, all squeezed through one shared grid wire and an 8-acre pad.</p>
-            <ol class="pipe">
-                <li><b>Inputs</b><span>Site, demand ramp, grid schedule, prices, ERCOT hourly shapes</span></li>
-                <li><b>87,600-hour dispatch</b><span>Every hour for ten years: merit order, battery, stress windows, last-resort relocation</span></li>
-                <li><b>Portfolio search</b><span>Local search over a carbon-price ladder builds a cost-vs-CO₂ Pareto library</span></li>
-                <li><b>Ranking</b><span>Hard limits filter, then augmented Tchebycheff on speed, cost and climate</span></li>
-                <li><b>Recommendation</b><span>Shown here in 3D, hour by hour, with its cost and emissions</span></li>
-            </ol>
-            <p class="small">The engine in this page is a JavaScript port of the Python/numba hackathon model. Its default plan reproduces the checker-verified submission to within a dollar: $354.9M over ten years, $70.20/MWh, 53.5 kg CO₂/MWh.</p>
-            <div class="intro__actions">
-                <button class="btn btn--sun" type="button" id="intro-go"><svg><use href="#i-play"/></svg>Explore the simulation</button>
-                <button class="btn btn--ghost" type="button" id="intro-plan">Enter my own data</button>
-            </div>
-        </div>
+<div class="tab" id="tab-stress"><div class="wrap">
+  <div class="sec-head"><div><h2>Grid emergencies</h2><p>On seven short occasions each year the grid asks big users to cut back, and the campus may draw only 60% of its connection. Switch any one off to see what it costs the plan.</p></div></div>
+  <div class="card" id="contCard" style="margin-bottom:18px"><p class="muted">Checking continuity...</p></div>
+  <div class="card">
+    <div class="whatif" id="whatif">What-if view: you changed the rules, so these numbers differ from the official benchmark. Exports still use the official model.</div>
+    <div class="togrow" id="globalSw"></div>
+    <div class="grid2" style="grid-template-columns:1.1fr 1fr;align-items:start">
+      <div class="plist" id="plist"></div>
+      <div><div id="trace"></div><div id="traceTip"></div><div id="stressTotals" style="margin-top:10px"></div></div>
     </div>
+  </div>
+</div></div>
 
-    <div class="opt" id="opt" hidden>
-        <div class="opt__ring"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17"/><circle id="opt-arc" cx="20" cy="20" r="17"/></svg><b id="opt-pct">0%</b></div>
-        <div>
-            <b id="opt-title">Optimizing portfolio</b>
-            <span id="opt-text">Dispatching candidate portfolios hour by hour</span>
-            <span class="mono" id="opt-feed"></span>
-        </div>
-    </div>
+<div class="tab" id="tab-scenarios"><div class="wrap">
+  <div class="sec-head"><div><h2>What if things go wrong?</h2><p>The recommended plan is replayed in three worlds: a good year, the official data, and a bad year with a late grid connection, a heat wave and pricier gas.</p></div></div>
+  <div id="scnBody"><div class="card"><p class="muted">Choose a plan on the Plan tab first.</p></div></div>
+  <div class="card" id="stagedCard" style="margin-top:18px"></div>
+</div></div>
 
-    <script type="module" src="js/main.js?v=1"></script>
+<div class="tab" id="tab-questions"><div class="wrap">
+  <div class="sec-head"><div><h2>Common questions, answered</h2><p>Seven questions a customer usually asks. Each has a button that sets up the Plan tab for you.</p></div></div>
+  <div class="qgrid" id="qgrid"></div>
+</div></div>
+
+<div class="tab" id="tab-export"><div class="wrap">
+  <div class="sec-head"><div><h2>Export and verify</h2><p>Download the plan in the official format and run the competition's own checker on it.</p></div></div>
+  <div class="grid2"><div class="card" id="exportCard"></div><div class="card" id="ledgerCard"></div></div>
+</div></div>
+
+<footer><div class="wrap"><p>A screening tool on a fictional benchmark. Offers, dates and site limits are made up; not a forecast or a quotation.</p></div></footer>
+
+<div id="assistant">
+  <button id="asBtn" aria-label="Open assistant"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>Ask</span></button>
+  <div id="asPanel" hidden>
+    <div class="ash"><div><b>Assistant</b><small>Ask about any term or how this project works</small></div><button id="asClose" aria-label="Close">&times;</button></div>
+    <div id="asMsgs"></div>
+    <div id="asChips"></div>
+    <form id="asForm"><input id="asIn" placeholder="Type a question" autocomplete="off"><button class="btn primary small" type="submit">Send</button></form>
+  </div>
+</div>
+<script type="module" src="app.js"></script>
 </body>
 </html>

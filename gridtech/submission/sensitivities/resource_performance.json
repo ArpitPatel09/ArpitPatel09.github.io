@@ -1,0 +1,24 @@
+{
+  "assumptions": "5% forced-outage derate of onsite gas, 0.5%/yr wind/solar degradation, startup charges (GT $60/MW, engine $18/MW, fuel cell $45/MW per MW started). Team assumptions, no source.",
+  "feasible": false,
+  "unmet_mwh": 202.65810217520044,
+  "total_decision_cost_usd": 352785725.89403534,
+  "startup_cost_usd": 973676.566915425,
+  "intensity": 55.455136762489154,
+  "diagnostics": {
+    "gas_turbine": {
+      "starts": 540,
+      "below_min_stable_hours": 782,
+      "min_stable_fraction": 0.4,
+      "max_hourly_ramp_fraction": 0.95,
+      "capacity_factor": 0.006509472566843716
+    },
+    "gas_engine": {
+      "starts": 1230,
+      "below_min_stable_hours": 1653,
+      "min_stable_fraction": 0.3,
+      "max_hourly_ramp_fraction": 0.95,
+      "capacity_factor": 0.10522660275984821
+    }
+  }
+}

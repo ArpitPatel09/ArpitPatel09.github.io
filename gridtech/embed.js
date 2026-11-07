@@ -33,6 +33,7 @@
     }
 
     document.querySelectorAll('[data-demo-open]').forEach(b => b.addEventListener('click', openDemo));
+    document.querySelectorAll('[data-demo-close]').forEach(b => b.addEventListener('click', closeDemo));
     window.addEventListener('message', e => {
         if (e.origin !== location.origin || !e.data) return;
         if (e.data.type === 'gridtech:close') closeDemo();

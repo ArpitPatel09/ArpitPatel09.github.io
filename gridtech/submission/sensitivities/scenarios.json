@@ -1,0 +1,234 @@
+{
+  "suite": {
+    "best": {
+      "key": "best",
+      "label": "Best case",
+      "story": "On-schedule grid, delivered gas -25%, wind/solar availability +10% (favourable year).",
+      "delay": 0,
+      "gas_price_start": 3.2024999999999997,
+      "total_cost_musd": 366.8765219772793,
+      "levelized": 72.56144304070132,
+      "intensity": 47.955110399692046,
+      "clean": 0.8581697124091759,
+      "unmet_mwh": 0.0,
+      "unmet_hours": 0,
+      "merchant_share": 0.09185298740305141,
+      "gas_mwh": 252689.26998074993,
+      "relocated_mwh": 0.0,
+      "interrupted_mwh": 0.0,
+      "max_import": 75.0,
+      "requested_mwh": 5056080.841329053,
+      "unserved_penalty_musd": 0.0,
+      "total_adj_musd": 366.8765219772793,
+      "levelized_adj": 72.56144304070132
+    },
+    "baseline": {
+      "key": "baseline",
+      "label": "Baseline",
+      "story": "Official benchmark inputs, base grid schedule, 2023 reference year.",
+      "delay": 0,
+      "gas_price_start": 4.27,
+      "total_cost_musd": 354.9376680126126,
+      "levelized": 70.2001568312173,
+      "intensity": 53.52837846240636,
+      "clean": 0.8377040139879914,
+      "unmet_mwh": 0.0,
+      "unmet_hours": 0,
+      "merchant_share": 0.11285665780708429,
+      "gas_mwh": 249969.24014509787,
+      "relocated_mwh": 0.0,
+      "interrupted_mwh": 0.0,
+      "max_import": 75.0,
+      "requested_mwh": 5056080.841329053,
+      "unserved_penalty_musd": 0.0,
+      "total_adj_musd": 354.9376680126126,
+      "levelized_adj": 70.2001568312173
+    },
+    "worst": {
+      "key": "worst",
+      "label": "Worst-case stress",
+      "story": "6-month grid delay, 104 F heat wave (turbines -8.5%, engines -3% on summer afternoons), delivered gas +25%.",
+      "delay": 6,
+      "gas_price_start": 5.3374999999999995,
+      "total_cost_musd": 370.3088286134709,
+      "levelized": 73.24029030282092,
+      "intensity": 78.54565889458341,
+      "clean": 0.7866199177058196,
+      "unmet_mwh": 236.4515990200007,
+      "unmet_hours": 364,
+      "merchant_share": 0.10556997940904184,
+      "gas_mwh": 544860.1441002436,
+      "relocated_mwh": 0.0,
+      "interrupted_mwh": 0.0,
+      "max_import": 75.0,
+      "requested_mwh": 5056080.841329053,
+      "unserved_penalty_musd": 0.23645159902000074,
+      "total_adj_musd": 370.5452802124909,
+      "levelized_adj": 73.28705608969031
+    }
+  },
+  "delay_curve": {
+    "points": [
+      {
+        "delay": 0,
+        "cost_musd": 354.9376680126126,
+        "delta_musd": 0.0,
+        "delta_per_mwh": 0.0,
+        "unmet_mwh": 0.0,
+        "intensity": 53.52837846240636,
+        "gas_mwh": 249969.24014509787,
+        "delta_pct": 0.0,
+        "zone": "safe"
+      },
+      {
+        "delay": 1,
+        "cost_musd": 357.0406733787952,
+        "delta_musd": 2.1030053661825656,
+        "delta_per_mwh": 0.41593586656928494,
+        "unmet_mwh": 0.0,
+        "intensity": 57.881714337969356,
+        "gas_mwh": 301669.55230761156,
+        "delta_pct": 0.5924999107470994,
+        "zone": "manageable"
+      },
+      {
+        "delay": 2,
+        "cost_musd": 358.7959004921893,
+        "delta_musd": 3.8582324795766474,
+        "delta_per_mwh": 0.7630875772473757,
+        "unmet_mwh": 0.0,
+        "intensity": 62.057400260745545,
+        "gas_mwh": 351944.62732307264,
+        "delta_pct": 1.0870169123440419,
+        "zone": "manageable"
+      },
+      {
+        "delay": 3,
+        "cost_musd": 360.4881389050971,
+        "delta_musd": 5.550470892484486,
+        "delta_per_mwh": 1.0977812789531072,
+        "unmet_mwh": 0.0,
+        "intensity": 66.23036634900976,
+        "gas_mwh": 402256.7735834632,
+        "delta_pct": 1.56378750206001,
+        "zone": "manageable"
+      },
+      {
+        "delay": 4,
+        "cost_musd": 362.36474540868437,
+        "delta_musd": 7.4270773960717325,
+        "delta_per_mwh": 1.4689396054275647,
+        "unmet_mwh": 0.0,
+        "intensity": 70.54956513680982,
+        "gas_mwh": 452390.7172476595,
+        "delta_pct": 2.092501885657234,
+        "zone": "manageable"
+      },
+      {
+        "delay": 5,
+        "cost_musd": 363.8590969406586,
+        "delta_musd": 8.921428928045987,
+        "delta_per_mwh": 1.7644949137523867,
+        "unmet_mwh": 0.0,
+        "intensity": 74.56944105375112,
+        "gas_mwh": 501705.25431364455,
+        "delta_pct": 2.5135199028041644,
+        "zone": "manageable"
+      },
+      {
+        "delay": 6,
+        "cost_musd": 365.469140560944,
+        "delta_musd": 10.53147254833138,
+        "delta_per_mwh": 2.0829319939360573,
+        "unmet_mwh": 209.51775709760057,
+        "intensity": 78.73694120608961,
+        "gas_mwh": 550284.442401811,
+        "delta_pct": 2.967132963739748,
+        "zone": "stress"
+      },
+      {
+        "delay": 7,
+        "cost_musd": 367.4356046715843,
+        "delta_musd": 12.497936658971668,
+        "delta_per_mwh": 2.471862505997123,
+        "unmet_mwh": 2261.2170563444024,
+        "intensity": 82.9455758179539,
+        "gas_mwh": 596727.2951058802,
+        "delta_pct": 3.5211637944630763,
+        "zone": "stress"
+      },
+      {
+        "delay": 8,
+        "cost_musd": 368.88959059365504,
+        "delta_musd": 13.951922581042409,
+        "delta_per_mwh": 2.759434237482438,
+        "unmet_mwh": 7585.074223037603,
+        "intensity": 86.64362566984397,
+        "gas_mwh": 639214.289544987,
+        "delta_pct": 3.930809220436595,
+        "zone": "stress"
+      },
+      {
+        "delay": 9,
+        "cost_musd": 370.3091549882857,
+        "delta_musd": 15.37148697567302,
+        "delta_per_mwh": 3.040198022552275,
+        "unmet_mwh": 16578.9459299466,
+        "intensity": 90.10911152072235,
+        "gas_mwh": 678742.8626410781,
+        "delta_pct": 4.330756738709062,
+        "zone": "stress"
+      },
+      {
+        "delay": 10,
+        "cost_musd": 371.74849093692563,
+        "delta_musd": 16.81082292431301,
+        "delta_per_mwh": 3.324872258152837,
+        "unmet_mwh": 26422.129724305603,
+        "intensity": 93.54610734777147,
+        "gas_mwh": 718461.50727584,
+        "delta_pct": 4.736274686888302,
+        "zone": "stress"
+      },
+      {
+        "delay": 11,
+        "cost_musd": 372.83262271502434,
+        "delta_musd": 17.89495470241171,
+        "delta_per_mwh": 3.5392936276129205,
+        "unmet_mwh": 37131.395630077604,
+        "intensity": 96.63452595607541,
+        "gas_mwh": 757984.4937464071,
+        "delta_pct": 5.041717550749169,
+        "zone": "stress"
+      },
+      {
+        "delay": 12,
+        "cost_musd": 374.0821891204542,
+        "delta_musd": 19.144521107841552,
+        "delta_per_mwh": 3.786434930262942,
+        "unmet_mwh": 48571.5058448596,
+        "intensity": 99.88294265066901,
+        "gas_mwh": 797634.014840384,
+        "delta_pct": 5.393769901920146,
+        "zone": "stress"
+      }
+    ],
+    "rule": "Safe: all load served and <= +0.5% total cost. Manageable: all load served and <= +3%. High stress: unserved energy or > +3%."
+  },
+  "hardening": {
+    "adds": {
+      "gas_engine": 5.0
+    },
+    "extra_cost_musd": 11.470089586351872,
+    "ok": true,
+    "caps": {
+      "utility_solar": 85.0,
+      "wind": 180.0,
+      "battery_4h": 0.0,
+      "gas_turbine": 25.0,
+      "gas_engine": 35.0,
+      "fuel_cell": 0.0,
+      "nuclear": 0.0
+    }
+  }
+}

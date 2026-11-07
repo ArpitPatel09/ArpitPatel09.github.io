@@ -1,0 +1,21 @@
+{
+  "label": "Zero Tier 2 Interruption: Never pauses any work in the seven grid emergencies, at the lowest cost.",
+  "initial_service_month": 19,
+  "full_demand_month": 29,
+  "grid_delay_months": 0,
+  "capacities_mw": {
+    "utility_solar": 60.0,
+    "wind": 120.0,
+    "gas_turbine": 25.0
+  },
+  "total_decision_cost_usd": 252171489.53159738,
+  "decision_cost_usd_per_requested_mwh": 51.42010977721624,
+  "combined_electricity_co2_kg_per_mwh": 117.57901680433358,
+  "clean_energy_share": 0.7173750496903647,
+  "merchant_mwh": 528283.074380972,
+  "relocated_local_equivalent_mwh": 916.840219616,
+  "interrupted_mwh": 0.0,
+  "land_acres": 2.5,
+  "max_grid_import_mw": 74.93061015699999,
+  "checker_physical_checks_passed": true
+}

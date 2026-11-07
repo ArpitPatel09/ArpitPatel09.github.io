@@ -1,0 +1,108 @@
+{
+  "_about": "Machine-readable form of framework/FRAMEWORK.md (the optimization framework). The engine reads every objective, constraint and accounting parameter from this file at start-up and refuses to run if a value disagrees with the released packet in packet/data. Section numbers refer to FRAMEWORK.md.",
+  "version": "v5.5.1",
+
+  "time": {"_section": "3.1", "horizon_hours": 87600, "hours_per_month": 730, "hours_per_year": 8760, "months": 120},
+
+  "site": {"_section": "1", "peak_mw": 75, "load_factor": 0.92, "land_limit_acres": 8.0},
+
+  "grid": {
+    "_section": "3.2",
+    "ordinary_limit_mw": [{"from_month": 0, "mw": 0}, {"from_month": 18, "mw": 25}, {"from_month": 24, "mw": 50}, {"from_month": 30, "mw": 75}],
+    "stress_import_fraction": 0.6
+  },
+
+  "catalog": {
+    "_section": "4",
+    "utility_solar": {"location": "offsite", "block_mw": 5, "max_mw": 150, "available_month": 24, "capex_usd_per_kw": 0, "fom_usd_per_kw_year": 0, "life_years": 20, "price_usd_per_mwh": 40.0, "heat_rate": 0.0, "land_acres_per_mw": 0.0, "payment_basis": "available_generation"},
+    "wind": {"location": "offsite", "block_mw": 5, "max_mw": 200, "available_month": 12, "capex_usd_per_kw": 0, "fom_usd_per_kw_year": 0, "life_years": 20, "price_usd_per_mwh": 35.0, "heat_rate": 0.0, "land_acres_per_mw": 0.0, "payment_basis": "available_generation"},
+    "battery_4h": {"location": "onsite", "block_mw": 1, "max_mw": 12, "available_month": 14, "capex_usd_per_kw": 1744, "fom_usd_per_kw_year": 40.0, "life_years": 15, "price_usd_per_mwh": 0.0, "heat_rate": 0.0, "land_acres_per_mw": 0.15, "payment_basis": "dispatched_generation"},
+    "gas_turbine": {"location": "onsite", "block_mw": 25, "max_mw": 100, "effective_max_mw": 75, "available_month": 18, "capex_usd_per_kw": 1606, "fom_usd_per_kw_year": 9.56, "life_years": 25, "price_usd_per_mwh": 5.7, "heat_rate": 9.447, "land_acres_per_mw": 0.10, "payment_basis": "dispatched_generation"},
+    "nuclear": {"location": "offsite", "block_mw": 5, "max_mw": 25, "available_month": 60, "capex_usd_per_kw": 0, "fom_usd_per_kw_year": 0, "life_years": 20, "price_usd_per_mwh": 95.0, "heat_rate": 0.0, "land_acres_per_mw": 0.0, "payment_basis": "available_generation"},
+    "gas_engine": {"location": "onsite", "block_mw": 5, "max_mw": 60, "available_month": 16, "capex_usd_per_kw": 2400, "fom_usd_per_kw_year": 25.0, "life_years": 20, "price_usd_per_mwh": 12.0, "heat_rate": 8.454, "land_acres_per_mw": 0.05, "payment_basis": "dispatched_generation"},
+    "fuel_cell": {"location": "onsite", "block_mw": 5, "max_mw": 30, "available_month": 14, "capex_usd_per_kw": 4000, "fom_usd_per_kw_year": 150.0, "life_years": 15, "price_usd_per_mwh": 5.0, "heat_rate": 6.5, "land_acres_per_mw": 0.05, "payment_basis": "dispatched_generation"}
+  },
+
+  "constraints": {
+    "_section": "5",
+    "energy_balance_tolerance_mw": 0.0001,
+    "shared_import_wire": ["utility_solar", "wind", "nuclear", "grid"],
+    "battery": {"round_trip_efficiency": 0.85, "duration_hours": 4, "soc_start_mwh": 0, "soc_end_mwh": 0, "max_cycles_per_year": 365,
+                "charge_source": "contemporaneous_clean_only",
+                "_cycle_note": "FRAMEWORK.md writes the cycle limit as sum(d)/(4C); the official checker counts internal energy sum(d/eta)/(4C). The engine enforces the stricter official form, which also satisfies the framework form."},
+    "land_limit_acres": 8.0,
+    "demand_response": {"tier0_always_local": true, "only_in_stress_hours": true,
+                         "tier1_remote_capacity_mw": 12.0, "tier1_remote_energy_multiplier": 1.05, "tier1_cost_usd_per_local_mwh": 123.5,
+                         "tier2_max_fraction": 1.0, "tier2_penalty_usd_per_mwh": 1000.0}
+  },
+
+  "accounting": {
+    "_section": "6",
+    "discount_rate": 0.08,
+    "crf_formula": "r(1+r)^n / ((1+r)^n - 1)",
+    "capacity_charge_start": "max(initial_service_month, available_month)",
+    "gas_co2_lb_per_mmbtu": 117.0,
+    "lb_to_t": 0.00045359237,
+    "grid_co2_year1_t_per_mwh": 0.332874,
+    "grid_co2_annual_rate": -0.03,
+    "intensity_formula": "1000 * (local_co2_t + remote_co2_t) / (local_served_mwh + remote_mwh)",
+    "clean_share_formula": "sum(solar + wind + nuclear - charge + discharge) / local_served_mwh"
+  },
+
+  "derating": {
+    "_section": "2.2",
+    "_formula": "Cap_derated = Cap_ISO * [1 - beta * max(0, T_amb - T_ref)] * (evaporative-cooling recovery for turbines)",
+    "design_ambient_c": 40.0,
+    "applies_months": [6, 7, 8, 9],
+    "applies_local_hours": [11, 20],
+    "_temperature_note": "The packet has no hourly temperature series, so the design ambient (40 C = 104 F, the 2023 conservation-event heat) is applied on summer afternoons.",
+    "gas_turbine": {"beta_per_c": 0.007, "t_ref_c": 15.0, "evaporative_recovery": 0.514, "_note": "dry loss 0.007 x 25 = 17.5%; standard evaporative cooling recovers ~51% -> 8.5%, inside the framework's 7-10% band"},
+    "gas_engine": {"beta_per_c": 0.005, "t_ref_c": 35.0, "evaporative_recovery": 0.0, "_note": "0.005 x 5 = 2.5%, the framework's lower bound"},
+    "fuel_cell": {"beta_per_c": 0.0, "t_ref_c": 15.0, "evaporative_recovery": 0.0, "_note": "framework gives no fuel-cell derate"}
+  },
+
+  "archetypes": {
+    "_section": "7.1",
+    "cost_minimizer": {
+      "label": "Cost Minimizer",
+      "objective": "levelized_cost", "sense": "min", "tiebreak": "intensity",
+      "constraints": {"full_month_max": 40},
+      "dispatch_carbon_price": 0,
+      "plain": "Lowest cost per MWh, using cheap wind and solar with just enough gas to cover the grid limits."
+    },
+    "clean_champion": {
+      "label": "Clean Champion",
+      "objective": "intensity", "sense": "min", "tiebreak": "levelized_cost",
+      "constraints": {"full_month_max": 40, "clean_share_min": 0.70},
+      "dispatch_carbon_price": 1000,
+      "plain": "Lowest CO2 per MWh while keeping clean energy above 70%."
+    },
+    "speed_maximizer": {
+      "label": "Speed Maximizer",
+      "objective": "levelized_cost", "sense": "min", "tiebreak": "intensity",
+      "constraints": {"start_month": 14},
+      "dispatch_carbon_price": 0,
+      "plain": "Opens in month 14, before any grid exists, at the lowest cost that still powers every hour."
+    },
+    "zero_tier2": {
+      "label": "Zero Tier 2 Interruption",
+      "objective": "levelized_cost", "sense": "min", "tiebreak": "intensity",
+      "constraints": {"full_month_max": 40, "tier2_interrupted_max_mwh": 0},
+      "dispatch_carbon_price": 0,
+      "plain": "Never pauses any work in the seven grid emergencies, at the lowest cost."
+    }
+  },
+
+  "verification": {
+    "_section": "9",
+    "checks": [
+      "rows = 87,600 and model_hour spans 0..87,599",
+      "hourly energy balance within 1e-4 MW",
+      "import wire limit respected in ordinary and stress hours",
+      "battery SOC in [0, 4C], starts 0, ends 0, annual cycles <= 365",
+      "onsite land <= 8 acres",
+      "capacities are whole blocks within maxima",
+      "demand response only in stress-event hours"
+    ]
+  }
+}

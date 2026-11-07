@@ -1,0 +1,21 @@
+{
+  "label": "Grid delay 6 months, opening month 24",
+  "initial_service_month": 24,
+  "full_demand_month": 34,
+  "grid_delay_months": 6,
+  "capacities_mw": {
+    "utility_solar": 60.0,
+    "wind": 120.0,
+    "gas_turbine": 25.0
+  },
+  "total_decision_cost_usd": 242209480.79353362,
+  "decision_cost_usd_per_requested_mwh": 52.063519696935565,
+  "combined_electricity_co2_kg_per_mwh": 118.54831004948038,
+  "clean_energy_share": 0.715718580729751,
+  "merchant_mwh": 493545.638064554,
+  "relocated_local_equivalent_mwh": 960.0596233460001,
+  "interrupted_mwh": 0.0,
+  "land_acres": 2.5,
+  "max_grid_import_mw": 74.93061015699999,
+  "checker_physical_checks_passed": true
+}

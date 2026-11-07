@@ -1,0 +1,23 @@
+{
+  "label": "Clean Champion: Lowest CO2 per MWh while keeping clean energy above 70%.",
+  "initial_service_month": 30,
+  "full_demand_month": 40,
+  "grid_delay_months": 0,
+  "capacities_mw": {
+    "utility_solar": 150.0,
+    "wind": 200.0,
+    "battery_4h": 12.0,
+    "gas_turbine": 25.0,
+    "nuclear": 25.0
+  },
+  "total_decision_cost_usd": 399939113.04213184,
+  "decision_cost_usd_per_requested_mwh": 91.93046301340434,
+  "combined_electricity_co2_kg_per_mwh": 11.155312332549347,
+  "clean_energy_share": 0.9616742813005185,
+  "merchant_mwh": 160604.67886093602,
+  "relocated_local_equivalent_mwh": 320.685822133,
+  "interrupted_mwh": 0.0,
+  "land_acres": 4.3,
+  "max_grid_import_mw": 75.00000000000001,
+  "checker_physical_checks_passed": true
+}

@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
     <link rel="stylesheet" href="style.css?v=20">
-    <link rel="stylesheet" href="gridtech/embed.css?v=2">
+    <link rel="stylesheet" href="gridtech/embed.css?v=3">
     <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading">
@@ -407,18 +407,18 @@
                         <span class="eyebrow" data-reveal>03 — Selected Work</span>
                         <h2 class="sec-title split">Technical Projects</h2>
                     </div>
-                    <p class="sec-desc" data-reveal style="--d:.15s">Data-center energy optimization with a live 3D simulation, then storage dispatch, battery charging control, grid forecasting, carbon management and geothermal HVAC.</p>
+                    <p class="sec-desc" data-reveal style="--d:.15s">Data-center energy optimization with an interactive decision studio, then storage dispatch, battery charging control, grid forecasting, carbon management and geothermal HVAC.</p>
                 </div>
 
                 <div class="projects__stack">
-                    <!-- Project 01: GridTech hackathon, with the live 3D demo -->
+                    <!-- Project 01: GridTech hackathon, with the interactive studio -->
                     <article class="project project--demo" id="gridtech" style="--i:0">
                         <div class="project__inner">
                             <div class="project__media">
                                 <div class="demo-preview" data-demo-preview>
-                                    <img class="demo-preview__img" src="images/projects/gridtech/poster.webp" srcset="images/projects/gridtech/poster-sm.webp 720w, images/projects/gridtech/poster.webp 1200w" sizes="(max-width: 900px) 92vw, 56vw" width="1200" height="1020" alt="3D simulation of the data center campus with its wind farm, solar field, onsite gas yard and glowing power lines" loading="lazy" decoding="async">
-                                    <button class="demo-preview__launch" type="button" data-demo-open aria-label="Launch the interactive 3D demo">
-                                        <span class="demo-preview__cta"><svg><use href="#i-cube"/></svg>Launch interactive 3D demo</span>
+                                    <img class="demo-preview__img" src="images/projects/gridtech/poster.webp" srcset="images/projects/gridtech/poster-sm.webp 720w, images/projects/gridtech/poster.webp 1200w" sizes="(max-width: 900px) 92vw, 56vw" width="1200" height="1020" alt="GridTech Decision Studio optimization interface for the 75 MW data center campus" loading="lazy" decoding="async">
+                                    <button class="demo-preview__launch" type="button" data-demo-open aria-label="Launch the interactive GridTech Studio">
+                                        <span class="demo-preview__cta"><svg><use href="#i-chart"/></svg>Launch Decision Studio</span>
                                     </button>
                                     <span class="demo-preview__live"><i></i>Interactive · runs in your browser</span>
                                 </div>
@@ -426,16 +426,17 @@
                             <div class="project__body">
                                 <div class="project__top"><span class="label">Energy Optimization</span><span class="project__num">01 / 06</span></div>
                                 <h3>GridTech Hackathon: Powering a Data Center Before the Grid Arrives</h3>
-                                <p>A 75 MW AI campus is ready at month 14, but the utility only reaches full capacity at month 30. I built an engine that dispatches every hour of a ten-year horizon across solar and wind contracts, onsite gas, fuel cells, batteries and nuclear. It searches a cost-versus-CO₂ Pareto library and recommends the portfolio that fits each customer's speed, cost and climate priorities. The demo runs that engine live in your browser.</p>
+                                <p>A 75 MW AI campus is ready at month 14, but the utility only reaches full capacity at month 30. We engineered an 87,600-hour multi-asset energy portfolio and chronological dispatch engine (Python/Numba) across 7 generation and storage asset classes. The Decision Studio allows stakeholders to balance speed, cost, and clean energy trade-offs with live Pareto ranking and ERCOT grid stress resilience.</p>
                                 <div class="metrics">
                                     <div class="metric"><b><span data-count="87600">87,600</span> h</b><span>Chronological dispatch per plan</span></div>
                                     <div class="metric"><b><span data-count="858">858</span></b><span>Pareto portfolios, 33 opening months</span></div>
-                                    <div class="metric"><b>$<span data-count="70.2" data-decimals="2">70.20</span></b><span>Per MWh, checker-verified pick</span></div>
+                                    <div class="metric"><b>$<span data-count="70.2" data-decimals="2">70.20</span></b><span>Per MWh, checker-verified benchmark</span></div>
                                 </div>
-                                <div class="chips"><span class="chip">Optimization</span><span class="chip">Hourly Dispatch</span><span class="chip">Pareto Search</span><span class="chip">ERCOT</span><span class="chip">Python · numba</span><span class="chip">Three.js</span></div>
+                                <div class="chips"><span class="chip">Optimization</span><span class="chip">Hourly Dispatch</span><span class="chip">Pareto Search</span><span class="chip">ERCOT</span><span class="chip">Python · Numba</span><span class="chip">Decision Studio</span></div>
                                 <div class="project__actions">
-                                    <button class="btn btn--light magnetic" type="button" data-demo-open><svg><use href="#i-cube"/></svg>Launch 3D Demo</button>
+                                    <button class="btn btn--light magnetic" type="button" data-demo-open><svg><use href="#i-chart"/></svg>Launch Studio</button>
                                     <a href="gridtech/" target="_blank" rel="noopener" class="link-plain">Open in a new tab</a>
+                                    <a href="gridtech_3d/" target="_blank" rel="noopener" class="link-plain" style="margin-left: 8px; opacity: 0.8;" title="View previous 3D visual simulation">3D Demo (Alt)</a>
                                 </div>
                             </div>
                         </div>
@@ -1331,11 +1332,12 @@
         </div>
     </div>
 
-    <!-- GridTech 3D demo -->
-    <div class="demo-modal" id="demo-modal" role="dialog" aria-modal="true" aria-label="GridTech interactive 3D demo" aria-hidden="true">
+    <!-- GridTech Decision Studio demo -->
+    <div class="demo-modal" id="demo-modal" role="dialog" aria-modal="true" aria-label="GridTech Studio Decision Tool" aria-hidden="true">
+        <button class="demo-modal__close" type="button" data-demo-close aria-label="Close demo"><svg><use href="#i-close"/></svg></button>
         <div class="demo-modal__frame">
             <div class="modal__spinner" aria-hidden="true"></div>
-            <iframe id="demo-iframe" title="GridTech interactive 3D demo" src="about:blank" allow="fullscreen"></iframe>
+            <iframe id="demo-iframe" title="GridTech Studio Decision Tool" src="about:blank" allow="fullscreen"></iframe>
         </div>
     </div>
 
@@ -1355,6 +1357,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
     <script src="script.js?v=12" defer></script>
-    <script src="gridtech/embed.js?v=2" defer></script>
+    <script src="gridtech/embed.js?v=3" defer></script>
 </body>
 </html>

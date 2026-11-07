@@ -1,0 +1,13 @@
+{
+  "initial_service_month": 24,
+  "grid_delay_months": 6,
+  "capacities_mw": {
+    "utility_solar": 60,
+    "wind": 120,
+    "battery_4h": 0,
+    "gas_turbine": 25,
+    "gas_engine": 0,
+    "fuel_cell": 0,
+    "nuclear": 0
+  }
+}

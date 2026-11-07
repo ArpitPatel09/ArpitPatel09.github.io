@@ -1,0 +1,38 @@
+{
+  "note": "Staged capacity cannot be expressed in portfolio.json. The checked upfront result is the top-level portfolio.json / dispatch.csv.",
+  "upfront_total_usd": 354937668.01261264,
+  "staged_total_usd": 339070419.68601334,
+  "saving_usd": 15867248.3265993,
+  "stage": {
+    "wind": {
+      "extra_mw": 90.0,
+      "from_month": 60
+    },
+    "utility_solar": {
+      "extra_mw": 40.0,
+      "from_month": 30
+    }
+  },
+  "ledger": [
+    {
+      "option_id": "wind",
+      "label": "Wind contract",
+      "stage2_mw": 90.0,
+      "stage1_mw": 90.0,
+      "stage2_month": 60,
+      "months_deferred": 44,
+      "annual_charge_musd": null,
+      "continuing_months": 60
+    },
+    {
+      "option_id": "utility_solar",
+      "label": "Utility solar contract",
+      "stage2_mw": 40.0,
+      "stage1_mw": 45.0,
+      "stage2_month": 30,
+      "months_deferred": 6,
+      "annual_charge_musd": null,
+      "continuing_months": 90
+    }
+  ]
+}

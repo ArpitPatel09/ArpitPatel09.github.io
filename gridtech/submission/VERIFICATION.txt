@@ -1,0 +1,72 @@
+
+[PASS] alternatives/clean_champion
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 1.00e-09 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 75.00 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 48.0/48 MWh, final 0.00e+00, max cycles 185.5/yr)
+   ok  5 onsite land <= 8 acres  (4.30 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 150, wind 200, battery_4h 12, gas_turbine 25, nuclear 25)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 321 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] alternatives/cost_minimizer
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 74.93 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (2.50 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 60, wind 120, gas_turbine 25)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 917 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] alternatives/speed_maximizer
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 72.96 MW, worst margin 0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (4.50 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 25, wind 70, gas_turbine 25, gas_engine 10, fuel_cell 30)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 0 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] alternatives/zero_tier2_interruption
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 74.93 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (2.50 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 60, wind 120, gas_turbine 25)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 917 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] recommended
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 75.00 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (4.00 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 85, wind 180, gas_turbine 25, gas_engine 30)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 0 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] sensitivities/grid_delay_6mo_keep_month24
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 74.93 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (2.50 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 60, wind 120, gas_turbine 25)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 960 MWh, interrupted 0 MWh)
+   official checker: passed
+
+[PASS] sensitivities/grid_delay_6mo_open_month30
+   ok  1 rows = 87,600 and model_hour 0..87599  (87600 rows)
+   ok  2 hourly energy balance <= 1e-4 MW  (max error 4.67e-10 MW)
+   ok  3 imports within ordinary and stress-event wire limit  (peak 74.93 MW, worst margin -0.000 MW)
+   ok  4 battery SOC in [0, 4C], starts 0, ends 0, continuity, <= 365 cycles/yr  (max SOC 0.0/0 MWh, final 0.00e+00, max cycles 0.0/yr)
+   ok  5 onsite land <= 8 acres  (2.50 acres)
+   ok  6 capacities are whole blocks within maxima  (utility_solar 60, wind 120, gas_turbine 25)
+   ok  7 relocation/interruption only in stress hours, within limits; Tier 0 served  (outside-event actions 0.0e+00; relocated 802 MWh, interrupted 0 MWh)
+   official checker: passed
+
+7 folders audited, 0 failures

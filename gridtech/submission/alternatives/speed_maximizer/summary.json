@@ -1,0 +1,23 @@
+{
+  "label": "Speed Maximizer: Opens in month 14, before any grid exists, at the lowest cost that still powers every hour.",
+  "initial_service_month": 14,
+  "full_demand_month": 24,
+  "grid_delay_months": 0,
+  "capacities_mw": {
+    "utility_solar": 25.0,
+    "wind": 70.0,
+    "gas_turbine": 25.0,
+    "gas_engine": 10.0,
+    "fuel_cell": 30.0
+  },
+  "total_decision_cost_usd": 403192558.38984394,
+  "decision_cost_usd_per_requested_mwh": 78.18984046456075,
+  "combined_electricity_co2_kg_per_mwh": 227.27569557210927,
+  "clean_energy_share": 0.3965208377306717,
+  "merchant_mwh": 254588.461872436,
+  "relocated_local_equivalent_mwh": 0.0,
+  "interrupted_mwh": 0.0,
+  "land_acres": 4.5,
+  "max_grid_import_mw": 72.961617749,
+  "checker_physical_checks_passed": true
+}

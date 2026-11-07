@@ -1,0 +1,22 @@
+{
+  "label": "Recommended: balanced preferences, hard deadline full demand <= month 30",
+  "initial_service_month": 16,
+  "full_demand_month": 26,
+  "grid_delay_months": 0,
+  "capacities_mw": {
+    "utility_solar": 85.0,
+    "wind": 180.0,
+    "gas_turbine": 25.0,
+    "gas_engine": 30.0
+  },
+  "total_decision_cost_usd": 354937668.01261336,
+  "decision_cost_usd_per_requested_mwh": 70.20015683121744,
+  "combined_electricity_co2_kg_per_mwh": 53.52837846240722,
+  "clean_energy_share": 0.8377040139879914,
+  "merchant_mwh": 570612.385354829,
+  "relocated_local_equivalent_mwh": 0.0,
+  "interrupted_mwh": 0.0,
+  "land_acres": 4.0,
+  "max_grid_import_mw": 75.0,
+  "checker_physical_checks_passed": true
+}

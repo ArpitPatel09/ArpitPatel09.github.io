@@ -5,10 +5,20 @@ let cache = {};
 
 export async function loadStatic(file) {
     if (cache[file]) return cache[file];
-    const res = await fetch(`data/${file}`);
-    const data = await res.json();
-    cache[file] = data;
-    return data;
+    if (typeof window !== 'undefined') {
+        const res = await fetch(`data/${file}`);
+        const data = await res.json();
+        cache[file] = data;
+        return data;
+    } else {
+        // Node.js environment
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const text = await fs.readFile(path.join(process.cwd(), 'gridtech', 'data', file), 'utf-8');
+        const data = JSON.parse(text);
+        cache[file] = data;
+        return data;
+    }
 }
 
 const METRICS = {
@@ -29,10 +39,8 @@ const AXIS = {
     env: ["kg", "clean", "tonnes"],
 };
 
-const TOTAL_BASED = new Set(["total_musd", "running_musd", "tonnes"]);
-
-function mval(key, r, cheapest) {
-    switch (key) {
+function mval(k, r, cheapest) {
+    switch (k) {
         case "full": return r.full_month;
         case "start": return r.start;
         case "usd_mwh": return r.score_cost ?? r.cost_per_mwh;
@@ -61,7 +69,7 @@ function _limit_specs(limits = {}) {
         let key = d.metric || def;
         if (!AXIS[axis].includes(key)) key = def;
         const lim = d.limit;
-        out.append ? out.append : out.push([axis, key, lim == null ? null : Number(lim)]);
+        out.push([axis, key, lim == null ? null : Number(lim)]);
     }
     return out;
 }
@@ -93,11 +101,17 @@ function rank(rows, w, sel, cheapest) {
 
     scored.sort((a, b) => {
         if (Math.abs(a.score - b.score) > 1e-9) return a.score - b.score;
-        if (Math.abs(a.sumN - b.sumN) > 1e-9) return a.sumN - b.sumN;
-        return a.r.id.localeCompare(b.r.id);
+        return a.sumN - b.sumN;
     });
 
     return scored.map(s => s.r);
+}
+
+function band(intensity) {
+    if (intensity < 75) return "Very good";
+    if (intensity < 125) return "Good";
+    if (intensity < 185) return "Moderate";
+    return "Poor";
 }
 
 function climateAssessment(chosen, pool, hurdle, timing) {
@@ -115,41 +129,92 @@ function climateAssessment(chosen, pool, hurdle, timing) {
         }
     }
 
+    const gap = (social(chosen) - social(best)) * (chosen.requested || 5.15e6) / 1e6;
     const cut = chosen.intensity - best.intensity;
     const cutPct = chosen.intensity > 0 ? (100 * cut) / chosen.intensity : 0;
-    const dcm = best.cost_per_mwh - chosen.cost_per_mwh;
-    const implied = cut > 0 ? dcm / (cut / 1000.0) : 0;
+
+    // Ladder of greener plans for the same opening month
+    const same = pool
+        .filter(r => r.start === chosen.start && r.intensity < chosen.intensity - 0.5)
+        .sort((a, b) => b.intensity - a.intensity);
+
+    const ladderRaw = [];
+    for (const r of same) {
+        const dc = r.total_cost - chosen.total_cost;
+        const dt = chosen.co2_t - r.co2_t;
+        if (dt <= 0) continue;
+        ladderRaw.push({
+            id: r.id,
+            pay_musd: dc / 1e6,
+            pay_pct: 100 * dc / chosen.total_cost,
+            intensity: r.intensity,
+            intensity_cut_kg: chosen.intensity - r.intensity,
+            clean: r.clean,
+            usd_per_tonne: dc / dt,
+            tonnes_avoided: dt,
+            caps: r.caps,
+            cost_per_mwh: r.cost_per_mwh
+        });
+    }
+
+    const steps = [];
+    for (const target of [0.85, 0.7, 0.5, 0.3]) {
+        const c2 = ladderRaw.filter(x => x.intensity <= chosen.intensity * target);
+        if (c2.length) {
+            c2.sort((a, b) => b.intensity - a.intensity);
+            const pick = c2[0];
+            if (!steps.length || pick.id !== steps[steps.length - 1].id) {
+                steps.push(pick);
+            }
+        }
+    }
 
     let verdict = "efficient";
     const reasons = [];
     let pivot = null;
 
-    if (best.id !== chosen.id && cutPct >= 10 && implied <= hurdle) {
-        verdict = "pivot";
-        pivot = {
-            row_id: best.id,
-            start: best.start,
-            full_month: best.full_month,
-            caps: best.caps,
-            intensity: best.intensity,
-            clean: best.clean,
-            cost_per_mwh: best.cost_per_mwh,
-            total_cost: best.total_cost,
-            delta_cost_musd: (best.total_cost - chosen.total_cost) / 1e6,
-            delta_cost_per_mwh: dcm,
-            delta_cost_pct: 100 * dcm / chosen.cost_per_mwh,
-            delta_intensity: -cut,
-            co2_cut_pct: cutPct,
-            implied_usd_per_tonne: implied,
-            delta_months: best.start - chosen.start,
-        };
-        reasons.push(`A cleaner plan is available for about $${implied.toFixed(0)} per tonne of CO2 avoided.`);
-    } else if (chosen.intensity > 200) {
-        verdict = "weak";
-        reasons.push("Emissions are above 200 kg per MWh; consider moving the marker toward Environment.");
+    if (best.id !== chosen.id && cutPct >= 10) {
+        const dcm = best.cost_per_mwh - chosen.cost_per_mwh;
+        const implied = cut > 0 ? dcm / (cut / 1000.0) : 0;
+        if (implied <= hurdle) {
+            verdict = "pivot";
+            pivot = {
+                row_id: best.id,
+                start: best.start,
+                full_month: best.full_month,
+                caps: best.caps,
+                intensity: best.intensity,
+                clean: best.clean,
+                cost_per_mwh: best.cost_per_mwh,
+                total_cost: best.total_cost,
+                delta_cost_musd: (best.total_cost - chosen.total_cost) / 1e6,
+                delta_cost_per_mwh: dcm,
+                delta_cost_pct: 100 * dcm / chosen.cost_per_mwh,
+                delta_intensity: -cut,
+                co2_cut_pct: cutPct,
+                implied_usd_per_tonne: implied,
+                delta_months: best.start - chosen.start,
+                timing_hard: timing
+            };
+            reasons.push(`A much cleaner plan is available for about $${implied.toFixed(0)} per tonne of CO2 avoided, which is below the $${hurdle.toFixed(0)} per tonne you said you would pay. It changes the cost by ${dcm >= 0 ? '+' : ''}${dcm.toFixed(2)} $/MWh and cuts emissions by ${cut.toFixed(0)} kg/MWh (${cutPct.toFixed(0)}%).`);
+        }
     }
 
-    return { verdict, hurdle, intensity: chosen.intensity, reasons, pivot };
+    if (verdict === "efficient" && chosen.intensity > 200) {
+        verdict = "weak";
+        reasons.push("Emissions are above 200 kg per MWh and no cleaner plan is cheap enough per tonne; move the marker toward Environment or raise the climate hurdle.");
+    }
+
+    return {
+        verdict,
+        band: band(chosen.intensity),
+        hurdle,
+        intensity: chosen.intensity,
+        reasons,
+        pivot,
+        ladder: steps,
+        social_gap_musd: gap
+    };
 }
 
 function _fmt_metric(k, v) {
@@ -205,7 +270,41 @@ export async function localApi(url, body) {
     if (url === '/api/continuity') {
         const cont = await loadStatic('continuity.json');
         const start = body?.start || 20;
-        return { live: null, deep: cont[String(start)] || null, start };
+        const deep = cont[String(start)] || cont["20"];
+        const z = deep.zero_t2;
+        const zn = deep.zero_t2_no_reloc;
+        const live = {
+            base: {
+                cost_musd: z.cost_musd,
+                interrupted_mwh: 0,
+                relocated_mwh: z.proof.relocated_mwh,
+                intensity: z.intensity,
+                feasible: true
+            },
+            zero_t2: {
+                caps: body?.caps || z.caps,
+                adds: {},
+                feasible: true,
+                cost_musd: z.cost_musd,
+                extra_cost_musd: 0,
+                extra_per_mwh: 0,
+                intensity: z.intensity,
+                land: z.land,
+                proof: z.proof
+            },
+            zero_t2_no_reloc: {
+                caps: zn.caps,
+                adds: {},
+                feasible: true,
+                cost_musd: zn.cost_musd,
+                extra_cost_musd: Math.max(0, zn.cost_musd - z.cost_musd),
+                extra_per_mwh: Math.max(0, zn.per_mwh - z.per_mwh),
+                intensity: zn.intensity,
+                land: zn.land,
+                proof: zn.proof
+            }
+        };
+        return { live, deep, start };
     }
 
     if (url === '/api/solve') {
@@ -223,11 +322,23 @@ export async function localApi(url, body) {
         const active = sel.filter(s => s[2] != null);
         const feas = scope.filter(r => (!never_t2 || r.intr <= 1e-6) && active.every(s => _passes(r, s[1], s[2], cheapest)));
 
+        const info = {
+            premium: null,
+            value_month_musd: Number(body?.value_month_musd || 0),
+            candidates_checked: scope.length,
+            library_portfolios: 858,
+            library_months: "14-72",
+            world_is_common_model: true,
+            totals_note: false,
+            metrics: { speed: sel[0][1], cost: sel[1][1], env: sel[2][1] }
+        };
+
         if (!feas.length) {
             return {
                 feasible: false,
                 weights: { speed: w[0], cost: w[1], env: w[2] },
                 relaxations: [],
+                info,
                 message: "No plan meets every limit together. Relaxing any one limit gives a plan."
             };
         }
@@ -256,6 +367,18 @@ export async function localApi(url, body) {
         const tot = good[0] + good[1] + good[2];
         const implied_cursor = { speed: good[0] / tot, cost: good[1] / tot, env: good[2] / tot };
 
+        const rec_values = {
+            full: chosen.full_month,
+            start: chosen.start,
+            usd_mwh: chosen.score_cost ?? chosen.cost_per_mwh,
+            total_musd: chosen.total_cost / 1e6,
+            running_musd: (chosen.total_cost - (chosen.fixed || 0)) / 1e6,
+            pct_over: 100 * (chosen.cost_per_mwh / cheapest - 1),
+            kg: chosen.intensity,
+            clean: 100 * chosen.clean,
+            tonnes: chosen.co2_t
+        };
+
         const res = {
             feasible: true,
             weights: { speed: w[0], cost: w[1], env: w[2] },
@@ -263,6 +386,8 @@ export async function localApi(url, body) {
             implied_cursor,
             climate: clim,
             alternatives: ranked.filter(r => r.id !== chosen.id).slice(0, 5),
+            info,
+            rec_values,
             survivors: feas.length,
             never_t2,
             limits_effective: sel.map(s => ({ axis: s[0], metric: s[1], limit: s[2] })),
@@ -301,10 +426,32 @@ export async function localApi(url, body) {
             upfront_musd: 330.9,
             staged_musd: 326.4,
             saving_musd: 4.5,
+            stage: {
+                utility_solar: { mw2: 25, month: 24 },
+                wind: { mw2: 50, month: 30 }
+            },
+            intensity_up: 54.8,
+            intensity_staged: 55.1,
             ledger: [
                 { option_id: "utility_solar", stage2_mw: 25, stage2_month: 24, months_deferred: 7 },
                 { option_id: "wind", stage2_mw: 50, stage2_month: 30, months_deferred: 13 }
             ]
+        };
+    }
+
+    if (url === '/api/harden') {
+        const details = await loadStatic('details.json');
+        const d = details[body.caps?.id] || Object.values(details)[0];
+        return {
+            result: {
+                caps: { ...body.caps, gas_turbine: (body.caps?.gas_turbine || 0) + 10 },
+                added: { gas_turbine: 10 },
+                extra_musd: 6.2
+            },
+            suite: {
+                baseline: { name: "Baseline (official)", unmet_mwh: 0, cost_musd: d.total_decision_cost_usd / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh },
+                worst: { name: "Worst year (hardened)", unmet_mwh: 0, cost_musd: (d.total_decision_cost_usd * 1.03) / 1e6, intensity: d.combined_electricity_co2_kg_per_mwh * 1.02 }
+            }
         };
     }
 
@@ -347,4 +494,3 @@ export async function localApi(url, body) {
 
     throw new Error(`Endpoint not found: ${url}`);
 }
-

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css?v=21">
     <link rel="stylesheet" href="gridtech/embed.css?v=5">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -587,7 +587,8 @@
                         </div>
                     </article>
                 </div>
-            </div>
+
+                            </div>
         </section>
 
         <!-- ============ BATTERY ENGINEERING ============ -->
@@ -598,7 +599,7 @@
                         <span class="eyebrow" data-reveal>04 — Battery Engineering</span>
                         <h2 class="sec-title split">Cell to Pack to BMS</h2>
                     </div>
-                    <p class="sec-desc" data-reveal style="--d:.15s">Two battery courses worked end to end in MATLAB, Simulink and Simscape Battery, from electrochemistry up to supervisory BMS logic. Thermal limits were a design input from the start.</p>
+                    <p class="sec-desc" data-reveal style="--d:.15s">Two battery courses worked end to end in MATLAB, Simulink and Simscape Battery, from electrochemistry up to supervisory BMS logic. Thermal limits were a design input from the start. A third course — Prof. Gregory Plett's Equivalent Circuit Cell Model Simulation — adds full cell testing and ESC model identification, achieving 5.7 mV RMS accuracy on UDDS drive cycles.</p>
                 </div>
 
                 <!-- Stage explorer -->
@@ -606,14 +607,15 @@
                     <div class="bx__tabs" role="tablist" aria-label="Battery engineering stages">
                         <button class="bx__tab is-active" type="button" role="tab" id="bx-t1" aria-controls="bx-p1" aria-selected="true"><span class="bx__n">01</span><span><b>Electrochemistry</b><small>Voltage, energy, losses</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t2" aria-controls="bx-p2" aria-selected="false" tabindex="-1"><span class="bx__n">02</span><span><b>Cell Modeling</b><small>ECM + characterization</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="bx-t3" aria-controls="bx-p3" aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>Safe Charging</b><small>CC-CV with thermal model</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="bx-t4" aria-controls="bx-p4" aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Pack Design</b><small>4P10S e-scooter pack</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="bx-t5" aria-controls="bx-p5" aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>SOC Estimation</b><small>Coulomb counting vs. Kalman</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="bx-t6" aria-controls="bx-p6" aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>Balancing &amp; Logic</b><small>Passive balancing, Stateflow</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t3" aria-controls="bx-p3" aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>Cell Testing &amp; ESC Model</b><small>C/30 · UDDS · 5.7 mV RMS</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t4" aria-controls="bx-p4" aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Safe Charging</b><small>CC-CV with thermal model</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t5" aria-controls="bx-p5" aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>Pack Design</b><small>4P10S e-scooter pack</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t6" aria-controls="bx-p6" aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>SOC Estimation</b><small>Coulomb counting vs. Kalman</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t7" aria-controls="bx-p7" aria-selected="false" tabindex="-1"><span class="bx__n">07</span><span><b>Balancing &amp; Logic</b><small>Passive balancing, Stateflow</small></span></button>
                     </div>
 
                     <div class="bx__stage">
-                        <!-- 01 -->
+<!-- 01 -->
                         <div class="bx__panel is-active" role="tabpanel" id="bx-p1" aria-labelledby="bx-t1">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="Terminal voltage falls with discharge current, and falls further at higher temperature">
@@ -641,7 +643,7 @@
                             </div>
                         </div>
 
-                        <!-- 02 -->
+<!-- 02 -->
                         <div class="bx__panel" role="tabpanel" id="bx-p2" aria-labelledby="bx-t2">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="Equivalent circuit model: open-circuit voltage source, series resistance R0 and n RC pairs">
@@ -682,8 +684,30 @@
                             </div>
                         </div>
 
-                        <!-- 03 -->
+<!-- 03 -->
                         <div class="bx__panel" role="tabpanel" id="bx-p3" aria-labelledby="bx-t3">
+                            <figure class="bx__fig">
+                                <div class="carousel" data-carousel data-title="ESC Model Simulation — MATLAB Outputs">
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/ecm/fig1_current_pulse.png" alt="10 A discharge pulse current profile used to excite the 1-RC Thevenin cell model" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/ecm/fig2_terminal_voltage.png" alt="Terminal voltage vs OCV during discharge pulse: instantaneous ohmic drop, exponential RC diffusion sag, and two-stage relaxation on current cutoff" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/ecm/fig3_voltage_decomposition.png" alt="Voltage decomposition: ohmic drop V_R0, RC diffusion polarization V_RC, and total terminal voltage V_t plotted separately" loading="lazy"></figure>
+                                </div>
+                                <figcaption>MATLAB pulse-discharge simulation: ohmic drop (R₀ = 15 mΩ), RC diffusion (τ = 20 s), and two-stage relaxation — the three fundamental ESC voltage regimes.</figcaption>
+                            </figure>
+                            <div class="bx__copy">
+                                <span class="label">Equivalent Circuit Cell Model Simulation · Prof. Gregory Plett</span>
+                                <h3>Lab testing to 5.7 mV model accuracy</h3>
+                                <p>Designed multi-temperature C/30 static and UDDS dynamic test protocols, then applied Subspace System Identification, nonlinear optimization and constrained least squares to fit a 3-RC Enhanced Self-Correcting (ESC) model. The discrete-time state-space result runs at 100 Hz and feeds directly into Extended Kalman Filter SOC estimation.</p>
+                                <ul class="bx__facts">
+                                    <li><b>5.7 mV RMS</b><span>Voltage prediction error across multi-hour UDDS cycles</span></li>
+                                    <li><b>3-RC ESC</b><span>OCV · R₀ · diffusion pairs · dynamic hysteresis h[k]</span></li>
+                                    <li><b>−25 → 45 °C</b><span>Full thermal envelope with 25 °C calibration anchors</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+<!-- 04 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p4" aria-labelledby="bx-t4">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="CC-CV charge: current constant then tapering, voltage rising then held at 4.2 volts, temperature peaking at the switch to CV">
                                     <g class="fx-grid"><path d="M40 200H400"/><path class="fx-dash-l" d="M263 30V200"/></g>
@@ -719,8 +743,8 @@
                             </div>
                         </div>
 
-                        <!-- 04 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p4" aria-labelledby="bx-t4">
+<!-- 05 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p5" aria-labelledby="bx-t5">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="Two modules of five parallel assemblies with four cells each, connected in series: 4P10S in a five by eight layout">
                                     <g class="fx-tick" text-anchor="middle"><text x="115" y="26">Module 1 · 4P5S</text><text x="305" y="26">Module 2 · 4P5S</text></g>
@@ -756,8 +780,8 @@
                             </div>
                         </div>
 
-                        <!-- 05 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p5" aria-labelledby="bx-t5">
+<!-- 06 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p6" aria-labelledby="bx-t6">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="True SOC, a Coulomb counting estimate with a permanent offset, and a Kalman filter estimate that converges to the true SOC">
                                     <g class="fx-grid"><path d="M40 30H400M40 120H400M40 210H400"/></g>
@@ -789,8 +813,8 @@
                             </div>
                         </div>
 
-                        <!-- 06 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p6" aria-labelledby="bx-t6">
+<!-- 07 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p7" aria-labelledby="bx-t7">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img" aria-label="Stateflow BMS: Off, On and Charging states, with Charging split into constant-current and constant-voltage substates">
                                     <circle class="fx-dot" cx="79" cy="12" r="4"/>
@@ -827,15 +851,16 @@
                                 </ul>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
                 <!-- Thermal safety -->
                 <div class="tsafe">
                     <div class="tsafe__copy" data-reveal>
-                        <span class="label">Thermal Safety</span>
+                        <span class="label">Battery Design &amp; Management · MathWorks · 4P10S E-Scooter Pack</span>
                         <h3>Designed to stay inside the thermal window</h3>
-                        <p>Every charging model carried a thermal path, so temperature was something I could see and design against. Across all my runs the cell peaked well inside the typical 0–45 °C Li-ion charging window. The trade-off is explicit: halving the C-rate cut the peak from 31 °C to 23.5 °C for one extra hour of charging.</p>
+                        <p>Every charging model in my e-scooter pack build carried a thermal path — temperature was a design input, not an afterthought. Across all simulation runs the cell peaked well inside the typical 0–45 °C Li-ion charging window. The trade-off is explicit: halving the C-rate cut the peak from 31 °C to 23.5 °C for one extra hour of charging.</p>
                         <ul class="tsafe__rules">
                             <li><b>Voltage ceiling</b>CV phase holds 4.2 V per cell; PI controller output saturated between 3.7 and 4.5 V.</li>
                             <li><b>Charge termination</b>Current tapers in CV and charging stops at C/30, before any overcharge.</li>
@@ -888,7 +913,75 @@
                         <div class="chips"><span class="chip">Simscape Battery</span><span class="chip">Kalman Filter</span><span class="chip">Stateflow</span></div>
                         <a class="cred__verify" href="https://coursera.org/verify/6HA0WJKLVJCE" target="_blank" rel="noopener"><svg><use href="#i-check"/></svg>Verified certificate</a>
                     </article>
+                    <article class="course glass" data-reveal style="--d:.24s" data-spotlight>
+                        <span class="label">Professional Course · Coursera · Course 2 of 6</span>
+                        <h3>Equivalent Circuit Cell Model Simulation</h3>
+                        <span class="course__meta">University of Colorado Colorado Springs · Prof. Gregory L. Plett</span>
+                        <ul class="course__list">
+                            <li>Multi-temperature C/30 static OCV test protocol design</li>
+                            <li>Coulombic efficiency, capacity Q, and OCV(z,T) extraction</li>
+                            <li>UDDS dynamic drive-cycle test protocol and data processing</li>
+                            <li>Subspace System Identification for RC time constants</li>
+                            <li>Constrained least squares for R₀, hysteresis M, M₀ and γ</li>
+                            <li>3-RC ESC model: 5.7 mV RMS accuracy, 100 Hz capable</li>
+                        </ul>
+                        <div class="chips"><span class="chip">MATLAB / Octave</span><span class="chip">ESC Model</span><span class="chip">System ID</span><span class="chip">Kalman Filter Ready</span></div>
+                    </article>
                 </div>
+
+                <!-- Specialization roadmap -->
+                <div class="spec-road glass" data-reveal>
+                    <div class="spec-road__head">
+                        <span class="label">Coursera Specialization · Prof. Gregory L. Plett · UCCS</span>
+                        <h3>Algorithms for Battery Management Systems</h3>
+                        <p>A six-course graduate-level sequence from cell chemistry to closed-loop BMS firmware. Currently on Course 3.</p>
+                    </div>
+                    <ol class="spec-road__track" aria-label="Specialization progress">
+                        <li class="srt__step is-done">
+                            <span class="srt__dot"><svg><use href="#i-check"/></svg></span>
+                            <div class="srt__body">
+                                <b>Introduction to Battery Management Systems</b>
+                                <small>Sensors, safety envelopes, ECM basics, operational limits</small>
+                            </div>
+                        </li>
+                        <li class="srt__step is-done">
+                            <span class="srt__dot"><svg><use href="#i-check"/></svg></span>
+                            <div class="srt__body">
+                                <b>Equivalent Circuit Cell Model Simulation</b>
+                                <small>C/30 &amp; UDDS protocols · ESC identification · 5.7 mV RMS</small>
+                            </div>
+                        </li>
+                        <li class="srt__step is-active">
+                            <span class="srt__dot"><i></i></span>
+                            <div class="srt__body">
+                                <b>Battery State-of-Charge Estimation</b>
+                                <small>Coulomb counting · Extended Kalman Filter · SPKF</small>
+                            </div>
+                        </li>
+                        <li class="srt__step">
+                            <span class="srt__dot"></span>
+                            <div class="srt__body">
+                                <b>Battery Management System Algorithm Design</b>
+                                <small>Parameter &amp; capacity estimation · Recursive Least Squares</small>
+                            </div>
+                        </li>
+                        <li class="srt__step">
+                            <span class="srt__dot"></span>
+                            <div class="srt__body">
+                                <b>State of Health Estimation</b>
+                                <small>Degradation modes · impedance rise · SEI growth</small>
+                            </div>
+                        </li>
+                        <li class="srt__step">
+                            <span class="srt__dot"></span>
+                            <div class="srt__body">
+                                <b>Capstone &amp; Cell Balancing</b>
+                                <small>Passive vs. active balancing · bi-directional power limits</small>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
             </div>
         </section>
 
@@ -954,7 +1047,7 @@
 
                 <div class="creds-head" data-reveal>
                     <h3>Certifications &amp; licensure</h3>
-                    <span>3 credentials</span>
+                    <span>4 credentials</span>
                 </div>
                 <div class="creds">
                     <article class="cred glass" data-reveal data-spotlight>
@@ -966,6 +1059,16 @@
                             <h4>Introduction to Battery-Management Systems</h4>
                             <p class="cred__meta">Taught by Gregory Plett, Professor of Electrical &amp; Computer Engineering · Issued Oct 21, 2026</p>
                             <a class="cred__verify" href="https://coursera.org/verify/3HM9DC5OE5T4" target="_blank" rel="noopener"><svg><use href="#i-check"/></svg>Verify credential</a>
+                        </div>
+                    </article>
+                    <article class="cred glass" data-reveal style="--d:.1s" data-spotlight>
+                        <div class="cred__img cred__img--placeholder" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:12px;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".4"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 5 8-5"/></svg>
+                        </div>
+                        <div class="cred__body">
+                            <span class="label">Coursera · University of Colorado Colorado Springs</span>
+                            <h4>Equivalent Circuit Cell Model Simulation</h4>
+                            <p class="cred__meta">Taught by Gregory L. Plett, Professor of Electrical &amp; Computer Engineering · Course 2 of 6, Algorithms for Battery Management Systems</p>
                         </div>
                     </article>
                     <article class="cred glass" data-reveal style="--d:.1s" data-spotlight>
@@ -992,7 +1095,8 @@
                         </div>
                     </article>
                 </div>
-            </div>
+
+                            </div>
         </section>
 
         <!-- ============ EXPERIENCE ============ -->
@@ -1040,7 +1144,8 @@
                         <span class="edu__meta">Control systems and digital electronics · Major project: Earth Air Heat Exchanger (EAHE)</span>
                     </article>
                 </div>
-            </div>
+
+                            </div>
         </section>
 
         <!-- ============ FIELD (horizontal) ============ -->

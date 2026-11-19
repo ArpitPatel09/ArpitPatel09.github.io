@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
     <link rel="stylesheet" href="gridtech/embed.css?v=5">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -984,322 +984,506 @@
                 </div>
 
 
-                <!-- ── ECM Pipeline: Plett Course 2 deep-dive ──────────────── -->
+                <!-- ── Plett BMS Specialization deep-dive ──────── -->
                 <div class="ecm-divider" data-reveal>
                     <div class="ecm-divider__line"></div>
-                    <span>Plett BMS Specialization · ECM Modeling Pipeline</span>
+                    <span>Plett BMS Specialization · 2 Courses · 50+ Lessons</span>
                     <div class="ecm-divider__line"></div>
                 </div>
 
-                <!-- Course pills -->
-                <div class="ecm-courses" data-reveal style="--d:.08s">
-                    <div class="ecm-course-pill ecm-course-pill--done">
-                        <span class="ecm-pill__num">Course 1</span>
-                        <span class="ecm-pill__name">Intro to Battery Management Systems</span>
-                        <span class="ecm-pill__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete</span>
+                <!-- Course header cards -->
+                <div class="ecm-course-header" data-reveal style="--d:.06s">
+                    <div class="ecm-course-card ecm-course-card--c1">
+                        <div class="ecm-course-card__tag">Course 1</div>
+                        <h4>Intro to Battery Management Systems</h4>
+                        <p>BMS functions, Li-ion cell chemistry, sensing, protection, and performance management.</p>
+                        <span class="ecm-course-card__done"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete · 4 modules</span>
                     </div>
-                    <div class="ecm-course-pill ecm-course-pill--done">
-                        <span class="ecm-pill__num">Course 2</span>
-                        <span class="ecm-pill__name">Equivalent Circuit Cell Model Simulation</span>
-                        <span class="ecm-pill__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete</span>
+                    <div class="ecm-course-card ecm-course-card--c2">
+                        <div class="ecm-course-card__tag">Course 2</div>
+                        <h4>Equivalent Circuit Cell Model Simulation</h4>
+                        <p>ECM modeling, static + dynamic parameter identification, ESC state-space, pack simulation.</p>
+                        <span class="ecm-course-card__done"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete · 4 modules</span>
                     </div>
                 </div>
 
-                <!-- ECM stage explorer (uses same bx CSS as battery explorer above) -->
-                <div class="bx glass" data-reveal style="--d:.12s">
-                    <div class="bx__tabs" role="tablist" aria-label="ECM modeling pipeline — 6 stages">
-                        <button class="bx__tab is-active" type="button" role="tab" id="ecm-t1" aria-controls="ecm-p1" aria-selected="true"><span class="bx__n">01</span><span><b>ECM Architecture</b><small>OCV · R₀ · RC · hysteresis</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="ecm-t2" aria-controls="ecm-p2" aria-selected="false" tabindex="-1"><span class="bx__n">02</span><span><b>Static Testing</b><small>C/30 · 6 temps · OCV(z,T)</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="ecm-t3" aria-controls="ecm-p3" aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>processOCV.m</b><small>Capacity · efficiency · tables</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="ecm-t4" aria-controls="ecm-p4" aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Dynamic Testing</b><small>UDDS · V, I, T, Ah</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="ecm-t5" aria-controls="ecm-p5" aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>processDynamic.m</b><small>SISOsubid · fminbnd · LS</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="ecm-t6" aria-controls="ecm-p6" aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>ESC Validation</b><small>5.7 mV RMS · UDDS</small></span></button>
+                <!-- 8-tab explorer -->
+                <div class="bx glass ecm-explorer" data-reveal style="--d:.12s">
+                    <div class="bx__tabs" role="tablist" aria-label="BMS Specialization modules">
+                        <!-- Course 1 tabs -->
+                        <button class="bx__tab bx__tab--c1 is-active" type="button" role="tab" id="ecm-t1" aria-controls="ecm-p1" aria-selected="true"><span class="bx__n">C1·1</span><span><b>Li-ion Chemistry</b><small>Cell physics &amp; electrochemistry</small></span></button>
+                        <button class="bx__tab bx__tab--c1" type="button" role="tab" id="ecm-t2" aria-controls="ecm-p2" aria-selected="false" tabindex="-1"><span class="bx__n">C1·2</span><span><b>BMS Functions</b><small>Sense · protect · estimate</small></span></button>
+                        <button class="bx__tab bx__tab--c1" type="button" role="tab" id="ecm-t3" aria-controls="ecm-p3" aria-selected="false" tabindex="-1"><span class="bx__n">C1·3</span><span><b>Sensing &amp; HV Control</b><small>V · I · T · contactors</small></span></button>
+                        <button class="bx__tab bx__tab--c1" type="button" role="tab" id="ecm-t4" aria-controls="ecm-p4" aria-selected="false" tabindex="-1"><span class="bx__n">C1·4</span><span><b>SOC &amp; Protection</b><small>Interface · power limits</small></span></button>
+                        <!-- Course 2 tabs -->
+                        <button class="bx__tab bx__tab--c2" type="button" role="tab" id="ecm-t5" aria-controls="ecm-p5" aria-selected="false" tabindex="-1"><span class="bx__n">C2·1</span><span><b>ECM Architecture</b><small>OCV · R₀ · RC · hysteresis</small></span></button>
+                        <button class="bx__tab bx__tab--c2" type="button" role="tab" id="ecm-t6" aria-controls="ecm-p6" aria-selected="false" tabindex="-1"><span class="bx__n">C2·2</span><span><b>Static Testing</b><small>C/30 · OCV(z,T) · processOCV.m</small></span></button>
+                        <button class="bx__tab bx__tab--c2" type="button" role="tab" id="ecm-t7" aria-controls="ecm-p7" aria-selected="false" tabindex="-1"><span class="bx__n">C2·3</span><span><b>Dynamic ID</b><small>UDDS · SISOsubid · fminbnd</small></span></button>
+                        <button class="bx__tab bx__tab--c2" type="button" role="tab" id="ecm-t8" aria-controls="ecm-p8" aria-selected="false" tabindex="-1"><span class="bx__n">C2·4</span><span><b>ESC &amp; Pack Sim</b><small>5.7 mV RMS · CV · CC</small></span></button>
                     </div>
 
                     <div class="bx__stage">
 
-<!-- ECM 01: Circuit schematic -->
+<!-- ── C1·1: Li-ion Chemistry ───────────────────────────────────────────── -->
                         <div class="bx__panel is-active" role="tabpanel" id="ecm-p1" aria-labelledby="ecm-t1">
-                            <figure class="bx__fig">
-                                <svg viewBox="0 0 420 250" role="img" aria-label="ESC equivalent circuit: OCV source, R0 series resistance, two RC pairs, hysteresis state h">
-                                    <g class="fx-wire">
-                                        <path d="M38 80V58H80M148 58H178M246 58H278M338 58H390V82"/>
-                                        <path d="M38 170V192H390V168"/>
-                                        <path d="M38 80V170"/>
-                                    </g>
-                                    <!-- OCV source -->
-                                    <circle class="fx-src" cx="38" cy="125" r="28"/>
-                                    <text class="fx-sym" x="38" y="120" text-anchor="middle">+</text>
-                                    <text class="fx-sym" x="38" y="138" text-anchor="middle">−</text>
-                                    <text class="fx-stname" x="38" y="210" text-anchor="middle">OCV(z,T)</text>
-                                    <!-- R0 zigzag -->
-                                    <path class="fx-wire" d="M80 58l5-9 10 18 10-18 10 18 10-18 10 18 3-9"/>
-                                    <text class="fx-stname" x="114" y="43" text-anchor="middle">R₀</text>
-                                    <!-- RC1 box -->
-                                    <rect class="fx-dash" x="178" y="36" width="68" height="46" rx="8"/>
-                                    <text class="fx-stname" x="212" y="30" text-anchor="middle">RC₁</text>
-                                    <path class="fx-wire" d="M186 51l3-7 6 14 6-14 6 14 6-14 3 7"/>
-                                    <path class="fx-wire" d="M228 44V62M236 44V62"/>
-                                    <path class="fx-wire" d="M186 44V36H246M246 58V74M246 44V36"/>
-                                    <path class="fx-wire" d="M186 58V74"/>
-                                    <!-- RC2 box -->
-                                    <rect class="fx-dash" x="278" y="36" width="60" height="46" rx="8"/>
-                                    <text class="fx-stname" x="308" y="30" text-anchor="middle">RC₂</text>
-                                    <path class="fx-wire" d="M286 51l2-7 5 14 5-14 5 14 5-14 2 7"/>
-                                    <path class="fx-wire" d="M320 44V62M328 44V62"/>
-                                    <path class="fx-wire" d="M286 44V36H338M338 58V74M338 44V36"/>
-                                    <path class="fx-wire" d="M286 58V74"/>
-                                    <!-- Hysteresis block -->
-                                    <rect class="fx-dash" x="348" y="94" width="54" height="40" rx="8"/>
-                                    <text class="fx-stname" x="375" y="88" text-anchor="middle">h(t)</text>
-                                    <text class="fx-stname" x="375" y="111" text-anchor="middle" font-size="10">hysteresis</text>
-                                    <path class="fx-wire" d="M375 134V168"/>
-                                    <!-- Terminal -->
-                                    <text class="fx-sym" x="406" y="92" text-anchor="middle">+</text>
-                                    <text class="fx-sym" x="406" y="162" text-anchor="middle">−</text>
-                                    <text class="fx-stname" x="390" y="210" text-anchor="middle">V_terminal</text>
-                                    <!-- Axis label -->
-                                    <text class="fx-axis" x="210" y="240" text-anchor="middle">OCV + R₀ + 2 RC pairs + hysteresis h(t) → ESC model</text>
-                                </svg>
-                                <figcaption>Plett ESC equivalent circuit. OCV source tracks SOC; R₀ gives ohmic drop; RC pairs model slow/fast diffusion; h captures charge-direction memory.</figcaption>
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c1">
+                                    <div class="ecm-visual__title">Li-ion Cell Structure</div>
+                                    <svg viewBox="0 0 320 220" aria-label="Lithium-ion cell cross section showing anode, separator, cathode, and electrolyte with Li+ ion flow">
+                                        <!-- Anode block -->
+                                        <rect x="20" y="30" width="70" height="160" rx="6" fill="rgba(59,130,246,0.18)" stroke="rgba(59,130,246,0.6)" stroke-width="1.5"/>
+                                        <text x="55" y="22" text-anchor="middle" font-size="10" fill="rgba(59,130,246,0.9)" font-weight="600">ANODE (−)</text>
+                                        <text x="55" y="112" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.7)">Graphite</text>
+                                        <text x="55" y="126" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.7)">LiC₆</text>
+                                        <!-- Separator -->
+                                        <rect x="96" y="30" width="20" height="160" rx="3" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+                                        <text x="106" y="22" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.4)">SEP</text>
+                                        <!-- Cathode block -->
+                                        <rect x="122" y="30" width="70" height="160" rx="6" fill="rgba(245,197,66,0.15)" stroke="rgba(245,197,66,0.55)" stroke-width="1.5"/>
+                                        <text x="157" y="22" text-anchor="middle" font-size="10" fill="rgba(245,197,66,0.9)" font-weight="600">CATHODE (+)</text>
+                                        <text x="157" y="112" text-anchor="middle" font-size="9" fill="rgba(255,235,150,0.7)">LiCoO₂</text>
+                                        <text x="157" y="126" text-anchor="middle" font-size="9" fill="rgba(255,235,150,0.7)">/ LFP / NMC</text>
+                                        <!-- Li+ arrows during discharge -->
+                                        <g fill="rgba(100,220,180,0.9)" font-size="11">
+                                            <text x="104" y="80">→</text>
+                                            <text x="104" y="110">→</text>
+                                            <text x="104" y="140">→</text>
+                                        </g>
+                                        <text x="106" y="195" text-anchor="middle" font-size="8" fill="rgba(100,220,180,0.7)">Li⁺ flow</text>
+                                        <!-- External circuit -->
+                                        <path d="M55 30V14H220V14" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none"/>
+                                        <path d="M157 30V14" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none"/>
+                                        <path d="M55 190V206H157V190" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none"/>
+                                        <text x="106" y="12" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.4)">e⁻ external circuit</text>
+                                        <!-- Cell formats column -->
+                                        <rect x="210" y="30" width="96" height="45" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+                                        <text x="258" y="47" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)" font-weight="600">Cylindrical</text>
+                                        <text x="258" y="60" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.5)">"jelly roll" wound</text>
+                                        <rect x="210" y="82" width="96" height="45" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+                                        <text x="258" y="99" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)" font-weight="600">Prismatic</text>
+                                        <text x="258" y="112" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.5)">flat wound</text>
+                                        <rect x="210" y="134" width="96" height="45" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+                                        <text x="258" y="151" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)" font-weight="600">Pouch</text>
+                                        <text x="258" y="164" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.5)">stacked plates</text>
+                                        <!-- Electrolyte label -->
+                                        <text x="106" y="210" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)">Liquid electrolyte — Li⁺ transport medium</text>
+                                    </svg>
+                                </div>
+                                <figcaption>Li-ion cell: graphite anode + metal-oxide cathode, Li⁺ transport through liquid electrolyte. Available in cylindrical, prismatic, and pouch formats.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-1-1 → 2-1-9</span>
-                                <h3>Defining the equivalent circuit</h3>
-                                <p>The ESC model maps every physical phenomenon in a lithium cell to an ideal circuit element. The OCV source tracks thermodynamic potential as a function of SOC and temperature. R₀ is the instantaneous ohmic resistance — it produces the step jump visible in a current-pulse test. RC pairs capture solid-state diffusion at two timescales. The hysteresis state h is a first-order system driven by signed current direction, encoding the cell's charge-history memory.</p>
-                                <ul class="bx__facts">
-                                    <li><b>OCV(z,T)</b><span>Thermodynamic potential — foundation for every downstream parameter</span></li>
-                                    <li><b>R₀</b><span>Ohmic resistance — causes the instantaneous voltage step on a current pulse</span></li>
-                                    <li><b>2 RC branches</b><span>Fast diffusion (seconds) and slow diffusion (minutes) timescales</span></li>
-                                    <li><b>Hysteresis h</b><span>First-order state capturing charge vs. discharge OCV offset</span></li>
-                                </ul>
+                                <span class="label ecm-label--c1">Course 1 · Lessons 1-1 → 1-2 · Prof. Gregory Plett</span>
+                                <h3>Lithium-ion cell physics &amp; chemistry</h3>
+                                <p>Starting from first principles: how lithium-ion cells store and release energy through intercalation — a gentler process than chemical reaction, giving Li-ion its exceptional cycle life and energy density compared to NiMH and lead-acid.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c1"><b>Intercalation</b><span>Li⁺ slides into graphite lattice — no structural change, long cycle life</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>3 Cell formats</b><span>Cylindrical (wound), prismatic (flat wound), pouch (stacked plates)</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Cathode chemistries</b><span>LCO · LFP · NMC · NCA — tradeoffs in energy, power, safety, life</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Nernst equation</b><span>OCV shifts with temperature via thermodynamic potential — modeled in BMS</span></div>
+                                </div>
                             </div>
                         </div>
 
-<!-- ECM 02: OCV vs SOC curves -->
+<!-- ── C1·2: BMS Functions ──────────────────────────────────────────────── -->
                         <div class="bx__panel" role="tabpanel" id="ecm-p2" aria-labelledby="ecm-t2">
-                            <figure class="bx__fig">
-                                <svg viewBox="0 0 420 250" role="img" aria-label="OCV versus SOC curves at 6 temperatures from minus 5 to 45 degrees C. All curves rise from about 3.45 V at 0 percent SOC to 4.2 V at 100 percent.">
-                                    <g class="fx-grid"><path d="M52 50H400M52 102H400M52 154H400M52 206H400"/></g>
-                                    <g class="fx-tick" text-anchor="end">
-                                        <text x="44" y="54">4.20</text><text x="44" y="106">4.00</text>
-                                        <text x="44" y="158">3.75</text><text x="44" y="210">3.45</text>
-                                    </g>
-                                    <g class="fx-tick" text-anchor="middle">
-                                        <text x="52" y="226">0%</text><text x="165" y="226">25%</text>
-                                        <text x="278" y="226">75%</text><text x="400" y="226">100%</text>
-                                    </g>
-                                    <text class="fx-axis" x="226" y="246" text-anchor="middle">State of Charge (SOC)</text>
-                                    <text class="fx-axis" x="14" y="130" text-anchor="middle" transform="rotate(-90 14 130)">OCV (V)</text>
-                                    <!-- −5°C (mist/cold) -->
-                                    <path class="fx-line fx-mist fx-draw" pathLength="1" d="M52 203 C100 196 150 168 195 136 C240 104 280 66 330 52 C355 46 378 46 400 48"/>
-                                    <!-- 5°C -->
-                                    <path class="fx-line fx-draw" pathLength="1" stroke="rgba(130,165,185,0.65)" stroke-width="1.5" fill="none" d="M52 206 C100 199 150 171 195 139 C240 107 280 69 330 55 C355 49 378 49 400 51"/>
-                                    <!-- 15°C -->
-                                    <path class="fx-line fx-draw" pathLength="1" stroke="rgba(100,175,160,0.65)" stroke-width="1.5" fill="none" d="M52 208 C100 202 150 174 195 142 C240 110 280 72 330 58 C355 52 378 52 400 54"/>
-                                    <!-- 25°C golden -->
-                                    <path class="fx-line fx-sun fx-draw" pathLength="1" d="M52 210 C100 204 150 177 195 145 C240 113 280 75 330 61 C355 55 378 55 400 57"/>
-                                    <!-- 35°C -->
-                                    <path class="fx-line fx-draw" pathLength="1" stroke="rgba(230,145,80,0.65)" stroke-width="1.5" fill="none" d="M52 212 C100 207 150 180 195 149 C240 117 280 79 330 65 C355 59 378 59 400 61"/>
-                                    <!-- 45°C (hot) -->
-                                    <path class="fx-line fx-hot fx-draw" pathLength="1" d="M52 215 C100 211 150 184 195 153 C240 121 280 83 330 69 C355 63 378 63 400 65"/>
-                                    <g class="fx-key">
-                                        <text class="fx-mist-t" x="406" y="52">−5 °C</text>
-                                        <text class="fx-sun-t"  x="406" y="61">25 °C</text>
-                                        <text class="fx-hot-t"  x="406" y="70">45 °C</text>
-                                    </g>
-                                    <!-- C/30 annotation -->
-                                    <text class="fx-stname" x="118" y="80" font-size="10">C/30 rate</text>
-                                    <text class="fx-stname" x="118" y="92" font-size="9">(quasi-static)</text>
-                                    <path d="M140 94 L165 115" stroke="rgba(245,197,66,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
-                                </svg>
-                                <figcaption>OCV(z,T) surface extracted from C/30 discharge + charge cycles at six temperatures.</figcaption>
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c1">
+                                    <div class="ecm-visual__title">BMS Priority Stack</div>
+                                    <svg viewBox="0 0 320 220" aria-label="BMS priority pyramid: Safety at top, then Protection, Interface, Performance Management">
+                                        <!-- Priority pyramid tiers -->
+                                        <!-- Tier 1: Safety (top/most critical) -->
+                                        <polygon points="160,18 220,70 100,70" fill="rgba(239,68,68,0.25)" stroke="rgba(239,68,68,0.7)" stroke-width="1.5"/>
+                                        <text x="160" y="52" text-anchor="middle" font-size="10" fill="rgba(255,180,180,0.95)" font-weight="700">SAFETY</text>
+                                        <text x="160" y="64" text-anchor="middle" font-size="8" fill="rgba(255,180,180,0.6)">Operator first</text>
+                                        <!-- Tier 2: Protection -->
+                                        <polygon points="100,70 220,70 240,118 80,118" fill="rgba(245,197,66,0.2)" stroke="rgba(245,197,66,0.6)" stroke-width="1.5"/>
+                                        <text x="160" y="96" text-anchor="middle" font-size="10" fill="rgba(255,230,120,0.95)" font-weight="700">PROTECTION</text>
+                                        <text x="160" y="110" text-anchor="middle" font-size="8" fill="rgba(255,230,120,0.6)">Protect cells from abuse</text>
+                                        <!-- Tier 3: Performance -->
+                                        <polygon points="80,118 240,118 258,166 62,166" fill="rgba(59,130,246,0.2)" stroke="rgba(59,130,246,0.6)" stroke-width="1.5"/>
+                                        <text x="160" y="144" text-anchor="middle" font-size="10" fill="rgba(150,200,255,0.95)" font-weight="700">PERFORMANCE</text>
+                                        <text x="160" y="158" text-anchor="middle" font-size="8" fill="rgba(150,200,255,0.6)">SOC · SOH · power limits</text>
+                                        <!-- Tier 4: Interface -->
+                                        <polygon points="62,166 258,166 275,210 45,210" fill="rgba(100,200,120,0.15)" stroke="rgba(100,200,120,0.5)" stroke-width="1.5"/>
+                                        <text x="160" y="186" text-anchor="middle" font-size="10" fill="rgba(150,230,170,0.95)" font-weight="700">INTERFACE</text>
+                                        <text x="160" y="200" text-anchor="middle" font-size="8" fill="rgba(150,230,170,0.6)">CAN · charger · thermal · data</text>
+                                    </svg>
+                                </div>
+                                <figcaption>BMS priority pyramid — safety always overrides. Each tier builds on the layer below: sense → protect → estimate → communicate.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-2-1 → 2-2-3</span>
-                                <h3>Quasi-static OCV characterization</h3>
-                                <p>Discharging and charging at C/30 (one-thirtieth of a 1 C rate) is slow enough that all RC diffusion transients and hysteresis effects fully relax. The terminal voltage equals the true thermodynamic OCV. Running this across six temperatures from −5 °C to 45 °C builds the OCV(z,T) lookup surface — the most critical input to every downstream parameter identification step and the EKF SOC estimator.</p>
-                                <ul class="bx__facts">
-                                    <li><b>C/30 rate</b><span>~30-hour test — slow enough to suppress all dynamic voltage drops</span></li>
-                                    <li><b>6 temperatures</b><span>−5 · 5 · 15 · 25 · 35 · 45 °C — full operating envelope</span></li>
-                                    <li><b>η Coulombic</b><span>Charge-return efficiency measured per temperature (drops at cold)</span></li>
-                                    <li><b>OCV surface</b><span>Z × T lookup table used directly in real-time SOC estimation</span></li>
-                                </ul>
+                                <span class="label ecm-label--c1">Course 1 · Lessons 1-3-1 → 1-3-3 · BMS Architecture</span>
+                                <h3>What a BMS actually does</h3>
+                                <p>A BMS is a purpose-built embedded system managing packs of many cells. Its four priorities — in strict order — are: protect the operator, protect the cells, manage performance, and interface with the host system. Every algorithm and hardware choice flows from this hierarchy.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c1"><b>Series = voltage</b><span>Stack cells in series to reach pack voltage (e.g. 400 V EV bus)</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Parallel = current</b><span>Wire cells in parallel to multiply current capacity and total Ah</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>4 priorities</b><span>Safety → Protection → Performance → Interface — in that order always</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Modular design</b><span>Pack voltage and energy scale independently — design freedom</span></div>
+                                </div>
                             </div>
                         </div>
 
-<!-- ECM 03: processOCV.m code -->
+<!-- ── C1·3: Sensing & HV Control ──────────────────────────────────────── -->
                         <div class="bx__panel" role="tabpanel" id="ecm-p3" aria-labelledby="ecm-t3">
-                            <figure class="bx__fig ecm-code-fig">
-                                <div class="ecm-code-wrap" aria-label="processOCV.m MATLAB code" role="img">
-                                    <div class="ecm-code-bar"><span class="ecm-code-dot ecm-code-dot--r"></span><span class="ecm-code-dot ecm-code-dot--y"></span><span class="ecm-code-dot ecm-code-dot--g"></span><span class="ecm-code-fname">processOCV.m</span></div>
-                                    <pre class="ecm-code"><span class="ec-kw">function</span> OCV = <span class="ec-fn">processOCV</span>(data, temps)
-<span class="ec-cm">% Extract OCV(z,T) lookup from C/30 charge+discharge data</span>
-
-<span class="ec-kw">for</span> k = <span class="ec-num">1</span>:length(temps)
-  dchg = data(k).discharge;
-  chg  = data(k).charge;
-
-  <span class="ec-cm">% Coulombic efficiency η = Q_charge / Q_discharge</span>
-  eta(k) = <span class="ec-fn">sum</span>(chg.I) / <span class="ec-fn">sum</span>(dchg.I);
-
-  <span class="ec-cm">% Cell capacity at this temperature (Ah)</span>
-  Q(k) = <span class="ec-fn">trapz</span>(dchg.t, dchg.I) / <span class="ec-num">3600</span>;
-
-  <span class="ec-cm">% Coulomb-counted SOC during discharge</span>
-  z_dchg = <span class="ec-num">1</span> - <span class="ec-fn">cumtrapz</span>(dchg.t, dchg.I) / (Q(k)*<span class="ec-num">3600</span>);
-
-  <span class="ec-cm">% Average discharge + scaled charge OCV → true OCV(z)</span>
-  OCV.T(k)   = temps(k);
-  OCV.Q(k)   = Q(k);
-  OCV.eta(k) = eta(k);
-  OCV.ocv{k} = <span class="ec-fn">interp1</span>(z_dchg, dchg.V, <span class="ec-num">0</span>:<span class="ec-num">0.01</span>:<span class="ec-num">1</span>, <span class="ec-str">'linear'</span>);
-<span class="ec-kw">end</span>
-<span class="ec-kw">end</span></pre>
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c1">
+                                    <div class="ecm-visual__title">BMS Sensing Architecture</div>
+                                    <svg viewBox="0 0 320 220" aria-label="BMS sensing: voltage taps on cells, shunt or Hall current sensor, NTC temperature sensor, all feeding into BMS processor">
+                                        <!-- Cell stack -->
+                                        <rect x="18" y="20" width="52" height="30" rx="4" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.2"/>
+                                        <text x="44" y="40" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)">Cell 1</text>
+                                        <rect x="18" y="56" width="52" height="30" rx="4" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.2"/>
+                                        <text x="44" y="76" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)">Cell 2</text>
+                                        <rect x="18" y="92" width="52" height="30" rx="4" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.2"/>
+                                        <text x="44" y="112" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.8)">Cell N</text>
+                                        <text x="44" y="136" text-anchor="middle" font-size="13" fill="rgba(200,220,255,0.3)">⋮</text>
+                                        <!-- Voltage sense lines -->
+                                        <path d="M70 35H110M70 71H110M70 107H110" stroke="rgba(59,130,246,0.6)" stroke-width="1" stroke-dasharray="3 2"/>
+                                        <rect x="110" y="22" width="52" height="100" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+                                        <text x="136" y="60" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.7)" font-weight="600">Voltage</text>
+                                        <text x="136" y="72" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.7)">AFE</text>
+                                        <text x="136" y="88" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.4)">16-bit ADC</text>
+                                        <text x="136" y="100" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.4)">±1 mV acc.</text>
+                                        <!-- Current sensor -->
+                                        <rect x="18" y="155" width="78" height="36" rx="6" fill="rgba(100,220,150,0.1)" stroke="rgba(100,220,150,0.5)" stroke-width="1.2"/>
+                                        <text x="57" y="170" text-anchor="middle" font-size="9" fill="rgba(150,230,180,0.8)" font-weight="600">Current Sensor</text>
+                                        <text x="57" y="182" text-anchor="middle" font-size="8" fill="rgba(150,230,180,0.5)">Shunt · Hall-effect</text>
+                                        <path d="M96 173H110" stroke="rgba(100,220,150,0.5)" stroke-width="1" stroke-dasharray="3 2"/>
+                                        <!-- Temp sensor -->
+                                        <rect x="110" y="150" width="52" height="38" rx="6" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.4)" stroke-width="1.2"/>
+                                        <text x="136" y="167" text-anchor="middle" font-size="9" fill="rgba(255,180,180,0.8)" font-weight="600">NTC Temp</text>
+                                        <text x="136" y="179" text-anchor="middle" font-size="8" fill="rgba(255,180,180,0.5)">±0.5 °C</text>
+                                        <!-- BMS CPU -->
+                                        <rect x="195" y="40" width="100" height="130" rx="8" fill="rgba(245,197,66,0.1)" stroke="rgba(245,197,66,0.5)" stroke-width="1.5"/>
+                                        <text x="245" y="75" text-anchor="middle" font-size="10" fill="rgba(255,230,100,0.9)" font-weight="700">BMS</text>
+                                        <text x="245" y="90" text-anchor="middle" font-size="10" fill="rgba(255,230,100,0.9)" font-weight="700">Processor</text>
+                                        <text x="245" y="112" text-anchor="middle" font-size="8" fill="rgba(255,230,100,0.5)">SOC estimate</text>
+                                        <text x="245" y="124" text-anchor="middle" font-size="8" fill="rgba(255,230,100,0.5)">Protection logic</text>
+                                        <text x="245" y="136" text-anchor="middle" font-size="8" fill="rgba(255,230,100,0.5)">CAN / SMBus</text>
+                                        <!-- Arrows to BMS CPU -->
+                                        <path d="M162 72H195M162 173H195V150" stroke="rgba(245,197,66,0.4)" stroke-width="1" fill="none"/>
+                                        <!-- Contactor -->
+                                        <rect x="195" y="185" width="100" height="26" rx="4" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.4)" stroke-width="1"/>
+                                        <text x="245" y="202" text-anchor="middle" font-size="9" fill="rgba(255,180,180,0.8)">Contactor / HV Control</text>
+                                    </svg>
                                 </div>
-                                <figcaption>processOCV.m — Coulombic efficiency, capacity Q, and OCV(z) curve extraction from C/30 test data.</figcaption>
+                                <figcaption>BMS sensing chain: per-cell voltage AFE + pack current sensor + NTC temperature, all reporting to the BMS processor that drives contactor logic.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-2-4 → 2-2-6</span>
-                                <h3>MATLAB: extracting static parameters</h3>
-                                <p><code>processOCV.m</code> takes the raw C/30 voltage and current time-series and extracts three quantities per temperature: Coulombic efficiency η (how much charge came back vs. went in), cell capacity Q in Ah, and a smooth OCV-vs-SOC vector built by coulomb-counting through the discharge. The result is a compact struct that every downstream script references — including <code>processDynamic.m</code> and the EKF.</p>
-                                <ul class="bx__facts">
-                                    <li><b>trapz / cumtrapz</b><span>Numerical Ah-integration over the full C/30 discharge trace</span></li>
-                                    <li><b>η per temperature</b><span>Coulombic efficiency drops at cold — critical for SOC accuracy</span></li>
-                                    <li><b>interp1 at 1% steps</b><span>Uniform SOC grid enables fast real-time lookup in BMS firmware</span></li>
-                                    <li><b>Struct output</b><span>OCV.T · OCV.Q · OCV.eta · OCV.ocv — shared across all scripts</span></li>
-                                </ul>
+                                <span class="label ecm-label--c1">Course 1 · Lessons 1-3-4 → 1-3-9 · Hardware</span>
+                                <h3>Sensing hardware &amp; high-voltage control</h3>
+                                <p>Three measurement channels feed the BMS: per-cell voltage via an analog front-end (AFE), pack current via a shunt resistor or Hall-effect sensor, and temperature via NTC thermistors. These signals drive the protection logic that opens/closes contactors to isolate the pack.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c1"><b>Voltage AFE</b><span>16-bit ADC per cell — ±1 mV accuracy over temperature</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Shunt vs. Hall</b><span>Resistive shunt: accurate but lossy. Hall-effect: isolated, no loss</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>NTC thermistor</b><span>±0.5 °C per cell module — thermal management input</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Contactors</b><span>Main + pre-charge contactors prevent inrush current at startup</span></div>
+                                </div>
                             </div>
                         </div>
 
-<!-- ECM 04: UDDS current + voltage response -->
+<!-- ── C1·4: SOC & Protection ───────────────────────────────────────────── -->
                         <div class="bx__panel" role="tabpanel" id="ecm-p4" aria-labelledby="ecm-t4">
-                            <figure class="bx__fig">
-                                <svg viewBox="0 0 420 250" role="img" aria-label="UDDS drive-cycle current profile top panel and resulting terminal voltage response bottom panel">
-                                    <line x1="52" y1="128" x2="400" y2="128" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-                                    <!-- Current axes (top half) -->
-                                    <g class="fx-grid"><path d="M52 50H400M52 88H400M52 128H400"/></g>
-                                    <g class="fx-tick" text-anchor="end">
-                                        <text x="44" y="54">3A</text><text x="44" y="92">0</text><text x="44" y="128">−2A</text>
-                                    </g>
-                                    <text class="fx-axis" x="14" y="88" text-anchor="middle" transform="rotate(-90 14 88)">I (A)</text>
-                                    <!-- UDDS current: spiky discharge + regen dips below zero -->
-                                    <path class="fx-line fx-sun fx-draw" pathLength="1" fill="none" d="M52 92 L64 92 L66 60 L69 92 L78 92 L80 55 L84 92 L94 92 L96 68 L100 92 L107 92 L109 118 L112 92 L119 92 L121 65 L125 92 L133 92 L135 72 L139 92 L149 92 L151 58 L155 92 L163 92 L165 118 L168 92 L177 92 L179 62 L183 92 L192 92 L194 70 L198 92 L208 92 L210 55 L215 92 L222 92 L224 65 L228 92 L238 92 L240 118 L243 92 L252 92 L254 60 L259 92 L268 92 L270 68 L274 92 L284 92 L286 118 L289 92 L298 92 L300 56 L305 92 L314 92 L316 70 L320 92 L330 92 L332 60 L337 92 L347 92 L349 115 L352 92 L360 92 L362 62 L367 92 L376 92 L378 55 L383 92 L393 92 L396 68 L400 92"/>
-                                    <!-- Voltage axes (bottom half) -->
-                                    <g class="fx-grid"><path d="M52 148H400M52 188H400M52 228H400"/></g>
-                                    <g class="fx-tick" text-anchor="end">
-                                        <text x="44" y="152">4.1V</text><text x="44" y="192">3.8V</text><text x="44" y="228">3.5V</text>
-                                    </g>
-                                    <text class="fx-axis" x="14" y="188" text-anchor="middle" transform="rotate(-90 14 188)">V (V)</text>
-                                    <!-- Terminal voltage: inverse of current -->
-                                    <path class="fx-line fx-mist fx-draw" pathLength="1" fill="none" d="M52 170 L64 170 L66 198 L69 170 L78 170 L80 204 L84 170 L94 170 L96 182 L100 170 L107 170 L109 158 L112 170 L119 170 L121 196 L125 170 L133 170 L135 180 L139 170 L149 170 L151 202 L155 170 L163 170 L165 158 L168 170 L177 170 L179 194 L183 170 L192 170 L194 179 L198 170 L208 170 L210 206 L215 170 L222 170 L224 194 L228 170 L238 170 L240 158 L243 170 L252 170 L254 196 L259 170 L268 170 L270 183 L274 170 L284 170 L286 158 L289 170 L298 170 L300 204 L305 170 L314 170 L316 179 L320 170 L330 170 L332 196 L337 170 L347 170 L349 160 L352 170 L360 170 L362 194 L367 170 L376 170 L378 206 L383 170 L393 170 L396 182 L400 173"/>
-                                    <text class="fx-axis" x="226" y="246" text-anchor="middle">Time — UDDS urban drive cycle</text>
-                                    <text class="fx-stname" x="114" y="122" font-size="9" fill="rgba(100,210,160,0.9)">↓ regen braking</text>
-                                </svg>
-                                <figcaption>UDDS current excitation (yellow, top) and resulting terminal voltage response (grey, bottom) — 25 °C test.</figcaption>
-                            </figure>
-                            <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-3-1 → 2-3-4</span>
-                                <h3>UDDS: real EV dynamics in the lab</h3>
-                                <p>The Urban Dynamometer Driving Schedule is an EPA-standardized current profile that replicates city driving — stop-and-go acceleration and regenerative braking pulses. Applied across all six test temperatures, it excites every dynamic mode of the cell: instantaneous ohmic drops, RC diffusion transients, and hysteresis transitions when current reverses. The logged V, I, T, and Ah trace becomes the training dataset for <code>processDynamic.m</code>.</p>
-                                <ul class="bx__facts">
-                                    <li><b>UDDS profile</b><span>EPA city driving schedule — broadband frequency content ideal for system ID</span></li>
-                                    <li><b>Regen pulses</b><span>Negative current reveals hysteresis state transitions for M, M₀ ID</span></li>
-                                    <li><b>6 × full dataset</b><span>One complete UDDS run per temperature — training + validation sets</span></li>
-                                    <li><b>V, I, T, Ah</b><span>All four channels logged at 1 Hz, fed directly to processDynamic.m</span></li>
-                                </ul>
-                            </div>
-                        </div>
-
-<!-- ECM 05: processDynamic.m code -->
-                        <div class="bx__panel" role="tabpanel" id="ecm-p5" aria-labelledby="ecm-t5">
-                            <figure class="bx__fig ecm-code-fig">
-                                <div class="ecm-code-wrap" aria-label="processDynamic.m MATLAB code" role="img">
-                                    <div class="ecm-code-bar"><span class="ecm-code-dot ecm-code-dot--r"></span><span class="ecm-code-dot ecm-code-dot--y"></span><span class="ecm-code-dot ecm-code-dot--g"></span><span class="ecm-code-fname">processDynamic.m</span></div>
-                                    <pre class="ecm-code"><span class="ec-kw">function</span> model = <span class="ec-fn">processDynamic</span>(data, OCV, nRC)
-<span class="ec-cm">% Identify R0, RC params, hysteresis from UDDS data</span>
-
-<span class="ec-kw">for</span> k = <span class="ec-num">1</span>:length(data)
-  <span class="ec-cm">% 1. Subtract OCV → isolate dynamic residual</span>
-  Vres = data(k).V - <span class="ec-fn">interp2</span>(OCV.z, OCV.T, ...
-                     OCV.ocv, z_k, T_k);
-
-  <span class="ec-cm">% 2. Subspace system ID on residual voltage</span>
-  [A,B,C,D] = <span class="ec-fn">SISOsubid</span>(Vres, data(k).I, nRC);
-
-  <span class="ec-cm">% 3. Scalar search: hysteresis nonlinearity γ</span>
-  gamma = <span class="ec-fn">fminbnd</span>(@(g) <span class="ec-fn">costFn</span>(g,data(k),A,B,C,D), ...
-                  <span class="ec-num">0</span>, <span class="ec-num">10</span>);
-
-  <span class="ec-cm">% 4. Constrained LS → M, M0 hysteresis magnitudes</span>
-  H      = <span class="ec-fn">buildHystMatrix</span>(data(k), gamma);
-  params = <span class="ec-fn">lsqnonneg</span>(H, Vres);
-
-  model(k).R0    = -D;   <span class="ec-cm">% feedthrough = ohmic R</span>
-  model(k).RC    = {A,B,C};
-  model(k).gamma = gamma;
-  model(k).M     = params(<span class="ec-num">1</span>);
-  model(k).M0    = params(<span class="ec-num">2</span>);
-<span class="ec-kw">end</span>
-<span class="ec-kw">end</span></pre>
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c1">
+                                    <div class="ecm-visual__title">SOC Estimation Flow</div>
+                                    <svg viewBox="0 0 320 220" aria-label="SOC estimation pipeline: measurements feed Coulomb counter and EKF, output is SOC and power limits">
+                                        <!-- Input block -->
+                                        <rect x="10" y="80" width="72" height="62" rx="7" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.2"/>
+                                        <text x="46" y="104" text-anchor="middle" font-size="9" fill="rgba(200,220,255,0.9)" font-weight="600">Measurements</text>
+                                        <text x="46" y="118" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.6)">V · I · T</text>
+                                        <text x="46" y="130" text-anchor="middle" font-size="8" fill="rgba(200,220,255,0.6)">1 Hz</text>
+                                        <path d="M82 111H116" stroke="rgba(59,130,246,0.6)" stroke-width="1.2" fill="none" marker-end="url(#ecm-arr)"/>
+                                        <!-- Coulomb counter box -->
+                                        <rect x="116" y="58" width="80" height="40" rx="6" fill="rgba(100,220,150,0.1)" stroke="rgba(100,220,150,0.45)" stroke-width="1.2"/>
+                                        <text x="156" y="75" text-anchor="middle" font-size="9" fill="rgba(150,230,180,0.9)" font-weight="600">Coulomb</text>
+                                        <text x="156" y="88" text-anchor="middle" font-size="9" fill="rgba(150,230,180,0.9)">Counter</text>
+                                        <!-- EKF box -->
+                                        <rect x="116" y="110" width="80" height="40" rx="6" fill="rgba(245,197,66,0.12)" stroke="rgba(245,197,66,0.5)" stroke-width="1.2"/>
+                                        <text x="156" y="127" text-anchor="middle" font-size="9" fill="rgba(255,230,100,0.9)" font-weight="600">Extended</text>
+                                        <text x="156" y="140" text-anchor="middle" font-size="9" fill="rgba(255,230,100,0.9)">Kalman Filter</text>
+                                        <!-- Arrows from measurement to both -->
+                                        <path d="M82 100L116 78" stroke="rgba(59,130,246,0.5)" stroke-width="1" fill="none"/>
+                                        <path d="M82 122L116 130" stroke="rgba(59,130,246,0.5)" stroke-width="1" fill="none"/>
+                                        <!-- Arrow to output -->
+                                        <path d="M196 78L228 95" stroke="rgba(100,220,150,0.5)" stroke-width="1" fill="none"/>
+                                        <path d="M196 130L228 118" stroke="rgba(245,197,66,0.5)" stroke-width="1" fill="none"/>
+                                        <!-- Output: SOC -->
+                                        <rect x="228" y="82" width="78" height="52" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
+                                        <text x="267" y="102" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.9)" font-weight="700">SOC</text>
+                                        <text x="267" y="116" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)">0–100%</text>
+                                        <text x="267" y="128" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)">± 1–2%</text>
+                                        <!-- Power limits -->
+                                        <rect x="116" y="168" width="190" height="36" rx="6" fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.35)" stroke-width="1"/>
+                                        <text x="211" y="183" text-anchor="middle" font-size="9" fill="rgba(255,180,180,0.9)" font-weight="600">Power Limits: P_charge / P_discharge</text>
+                                        <text x="211" y="196" text-anchor="middle" font-size="8" fill="rgba(255,180,180,0.5)">Computed from SOC · SOH · temperature</text>
+                                        <!-- Interface output top -->
+                                        <rect x="116" y="20" width="190" height="30" rx="6" fill="rgba(100,220,150,0.08)" stroke="rgba(100,220,150,0.3)" stroke-width="1"/>
+                                        <text x="211" y="34" text-anchor="middle" font-size="9" fill="rgba(150,230,180,0.8)" font-weight="600">CAN / SMBus → Host Computer</text>
+                                        <text x="211" y="46" text-anchor="middle" font-size="8" fill="rgba(150,230,180,0.4)">Range estimate · charger control · data log</text>
+                                    </svg>
                                 </div>
-                                <figcaption>processDynamic.m — three-stage pipeline: subspace ID → scalar hysteresis search → constrained least-squares for M, M₀.</figcaption>
+                                <figcaption>SOC pipeline: raw V/I/T measurements → Coulomb counter + EKF → SOC estimate → power limits and interface outputs.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-3-5 → 2-3-9</span>
-                                <h3>MATLAB: three-stage parameter identification</h3>
-                                <p><code>processDynamic.m</code> identifies all dynamic ECM parameters using a staged pipeline. First, the OCV is subtracted (using the lookup from <code>processOCV.m</code>) to isolate the dynamic residual. Then <code>SISOsubid</code> fits the RC state-space via subspace system identification. <code>fminbnd</code> performs a golden-section search for hysteresis nonlinearity γ. Finally, <code>lsqnonneg</code> resolves the hysteresis magnitudes M and M₀ as physically non-negative quantities.</p>
-                                <ul class="bx__facts">
-                                    <li><b>SISOsubid</b><span>Subspace system ID — fits A, B, C, D matrices to residual voltage</span></li>
-                                    <li><b>fminbnd</b><span>Golden-section scalar search over γ ∈ [0, 10] with no gradient needed</span></li>
-                                    <li><b>lsqnonneg</b><span>Non-negative constrained LS — ensures M, M₀ are physically meaningful</span></li>
-                                    <li><b>R₀ = −D</b><span>The D feedthrough term directly gives ohmic resistance — no extra step</span></li>
-                                </ul>
+                                <span class="label ecm-label--c1">Course 1 · Lessons 1-4-1 → 1-4-4 · Estimation</span>
+                                <h3>SOC estimation &amp; performance management</h3>
+                                <p>The BMS must know how much energy remains (SOC), how much the cell has aged (SOH), and what current it can safely deliver (power limits). Coulomb counting gives a simple open-loop estimate; the Extended Kalman Filter closes the loop using a cell model, achieving ±1–2% accuracy over the life of the pack.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c1"><b>Coulomb counting</b><span>Integrate current over time — drifts without periodic correction</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>EKF estimator</b><span>Uses ESC model to correct SOC drift — ±1–2% over lifetime</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Power limits</b><span>P_chg / P_dchg computed real-time from SOC, SOH, temperature</span></div>
+                                    <div class="ecm-kv ecm-kv--c1"><b>Interface (req 3)</b><span>CAN/SMBus to host — range estimate, charger control, data log</span></div>
+                                </div>
                             </div>
                         </div>
 
-<!-- ECM 06: ESC validation — predicted vs measured -->
+<!-- ── C2·1: ECM Architecture ───────────────────────────────────────────── -->
+                        <div class="bx__panel" role="tabpanel" id="ecm-p5" aria-labelledby="ecm-t5">
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c2">
+                                    <div class="ecm-visual__title">ESC Equivalent Circuit Model</div>
+                                    <svg viewBox="0 0 320 220" aria-label="ESC model circuit: OCV source, R0 series resistance, two RC parallel branches, hysteresis state">
+                                        <!-- OCV source -->
+                                        <circle cx="40" cy="118" r="28" fill="none" stroke="rgba(245,197,66,0.6)" stroke-width="1.6"/>
+                                        <text x="40" y="113" text-anchor="middle" font-size="10" fill="rgba(255,230,100,0.9)">+</text>
+                                        <text x="40" y="128" text-anchor="middle" font-size="10" fill="rgba(255,230,100,0.9)">−</text>
+                                        <text x="40" y="165" text-anchor="middle" font-size="9" fill="rgba(245,197,66,0.7)">OCV(z,T)</text>
+                                        <!-- top rail -->
+                                        <path d="M40 90V62H84" stroke="rgba(245,197,66,0.5)" stroke-width="1.4" fill="none"/>
+                                        <!-- bottom rail -->
+                                        <path d="M40 146V178H290V150" stroke="rgba(245,197,66,0.5)" stroke-width="1.4" fill="none"/>
+                                        <!-- R0 -->
+                                        <path d="M84 62l4-8 8 16 8-16 8 16 8-16 4 8" stroke="rgba(245,197,66,0.8)" stroke-width="1.5" fill="none"/>
+                                        <text x="116" y="45" text-anchor="middle" font-size="9" fill="rgba(245,197,66,0.7)">R₀</text>
+                                        <path d="M148 62H166" stroke="rgba(245,197,66,0.5)" stroke-width="1.4" fill="none"/>
+                                        <!-- RC1 dashed box -->
+                                        <rect x="166" y="42" width="62" height="46" rx="6" fill="none" stroke="rgba(100,200,255,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
+                                        <text x="197" y="37" text-anchor="middle" font-size="8" fill="rgba(100,200,255,0.6)">RC₁ (fast)</text>
+                                        <path d="M172 55l2-6 5 12 5-12 5 12 5-12 2 6" stroke="rgba(100,200,255,0.75)" stroke-width="1.3" fill="none"/>
+                                        <path d="M210 50V62M218 50V62" stroke="rgba(100,200,255,0.75)" stroke-width="1.3" fill="none"/>
+                                        <path d="M172 48V42H228M228 56V74M228 48V42" stroke="rgba(100,200,255,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M172 62V74" stroke="rgba(100,200,255,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M228 62H246" stroke="rgba(245,197,66,0.5)" stroke-width="1.4" fill="none"/>
+                                        <!-- RC2 dashed box -->
+                                        <rect x="246" y="42" width="52" height="46" rx="6" fill="none" stroke="rgba(100,200,255,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+                                        <text x="272" y="37" text-anchor="middle" font-size="8" fill="rgba(100,200,255,0.5)">RC₂ (slow)</text>
+                                        <path d="M252 55l2-6 4 12 4-12 4 12 4-12 2 6" stroke="rgba(100,200,255,0.6)" stroke-width="1.3" fill="none"/>
+                                        <path d="M278 50V62M284 50V62" stroke="rgba(100,200,255,0.6)" stroke-width="1.3" fill="none"/>
+                                        <path d="M252 48V42H298M298 56V74M298 48V42" stroke="rgba(100,200,255,0.3)" stroke-width="1" fill="none"/>
+                                        <path d="M252 62V74M298 62H290" stroke="rgba(100,200,255,0.3)" stroke-width="1" fill="none"/>
+                                        <path d="M290 62V88" stroke="rgba(245,197,66,0.5)" stroke-width="1.4" fill="none"/>
+                                        <!-- Hysteresis block -->
+                                        <rect x="258" y="88" width="62" height="38" rx="6" fill="rgba(100,200,120,0.1)" stroke="rgba(100,200,120,0.5)" stroke-width="1.2"/>
+                                        <text x="289" y="104" text-anchor="middle" font-size="9" fill="rgba(150,230,170,0.9)" font-weight="600">h(t)</text>
+                                        <text x="289" y="118" text-anchor="middle" font-size="8" fill="rgba(150,230,170,0.6)">hysteresis</text>
+                                        <path d="M289 126V150" stroke="rgba(100,200,120,0.4)" stroke-width="1" fill="none"/>
+                                        <!-- Terminal -->
+                                        <circle cx="290" cy="98" r="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                                        <circle cx="290" cy="150" r="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                                        <text x="308" y="102" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.5)">+</text>
+                                        <text x="308" y="154" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.5)">−</text>
+                                        <text x="290" y="195" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.4)">V_terminal</text>
+                                        <!-- Discrete-time equation -->
+                                        <text x="40" y="202" font-size="8" fill="rgba(245,197,66,0.5)">x[k+1] = Aₐx[k] + Bₐu[k]</text>
+                                    </svg>
+                                </div>
+                                <figcaption>ESC model: OCV source + R₀ + 2 RC diffusion branches + hysteresis state h(t). Converted to discrete-time for embedded implementation.</figcaption>
+                            </figure>
+                            <div class="bx__copy">
+                                <span class="label ecm-label--c2">Course 2 · Lessons 2-1-1 → 2-1-9 · ECM Theory</span>
+                                <h3>Building the equivalent circuit model</h3>
+                                <p>Each circuit element maps to a physical phenomenon: OCV tracks thermodynamic potential, R₀ captures ohmic resistance, RC pairs model diffusion at two timescales, and hysteresis state h(t) encodes charge-direction memory. Continuous-time ODEs are converted to discrete-time difference equations for embedded implementation.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c2"><b>OCV(z,T)</b><span>Nonlinear static function of SOC z and temperature T</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>R₀</b><span>Ohmic resistance — produces the instantaneous voltage step</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>RC₁ RC₂</b><span>Fast (&lt;10 s) and slow (&lt;10 min) solid-state diffusion branches</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>Discrete-time</b><span>x[k+1] = Aₐx[k] + Bₐu[k] — ready for embedded BMS firmware</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+<!-- ── C2·2: Static Testing + processOCV.m ──────────────────────────────── -->
                         <div class="bx__panel" role="tabpanel" id="ecm-p6" aria-labelledby="ecm-t6">
-                            <figure class="bx__fig">
-                                <svg viewBox="0 0 420 250" role="img" aria-label="ESC model predicted voltage dashed yellow versus measured UDDS voltage solid grey. The two lines nearly overlap with 5.7 mV RMS error.">
-                                    <g class="fx-grid"><path d="M52 50H400M52 102H400M52 154H400M52 206H400"/></g>
-                                    <g class="fx-tick" text-anchor="end">
-                                        <text x="44" y="54">4.05</text><text x="44" y="106">3.90</text>
-                                        <text x="44" y="158">3.75</text><text x="44" y="210">3.60</text>
-                                    </g>
-                                    <text class="fx-axis" x="14" y="130" text-anchor="middle" transform="rotate(-90 14 130)">Voltage (V)</text>
-                                    <text class="fx-axis" x="226" y="246" text-anchor="middle">Time — held-out UDDS validation cycle</text>
-                                    <!-- Measured (grey solid) -->
-                                    <path class="fx-line fx-mist fx-draw" pathLength="1" fill="none" stroke-width="2.2" d="M52 155 L78 155 L80 185 L83 155 L98 155 L100 170 L104 155 L118 155 L120 190 L124 155 L138 155 L140 162 L144 155 L158 155 L160 193 L164 155 L178 155 L180 168 L184 155 L198 155 L200 185 L204 155 L218 155 L220 165 L224 155 L238 155 L240 193 L244 155 L258 155 L260 170 L264 155 L278 155 L280 185 L284 155 L298 155 L300 160 L304 155 L318 155 L320 192 L324 155 L338 155 L340 168 L344 155 L358 155 L360 186 L364 155 L378 155 L382 170 L386 155 L400 158"/>
-                                    <!-- ESC predicted (yellow dashed) -->
-                                    <path class="fx-line fx-sun fx-draw" pathLength="1" fill="none" stroke-width="1.6" stroke-dasharray="6 4" d="M52 156 L78 156 L80 186 L83 156 L98 156 L100 171 L104 156 L118 156 L120 191 L124 156 L138 156 L140 163 L144 156 L158 156 L160 194 L164 156 L178 156 L180 169 L184 156 L198 156 L200 186 L204 156 L218 156 L220 166 L224 156 L238 156 L240 194 L244 156 L258 156 L260 171 L264 156 L278 156 L280 186 L284 156 L298 156 L300 161 L304 156 L318 156 L320 193 L324 156 L338 156 L340 169 L344 156 L358 156 L360 187 L364 156 L378 156 L382 171 L386 156 L400 159"/>
-                                    <!-- Result callout box -->
-                                    <rect x="274" y="58" width="120" height="44" rx="10" fill="rgba(245,197,66,0.12)" stroke="rgba(245,197,66,0.45)" stroke-width="1.2"/>
-                                    <text x="334" y="77" text-anchor="middle" class="fx-stname" font-size="14" fill="rgba(245,197,66,1)" font-weight="700">5.7 mV RMS</text>
-                                    <text x="334" y="93" text-anchor="middle" class="fx-stname" font-size="10.5">voltage prediction error</text>
-                                    <!-- Legend -->
-                                    <line x1="58" y1="30" x2="82" y2="30" stroke="rgba(130,165,185,0.9)" stroke-width="2.2"/>
-                                    <text class="fx-mist-t" x="88" y="34" font-size="11">Measured V</text>
-                                    <line x1="162" y1="30" x2="186" y2="30" stroke="rgba(245,197,66,0.9)" stroke-width="1.6" stroke-dasharray="6 4"/>
-                                    <text class="fx-sun-t" x="192" y="34" font-size="11">ESC predicted V̂</text>
-                                </svg>
-                                <figcaption>ESC model vs. measured terminal voltage on a held-out UDDS run at 25 °C. Yellow dashed = prediction, grey = measured. 5.7 mV RMS.</figcaption>
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c2">
+                                    <div class="ecm-visual__title">OCV vs SOC — 6 temperatures</div>
+                                    <svg viewBox="0 0 320 220" aria-label="OCV vs SOC curves at 6 temperatures from minus 5 to 45 degrees C">
+                                        <g style="stroke:rgba(255,255,255,0.07);stroke-width:1;fill:none">
+                                            <path d="M42 30H290M42 72H290M42 114H290M42 156H290M42 198H290"/>
+                                        </g>
+                                        <g font-size="8.5" text-anchor="end" fill="rgba(255,255,255,0.4)">
+                                            <text x="36" y="34">4.20</text><text x="36" y="76">4.00</text>
+                                            <text x="36" y="118">3.80</text><text x="36" y="160">3.60</text><text x="36" y="200">3.40</text>
+                                        </g>
+                                        <g font-size="8.5" text-anchor="middle" fill="rgba(255,255,255,0.4)">
+                                            <text x="42" y="214">0%</text><text x="130" y="214">25%</text>
+                                            <text x="216" y="214">75%</text><text x="290" y="214">100%</text>
+                                        </g>
+                                        <!-- 6 temp curves -->
+                                        <path d="M42 196 C80 185 120 158 165 128 C205 100 245 58 272 36 C280 32 286 31 290 31" stroke="rgba(130,170,220,0.6)" stroke-width="1.3" fill="none"/>
+                                        <path d="M42 197 C80 186 120 160 165 130 C205 102 245 61 272 39 C280 35 286 34 290 34" stroke="rgba(100,180,210,0.5)" stroke-width="1.2" fill="none"/>
+                                        <path d="M42 198 C80 188 120 162 165 133 C205 105 245 64 272 42 C280 38 286 37 290 37" stroke="rgba(80,200,170,0.5)" stroke-width="1.2" fill="none"/>
+                                        <path d="M42 199 C80 190 120 165 165 136 C205 108 245 67 272 45 C280 41 286 40 290 40" stroke="rgba(245,197,66,0.85)" stroke-width="2" fill="none"/>
+                                        <path d="M42 200 C80 192 120 167 165 139 C205 111 245 70 272 48 C280 44 286 43 290 43" stroke="rgba(230,140,80,0.5)" stroke-width="1.2" fill="none"/>
+                                        <path d="M42 202 C80 195 120 171 165 143 C205 115 245 74 272 52 C280 48 286 47 290 47" stroke="rgba(220,80,80,0.5)" stroke-width="1.2" fill="none"/>
+                                        <!-- Legend -->
+                                        <line x1="48" y1="18" x2="68" y2="18" stroke="rgba(130,170,220,0.7)" stroke-width="1.3"/>
+                                        <text x="72" y="22" font-size="8" fill="rgba(130,170,220,0.8)">−5 °C</text>
+                                        <line x1="104" y1="18" x2="124" y2="18" stroke="rgba(245,197,66,0.9)" stroke-width="2"/>
+                                        <text x="128" y="22" font-size="8" fill="rgba(245,197,66,0.9)">25 °C (ref)</text>
+                                        <line x1="186" y1="18" x2="206" y2="18" stroke="rgba(220,80,80,0.6)" stroke-width="1.3"/>
+                                        <text x="210" y="22" font-size="8" fill="rgba(220,80,80,0.8)">45 °C</text>
+                                        <!-- C/30 annotation -->
+                                        <text x="140" y="88" font-size="8.5" fill="rgba(245,197,66,0.6)" font-weight="600">C/30 rate</text>
+                                        <text x="140" y="100" font-size="7.5" fill="rgba(245,197,66,0.4)">(quasi-static)</text>
+                                        <path d="M166 102L190 128" stroke="rgba(245,197,66,0.3)" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+                                        <!-- processOCV label -->
+                                        <rect x="42" y="168" width="100" height="22" rx="4" fill="rgba(245,197,66,0.08)" stroke="rgba(245,197,66,0.3)" stroke-width="1"/>
+                                        <text x="92" y="183" text-anchor="middle" font-size="8.5" fill="rgba(245,197,66,0.8)">→ processOCV.m</text>
+                                    </svg>
+                                </div>
+                                <figcaption>OCV(z,T) lookup surface from C/30 tests at 6 temperatures — foundation for every downstream parameter.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Course 2 · Lessons 2-3-7 → 2-3-9</span>
-                                <h3>Validated ESC model — 5.7 mV RMS</h3>
-                                <p>The Enhanced Self-Correcting (ESC) model assembles all identified parameters into a discrete-time state-space: <em>x[k+1] = Ax[k] + Bu[k]</em>. Terminal voltage is computed as <em>V<sub>t</sub> = OCV(z,T) + Mh − ΣR<sub>j</sub>i<sub>Rj</sub> − R₀i</em>. Validated on a completely held-out UDDS run, the ESC prediction tracks measured voltage to 5.7 mV RMS across the full SOC swing — precise enough to serve as the process model for an Extended Kalman Filter SOC estimator.</p>
-                                <ul class="bx__facts">
-                                    <li><b>5.7 mV RMS</b><span>Validation error on held-out UDDS data — excellent for a 1 RC model</span></li>
-                                    <li><b>x[k+1] = Ax[k] + Bu[k]</b><span>Discrete state-space — SOC z, RC currents i_Rj, hysteresis h</span></li>
-                                    <li><b>V_t equation</b><span>OCV + hysteresis offset − RC voltage drops − ohmic drop</span></li>
-                                    <li><b>→ EKF ready</b><span>ESC is the process model for real-time SOC estimation via Kalman filter</span></li>
-                                </ul>
+                                <span class="label ecm-label--c2">Course 2 · Lessons 2-2-1 → 2-2-6 · Static ID</span>
+                                <h3>Static testing &amp; processOCV.m</h3>
+                                <p>Discharging and charging at C/30 (1/30 C-rate) lets all dynamic transients relax — terminal voltage equals true OCV. Run at 6 temperatures (−5 to 45 °C), this builds the OCV(z,T) surface. <code>processOCV.m</code> automates extraction: Coulombic efficiency η, capacity Q per temperature, and interpolated OCV tables.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c2"><b>C/30 rate</b><span>~30-hour test — slow enough for all RC transients to decay to zero</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>6 temperatures</b><span>−5 · 5 · 15 · 25 · 35 · 45 °C with 25 °C as the dither reference</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>processOCV.m</b><span>trapz/cumtrapz → η · Q · OCV(z) table per temperature</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>Dither signal</b><span>Alternates between T and 25 °C to eliminate hysteresis from OCV data</span></div>
+                                </div>
                             </div>
                         </div>
 
-                    </div><!-- /bx__stage ecm -->
-                </div><!-- /bx glass ecm -->
+<!-- ── C2·3: Dynamic ID ──────────────────────────────────────────────────── -->
+                        <div class="bx__panel" role="tabpanel" id="ecm-p7" aria-labelledby="ecm-t7">
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c2">
+                                    <div class="ecm-visual__title">Dynamic Parameter ID Pipeline</div>
+                                    <svg viewBox="0 0 320 220" aria-label="Dynamic parameter identification pipeline: UDDS test data to SISOsubid, then fminbnd for gamma, then lsqnonneg for M and M0, output is dynamic ESC model">
+                                        <!-- Stage boxes -->
+                                        <!-- UDDS data -->
+                                        <rect x="8" y="90" width="62" height="44" rx="6" fill="rgba(100,180,255,0.12)" stroke="rgba(100,180,255,0.5)" stroke-width="1.2"/>
+                                        <text x="39" y="108" text-anchor="middle" font-size="8.5" fill="rgba(150,210,255,0.9)" font-weight="600">UDDS</text>
+                                        <text x="39" y="120" text-anchor="middle" font-size="8.5" fill="rgba(150,210,255,0.9)">Test Data</text>
+                                        <text x="39" y="130" text-anchor="middle" font-size="7.5" fill="rgba(150,210,255,0.5)">V · I · T · Ah</text>
+                                        <!-- Arrow -->
+                                        <path d="M70 112H92" stroke="rgba(245,197,66,0.5)" stroke-width="1.2" fill="none" marker-end="url(#ecm-arr2)"/>
+                                        <!-- OCV subtract -->
+                                        <rect x="92" y="90" width="58" height="44" rx="6" fill="rgba(100,200,120,0.1)" stroke="rgba(100,200,120,0.4)" stroke-width="1.2"/>
+                                        <text x="121" y="107" text-anchor="middle" font-size="8" fill="rgba(150,230,170,0.85)" font-weight="600">Subtract</text>
+                                        <text x="121" y="119" text-anchor="middle" font-size="8" fill="rgba(150,230,170,0.85)">OCV(z,T)</text>
+                                        <text x="121" y="130" text-anchor="middle" font-size="7" fill="rgba(150,230,170,0.5)">→ residual V</text>
+                                        <!-- Arrow -->
+                                        <path d="M150 112H170" stroke="rgba(245,197,66,0.5)" stroke-width="1.2" fill="none"/>
+                                        <!-- SISOsubid -->
+                                        <rect x="170" y="68" width="66" height="44" rx="6" fill="rgba(245,197,66,0.12)" stroke="rgba(245,197,66,0.5)" stroke-width="1.2"/>
+                                        <text x="203" y="84" text-anchor="middle" font-size="8.5" fill="rgba(255,230,100,0.9)" font-weight="600">SISOsubid</text>
+                                        <text x="203" y="96" text-anchor="middle" font-size="8" fill="rgba(255,230,100,0.7)">Subspace ID</text>
+                                        <text x="203" y="106" text-anchor="middle" font-size="7.5" fill="rgba(255,230,100,0.5)">A · B · C · D</text>
+                                        <!-- fminbnd -->
+                                        <rect x="170" y="122" width="66" height="40" rx="6" fill="rgba(245,197,66,0.1)" stroke="rgba(245,197,66,0.4)" stroke-width="1.2"/>
+                                        <text x="203" y="138" text-anchor="middle" font-size="8.5" fill="rgba(255,230,100,0.85)" font-weight="600">fminbnd</text>
+                                        <text x="203" y="150" text-anchor="middle" font-size="7.5" fill="rgba(255,230,100,0.5)">γ ∈ [0,10]</text>
+                                        <!-- lsqnonneg -->
+                                        <rect x="170" y="172" width="66" height="38" rx="6" fill="rgba(245,197,66,0.08)" stroke="rgba(245,197,66,0.3)" stroke-width="1.2"/>
+                                        <text x="203" y="188" text-anchor="middle" font-size="8.5" fill="rgba(255,230,100,0.8)" font-weight="600">lsqnonneg</text>
+                                        <text x="203" y="200" text-anchor="middle" font-size="7.5" fill="rgba(255,230,100,0.4)">M · M₀</text>
+                                        <!-- Output: model params -->
+                                        <rect x="254" y="90" width="60" height="80" rx="6" fill="rgba(100,200,120,0.1)" stroke="rgba(100,200,120,0.5)" stroke-width="1.2"/>
+                                        <text x="284" y="118" text-anchor="middle" font-size="8.5" fill="rgba(150,230,170,0.9)" font-weight="600">ESC</text>
+                                        <text x="284" y="130" text-anchor="middle" font-size="8.5" fill="rgba(150,230,170,0.9)">Params</text>
+                                        <text x="284" y="145" text-anchor="middle" font-size="7.5" fill="rgba(150,230,170,0.5)">R₀ · RC₁ · RC₂</text>
+                                        <text x="284" y="156" text-anchor="middle" font-size="7.5" fill="rgba(150,230,170,0.5)">γ · M · M₀</text>
+                                        <!-- Connecting arrows right to output -->
+                                        <path d="M236 90L254 130" stroke="rgba(245,197,66,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M236 142L254 142" stroke="rgba(245,197,66,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M236 191L254 155" stroke="rgba(245,197,66,0.4)" stroke-width="1" fill="none"/>
+                                        <!-- Arrows from residual to 3 stages -->
+                                        <path d="M150 100L170 90" stroke="rgba(100,200,120,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M150 112L170 142" stroke="rgba(100,200,120,0.4)" stroke-width="1" fill="none"/>
+                                        <path d="M150 124L170 191" stroke="rgba(100,200,120,0.4)" stroke-width="1" fill="none"/>
+                                        <!-- R0 label -->
+                                        <text x="120" y="60" text-anchor="middle" font-size="7.5" fill="rgba(245,197,66,0.5)">R₀ = −D (feedthrough)</text>
+                                        <path d="M170 80L92 60" stroke="rgba(245,197,66,0.2)" stroke-width="0.8" stroke-dasharray="3 2" fill="none"/>
+                                    </svg>
+                                </div>
+                                <figcaption>processDynamic.m three-stage pipeline: subtract OCV → SISOsubid (RC state-space) → fminbnd (γ) → lsqnonneg (M, M₀).</figcaption>
+                            </figure>
+                            <div class="bx__copy">
+                                <span class="label ecm-label--c2">Course 2 · Lessons 2-3-1 → 2-3-9 · Dynamic ID</span>
+                                <h3>UDDS testing &amp; dynamic parameter ID</h3>
+                                <p>UDDS current profiles (EPA urban drive cycle) excite every dynamic mode across 6 temperatures. <code>processDynamic.m</code> identifies all parameters in three staged steps: subspace system identification for the RC state-space, golden-section search for hysteresis nonlinearity γ, and non-negative constrained least-squares for hysteresis magnitudes M and M₀.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c2"><b>UDDS profile</b><span>EPA city drive cycle — broadband excitation for all RC timescales</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>SISOsubid</b><span>Subspace ID → A, B, C, D matrices of RC state-space</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>fminbnd</b><span>Golden-section search for hysteresis γ — no gradient required</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>lsqnonneg</b><span>Non-negative constrained LS → M, M₀ physically meaningful</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+<!-- ── C2·4: ESC Validation + Pack Sim ──────────────────────────────────── -->
+                        <div class="bx__panel" role="tabpanel" id="ecm-p8" aria-labelledby="ecm-t8">
+                            <figure class="bx__fig ecm-info-fig">
+                                <div class="ecm-visual ecm-visual--c2">
+                                    <div class="ecm-visual__title">ESC Validation · 5.7 mV RMS</div>
+                                    <svg viewBox="0 0 320 220" aria-label="ESC predicted voltage dashed yellow versus measured voltage solid grey with 5.7 mV RMS error callout">
+                                        <g style="stroke:rgba(255,255,255,0.07);stroke-width:1;fill:none">
+                                            <path d="M42 30H290M42 86H290M42 142H290M42 198H290"/>
+                                        </g>
+                                        <g font-size="8.5" text-anchor="end" fill="rgba(255,255,255,0.4)">
+                                            <text x="36" y="34">4.05</text><text x="36" y="90">3.90</text>
+                                            <text x="36" y="146">3.75</text><text x="36" y="200">3.60</text>
+                                        </g>
+                                        <!-- Measured voltage (grey) -->
+                                        <path d="M42 114 L65 114 L67 148 L70 114 L88 114 L90 132 L93 114 L110 114 L112 152 L115 114 L132 114 L134 124 L137 114 L154 114 L156 155 L159 114 L176 114 L178 130 L181 114 L198 114 L200 148 L203 114 L220 114 L222 128 L225 114 L242 114 L244 155 L247 114 L264 114 L266 134 L269 114 L290 118" stroke="rgba(130,170,210,0.8)" stroke-width="2" fill="none"/>
+                                        <!-- ESC predicted (gold dashed) -->
+                                        <path d="M42 115 L65 115 L67 149 L70 115 L88 115 L90 133 L93 115 L110 115 L112 153 L115 115 L132 115 L134 125 L137 115 L154 115 L156 156 L159 115 L176 115 L178 131 L181 115 L198 115 L200 149 L203 115 L220 115 L222 129 L225 115 L242 115 L244 156 L247 115 L264 115 L266 135 L269 115 L290 119" stroke="rgba(245,197,66,0.9)" stroke-width="1.6" fill="none" stroke-dasharray="6 4"/>
+                                        <!-- RMS error callout -->
+                                        <rect x="192" y="38" width="96" height="44" rx="8" fill="rgba(245,197,66,0.12)" stroke="rgba(245,197,66,0.5)" stroke-width="1.3"/>
+                                        <text x="240" y="58" text-anchor="middle" font-size="13" fill="rgba(245,197,66,1)" font-weight="700">5.7 mV</text>
+                                        <text x="240" y="73" text-anchor="middle" font-size="9" fill="rgba(245,197,66,0.65)">RMS prediction error</text>
+                                        <!-- Legend -->
+                                        <line x1="48" y1="18" x2="72" y2="18" stroke="rgba(130,170,210,0.8)" stroke-width="2"/>
+                                        <text x="76" y="22" font-size="8.5" fill="rgba(130,170,210,0.8)">Measured</text>
+                                        <line x1="136" y1="18" x2="160" y2="18" stroke="rgba(245,197,66,0.9)" stroke-width="1.6" stroke-dasharray="6 4"/>
+                                        <text x="164" y="22" font-size="8.5" fill="rgba(245,197,66,0.9)">ESC predicted</text>
+                                        <!-- Pack sim boxes at bottom -->
+                                        <rect x="42" y="168" width="62" height="30" rx="5" fill="rgba(100,200,120,0.08)" stroke="rgba(100,200,120,0.4)" stroke-width="1"/>
+                                        <text x="73" y="181" text-anchor="middle" font-size="7.5" fill="rgba(150,230,170,0.8)" font-weight="600">CV Sim</text>
+                                        <text x="73" y="192" text-anchor="middle" font-size="7" fill="rgba(150,230,170,0.5)">Const voltage</text>
+                                        <rect x="114" y="168" width="62" height="30" rx="5" fill="rgba(100,200,120,0.08)" stroke="rgba(100,200,120,0.4)" stroke-width="1"/>
+                                        <text x="145" y="181" text-anchor="middle" font-size="7.5" fill="rgba(150,230,170,0.8)" font-weight="600">CC Sim</text>
+                                        <text x="145" y="192" text-anchor="middle" font-size="7" fill="rgba(150,230,170,0.5)">Const current</text>
+                                        <rect x="186" y="168" width="62" height="30" rx="5" fill="rgba(100,200,120,0.08)" stroke="rgba(100,200,120,0.4)" stroke-width="1"/>
+                                        <text x="217" y="181" text-anchor="middle" font-size="7.5" fill="rgba(150,230,170,0.8)" font-weight="600">S-P Config</text>
+                                        <text x="217" y="192" text-anchor="middle" font-size="7" fill="rgba(150,230,170,0.5)">Series / parallel</text>
+                                        <text x="42" y="210" font-size="7.5" fill="rgba(255,255,255,0.3)">Pack simulations → CC · CV · constant power · series-parallel</text>
+                                    </svg>
+                                </div>
+                                <figcaption>ESC model validated on held-out UDDS data — 5.7 mV RMS. Pack simulation extends single-cell model to series-parallel configurations.</figcaption>
+                            </figure>
+                            <div class="bx__copy">
+                                <span class="label ecm-label--c2">Course 2 · Lessons 2-3-7 → 2-4-1 · Validation &amp; Packs</span>
+                                <h3>ESC validation &amp; pack simulation</h3>
+                                <p>The completed ESC model is validated on a held-out UDDS run — 5.7 mV RMS error across the full SOC swing. The same model then extends to constant-voltage, constant-current, and constant-power simulations, and to multi-cell packs in series, parallel, and series-parallel configurations, ready to serve as the process model for an EKF SOC estimator.</p>
+                                <div class="ecm-grid2">
+                                    <div class="ecm-kv ecm-kv--c2"><b>5.7 mV RMS</b><span>Validation error on completely held-out UDDS data at 25 °C</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>simCell.m</b><span>Simulates voltage response to any current profile using ESC model</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>CV · CC · CP</b><span>Constant voltage, current, and power pack simulations in MATLAB</span></div>
+                                    <div class="ecm-kv ecm-kv--c2"><b>→ EKF ready</b><span>ESC state-space is the process model for real-time SOC estimation</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /bx__stage -->
+                </div><!-- /bx glass ecm-explorer -->
+
 
             </div>
         </section>

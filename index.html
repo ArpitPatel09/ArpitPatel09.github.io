@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
-    <link rel="stylesheet" href="style.css?v=21">
+    <link rel="stylesheet" href="style.css?v=22">
     <link rel="stylesheet" href="gridtech/embed.css?v=5">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -73,6 +73,7 @@
             <span class="nav__pill" aria-hidden="true"></span>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
+            <a href="#bms-journey">BMS Journey</a>
             <a href="#projects">Projects</a>
             <a href="#battery">Battery</a>
             <a href="#research">Research</a>
@@ -89,14 +90,15 @@
         <div class="menu__links">
             <a href="#about" style="--i:0">About</a>
             <a href="#skills" style="--i:1">Skills</a>
-            <a href="#projects" style="--i:2">Projects</a>
-            <a href="#battery" style="--i:3">Battery</a>
-            <a href="#research" style="--i:4">Research</a>
-            <a href="#experience" style="--i:5">Experience</a>
-            <a href="#field" style="--i:6">Field Work</a>
-            <a href="#insights" style="--i:7">Insights</a>
-            <a href="#life" style="--i:8">Life</a>
-            <a href="#contact" style="--i:9">Contact</a>
+            <a href="#bms-journey" style="--i:2">BMS Journey</a>
+            <a href="#projects" style="--i:3">Projects</a>
+            <a href="#battery" style="--i:4">Battery</a>
+            <a href="#research" style="--i:5">Research</a>
+            <a href="#experience" style="--i:6">Experience</a>
+            <a href="#field" style="--i:7">Field Work</a>
+            <a href="#insights" style="--i:8">Insights</a>
+            <a href="#life" style="--i:9">Life</a>
+            <a href="#contact" style="--i:10">Contact</a>
         </div>
         <p class="menu__foot">anp2173@columbia.edu</p>
     </div>
@@ -397,6 +399,183 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+
+        <!-- ============ BMS JOURNEY (ECM Pipeline) ============ -->
+        <section id="bms-journey" class="section bms-journey">
+            <div class="container">
+                <div class="sec-head">
+                    <div>
+                        <span class="eyebrow" data-reveal>03 — BMS Specialization</span>
+                        <h2 class="sec-title split">From Cell Testing to ESC Model</h2>
+                    </div>
+                    <p class="sec-desc" data-reveal style="--d:.15s">A two-course deep-dive into Prof. Gregory Plett's Battery Management Systems specialization — from the first principles of equivalent-circuit models all the way to a validated ESC model achieving <strong>5.7 mV RMS</strong> accuracy on UDDS drive cycles. Learning journey and engineering process, woven together.</p>
+                </div>
+
+                <!-- ── Course roadmap pills ─────────────────────────── -->
+                <div class="ecm-courses" data-reveal style="--d:.1s">
+                    <div class="ecm-course-pill ecm-course-pill--done">
+                        <span class="ecm-pill__num">Course 1</span>
+                        <span class="ecm-pill__name">Intro to Battery Management Systems</span>
+                        <span class="ecm-pill__check">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Complete
+                        </span>
+                    </div>
+                    <div class="ecm-course-pill ecm-course-pill--done">
+                        <span class="ecm-pill__num">Course 2</span>
+                        <span class="ecm-pill__name">Equivalent Circuit Cell Model Simulation</span>
+                        <span class="ecm-pill__check">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Complete
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ── ECM Pipeline Flowchart ────────────────────────── -->
+                <div class="glass ecm-flow-wrap" data-reveal style="--d:.18s" data-spotlight>
+                    <div class="ecm-flow-head">
+                        <span class="label">ECM Modeling Pipeline</span>
+                        <p>How you go from a bare cell to a validated state-space battery model.</p>
+                    </div>
+
+                    <div class="ecm-pipeline" aria-label="ECM modeling pipeline: 5 stages from defining the model to validated ESC" role="img">
+
+                        <!-- Stage 1: Define ECM -->
+                        <div class="ecm-step" style="--si:0">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">01</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M14 10h4M14 14h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>Define the ECM</h3>
+                                <p>OCV voltage source, series resistance R₀, one or two RC pairs for diffusion dynamics, and a hysteresis state to capture charge-history effects.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>OCV(z,T)</li><li>R₀</li><li>RC pairs</li><li>Hysteresis</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ecm-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 24 40"><path d="M12 2v32M6 28l6 8 6-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                        <!-- Stage 2: Static Testing -->
+                        <div class="ecm-step" style="--si:1">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">02</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20L8 9l4 6 4-9 5 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>Static Testing  <span class="ecm-step__badge">C/30 Protocol</span></h3>
+                                <p>Full discharge and charge at a very slow C/30 rate — slow enough that dynamic effects vanish — across −5 °C, 5 °C, 15 °C, 25 °C, 35 °C, and 45 °C. Captures OCV as a true function of SOC and temperature.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>C/30 rate</li><li>6 temperatures</li><li>OCV vs SOC</li><li>Coulombic efficiency</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ecm-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 24 40"><path d="M12 2v32M6 28l6 8 6-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                        <!-- Stage 3: Static Parameter ID -->
+                        <div class="ecm-step" style="--si:2">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">03</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>Static Parameter ID  <span class="ecm-step__badge">processOCV.m</span></h3>
+                                <p>MATLAB script <code>processOCV.m</code> processes the C/30 data: computes Coulombic efficiency, cell capacity Q, and fits smooth OCV curve tables for each temperature. Output is a lookup structure used by every downstream step.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>processOCV.m</li><li>Capacity Q</li><li>η Coulombic</li><li>OCV tables</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ecm-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 24 40"><path d="M12 2v32M6 28l6 8 6-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                        <!-- Stage 4: Dynamic Testing -->
+                        <div class="ecm-step" style="--si:3">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">04</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12l2 2 2-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>Dynamic Testing  <span class="ecm-step__badge">UDDS Drive Cycle</span></h3>
+                                <p>UDDS (Urban Dynamometer Driving Schedule) current profiles simulate real EV driving — aggressive acceleration and regen braking — applied across all six temperatures. The resulting voltage, current, temperature, and Ah data captures the full dynamic response of the cell.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>UDDS profile</li><li>6 temperatures</li><li>V, I, T, Ah logged</li><li>Dynamic excitation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ecm-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 24 40"><path d="M12 2v32M6 28l6 8 6-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                        <!-- Stage 5: Dynamic Parameter ID -->
+                        <div class="ecm-step" style="--si:4">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">05</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17 13v8M13 17h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>Dynamic Parameter ID  <span class="ecm-step__badge">processDynamic.m</span></h3>
+                                <p><code>processDynamic.m</code> uses subspace system identification (SISOsubid), scalar optimization (fminbnd), and constrained least-squares to extract R₀, RC time constants, hysteresis magnitude M and M₀, and the nonlinearity γ — all as a function of SOC and temperature.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>SISOsubid</li><li>fminbnd</li><li>Constrained LS</li><li>R₀, RC, M, γ</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ecm-arrow" aria-hidden="true">
+                            <svg viewBox="0 0 24 40"><path d="M12 2v32M6 28l6 8 6-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                        <!-- Stage 6: ESC State-Space -->
+                        <div class="ecm-step ecm-step--final" style="--si:5">
+                            <div class="ecm-step__node">
+                                <span class="ecm-step__num">06</span>
+                                <svg class="ecm-step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2 7h7l-5.7 4.1 2.2 6.9L12 16l-5.5 4 2.2-6.9L3 9h7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div class="ecm-step__body">
+                                <h3>ESC State-Space Model  <span class="ecm-step__badge ecm-step__badge--gold">5.7 mV RMS</span></h3>
+                                <p>The Enhanced Self-Correcting (ESC) model assembles all identified parameters into a discrete-time state-space: <em>x[k+1] = Ax[k] + Bu[k]</em>, with terminal voltage <em>V<sub>t</sub> = OCV(z,T) + Mh − ΣR<sub>j</sub>i<sub>Rj</sub> − R₀i</em>. Validated against held-out UDDS data — 5.7 mV RMS error across the full SOC range.</p>
+                                <ul class="ecm-step__tags">
+                                    <li>ESC model</li><li>State-space</li><li>UDDS validated</li><li>→ EKF SOC estimation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div><!-- /ecm-pipeline -->
+
+                    <!-- ── Bottom stat bar ─────────────────────────── -->
+                    <div class="ecm-stats">
+                        <div class="ecm-stat">
+                            <span class="ecm-stat__val">5.7 mV</span>
+                            <span class="ecm-stat__lbl">RMS voltage error on UDDS</span>
+                        </div>
+                        <div class="ecm-stat">
+                            <span class="ecm-stat__val">6 temps</span>
+                            <span class="ecm-stat__lbl">−5 °C to 45 °C test range</span>
+                        </div>
+                        <div class="ecm-stat">
+                            <span class="ecm-stat__val">2 courses</span>
+                            <span class="ecm-stat__lbl">Plett BMS Specialization</span>
+                        </div>
+                        <div class="ecm-stat">
+                            <span class="ecm-stat__val">C/30 + UDDS</span>
+                            <span class="ecm-stat__lbl">Static + dynamic test protocols</span>
+                        </div>
+                    </div>
+                </div><!-- /ecm-flow-wrap -->
+
+            </div><!-- /container -->
         </section>
 
         <!-- ============ PROJECTS ============ -->

@@ -2069,3 +2069,271 @@ a.cred__img:hover::after, a.cred__img:focus-visible::after { opacity: 1; transla
         flex-direction: column;
     }
 }
+
+
+/* ==========================================================================
+   BMS Journey Section — ECM Pipeline
+   ========================================================================== */
+
+/* Course pills */
+.ecm-courses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+    margin-bottom: 32px;
+}
+.ecm-course-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 13px;
+    flex-wrap: wrap;
+}
+.ecm-course-pill--done {
+    border-color: rgba(52, 211, 120, 0.4);
+    background: rgba(52, 211, 120, 0.07);
+}
+.ecm-pill__num {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+.ecm-pill__name {
+    font-weight: 500;
+    color: var(--text);
+}
+.ecm-pill__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #34d378;
+}
+.ecm-pill__check svg {
+    width: 15px; height: 15px;
+    padding: 2px;
+    border-radius: 50%;
+    background: #34d378;
+    color: #0f2a1a;
+}
+
+/* Flow wrap */
+.ecm-flow-wrap {
+    padding: clamp(24px, 3.5vw, 48px);
+}
+.ecm-flow-head {
+    margin-bottom: 36px;
+}
+.ecm-flow-head .label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 6px;
+}
+.ecm-flow-head p {
+    color: var(--text-3);
+    font-size: 14px;
+}
+
+/* Pipeline */
+.ecm-pipeline {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+}
+
+/* Arrow connector */
+.ecm-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    color: rgba(245, 197, 66, 0.4);
+}
+.ecm-arrow svg {
+    width: 20px;
+    height: 32px;
+}
+
+/* Individual step */
+.ecm-step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 20px;
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+    animation: ecmFadeUp 0.55s var(--ease) both;
+    animation-delay: calc(var(--si) * 80ms + 0.2s);
+}
+.ecm-step:hover {
+    background: rgba(255,255,255,0.055);
+    border-color: rgba(245, 197, 66, 0.2);
+}
+.ecm-step--final {
+    border-color: rgba(245, 197, 66, 0.3);
+    background: rgba(245, 197, 66, 0.05);
+}
+.ecm-step--final:hover {
+    background: rgba(245, 197, 66, 0.08);
+    border-color: rgba(245, 197, 66, 0.45);
+}
+
+@keyframes ecmFadeUp {
+    from { opacity: 0; translate: 0 18px; }
+    to   { opacity: 1; translate: 0 0; }
+}
+
+/* Step node (number + icon) */
+.ecm-step__node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-top: 2px;
+}
+.ecm-step__num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--sun);
+    opacity: 0.8;
+}
+.ecm-step__icon {
+    width: 36px; height: 36px;
+    padding: 7px;
+    border-radius: 10px;
+    background: rgba(245, 197, 66, 0.1);
+    color: var(--sun);
+    flex-shrink: 0;
+}
+.ecm-step--final .ecm-step__icon {
+    background: rgba(245, 197, 66, 0.2);
+}
+
+/* Step body */
+.ecm-step__body h3 {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 7px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+}
+.ecm-step__body p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text-2);
+    margin-bottom: 12px;
+}
+.ecm-step__body code {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--sun);
+}
+
+/* Badge chips */
+.ecm-step__badge {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text-3);
+    font-family: var(--font-body);
+}
+.ecm-step__badge--gold {
+    background: rgba(245, 197, 66, 0.15);
+    border-color: rgba(245, 197, 66, 0.4);
+    color: var(--sun);
+}
+
+/* Tag pills */
+.ecm-step__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.ecm-step__tags li {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--text-3);
+}
+
+/* Stats bar */
+.ecm-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 32px;
+    background: rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.ecm-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 20px;
+    background: rgba(20, 33, 42, 0.6);
+}
+.ecm-stat__val {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 600;
+    color: var(--sun);
+    letter-spacing: -0.02em;
+}
+.ecm-stat__lbl {
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+    .ecm-stats { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+    .ecm-step { grid-template-columns: 48px 1fr; gap: 14px; padding: 16px; }
+    .ecm-step__node { gap: 5px; }
+    .ecm-step__icon { width: 30px; height: 30px; }
+    .ecm-stats { grid-template-columns: 1fr 1fr; }
+    .ecm-courses { flex-direction: column; }
+    .ecm-course-pill { border-radius: var(--radius); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ecm-step { animation: none; }
+}

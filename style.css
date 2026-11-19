@@ -2168,3 +2168,53 @@ a.cred__img:hover::after, a.cred__img:focus-visible::after { opacity: 1; transla
 @media (max-width: 600px) {
     .ecm-visual__title { font-size: 9px; }
 }
+
+/* ==========================================================================
+   BMS Specialization — Publication-Grade Figure Styles
+   ========================================================================== */
+
+.bms-media-fig {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: transparent !important;
+}
+
+.bms-fig-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    background: #101920;
+    display: block;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.bms-fig-img:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+}
+
+.bms-media-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bms-fig-gif {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(245, 197, 66, 0.3);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    background: #101920;
+    display: block;
+}
+
+.bms-media-fig figcaption {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--text-3);
+    padding: 0 4px;
+}

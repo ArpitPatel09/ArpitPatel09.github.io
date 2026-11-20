@@ -2218,3 +2218,291 @@ a.cred__img:hover::after, a.cred__img:focus-visible::after { opacity: 1; transla
     color: var(--text-3);
     padding: 0 4px;
 }
+
+/* ==========================================================================
+   Interactive Battery & ECM Virtual Laboratory Studio
+   ========================================================================== */
+
+.bms-studio {
+    margin: 32px 0 48px;
+    padding: clamp(20px, 3vw, 36px);
+    border-radius: var(--radius-lg);
+    background: rgba(16, 25, 32, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+}
+
+.bms-studio__head {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 20px;
+}
+
+.bms-studio__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-weight: 600;
+    color: var(--text);
+    margin: 4px 0 8px;
+}
+
+.bms-studio__desc {
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 880px;
+}
+
+/* Mode selector bar */
+.bms-studio__modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.bms-smode {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s var(--ease);
+}
+
+.bms-smode svg {
+    width: 16px;
+    height: 16px;
+    color: var(--text-3);
+    transition: color 0.25s;
+}
+
+.bms-smode:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.bms-smode.is-active {
+    background: rgba(245, 197, 66, 0.14);
+    border-color: rgba(245, 197, 66, 0.5);
+    color: var(--sun);
+}
+
+.bms-smode.is-active svg {
+    color: var(--sun);
+}
+
+/* Studio 2-col body */
+.bms-studio__body {
+    display: grid;
+    grid-template-columns: 1.35fr 0.95fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.bms-view {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bms-view.is-active {
+    display: flex;
+}
+
+/* Controls bar */
+.bms-controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.bms-ctrl {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 130px;
+}
+
+.bms-ctrl label {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 500;
+}
+
+.bms-ctrl label b {
+    color: var(--sun);
+    font-weight: 600;
+}
+
+.bms-ctrl input[type="range"] {
+    width: 100%;
+    accent-color: var(--sun);
+    cursor: pointer;
+}
+
+/* Button groups */
+.bms-btn-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bms-toggle-btn, .bms-action-btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-2);
+    transition: all 0.2s;
+}
+
+.bms-toggle-btn:hover, .bms-action-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+}
+
+.bms-toggle-btn.is-active {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.6);
+    color: #38bdf8;
+}
+
+.bms-action-btn {
+    background: rgba(245, 197, 66, 0.15);
+    border-color: rgba(245, 197, 66, 0.5);
+    color: var(--sun);
+}
+
+.bms-action-btn.is-active {
+    background: rgba(52, 211, 120, 0.2);
+    border-color: rgba(52, 211, 120, 0.6);
+    color: #34d378;
+}
+
+/* Canvas display */
+.bms-canvas-wrap {
+    width: 100%;
+    background: #0c141a;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.bms-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Status banner */
+.bms-status-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.45;
+}
+
+.bms-status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.bms-status-dot.is-good { background: #34d378; box-shadow: 0 0 8px rgba(52, 211, 120, 0.6); }
+.bms-status-dot.is-sun { background: var(--sun); box-shadow: 0 0 8px rgba(245, 197, 66, 0.6); }
+.bms-status-dot.is-cyan { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.6); }
+.bms-status-dot.is-warn { background: #fb923c; box-shadow: 0 0 8px rgba(251, 146, 60, 0.6); }
+.bms-status-dot.is-trip { background: #fb7185; box-shadow: 0 0 10px rgba(251, 113, 133, 0.8); animation: bmsPulse 1s infinite; }
+
+@keyframes bmsPulse {
+    50% { opacity: 0.3; }
+}
+
+/* Right Panel: Telemetry */
+.bms-studio__telemetry {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bms-telem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.bms-tcard {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bms-tcard__label {
+    font-size: 10.5px;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+}
+
+.bms-tcard__val {
+    font-family: var(--font-display);
+    font-size: 1.22rem;
+    font-weight: 600;
+    color: var(--sun);
+}
+
+.bms-tcard__sub {
+    font-size: 11px;
+    color: var(--text-3);
+}
+
+.bms-telem-desc {
+    padding: 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-2);
+}
+
+.bms-telem-desc b {
+    color: var(--text);
+}
+
+@media (max-width: 960px) {
+    .bms-studio__body { grid-template-columns: 1fr; }
+}

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="images/ai/hero.webp" imagesrcset="images/ai/hero-sm.webp 1200w, images/ai/hero.webp 2400w" imagesizes="100vw">
-    <link rel="stylesheet" href="style.css?v=26">
+    <link rel="stylesheet" href="style.css?v=27">
     <link rel="stylesheet" href="gridtech/embed.css?v=5">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -475,31 +475,35 @@
                     <article class="project" id="charger" style="--i:2">
                         <div class="project__inner">
                             <div class="project__media">
-                                <div class="carousel" data-carousel data-title="Closed-Loop Li-ion Charger Control">
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_1.webp" alt="Simulink model: 10 kHz PWM buck converter with a PI loop setting the duty cycle from measured current" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_2.webp" alt="PWM-PI result: mean charging current settles on the 1 A reference" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_3.webp" alt="Constant-current PI controller around a Panasonic UR18650ZTA cell with a lumped thermal model" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_4.webp" alt="Constant-current result: 1.5 A held to full charge while temperature rises about 10 K" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_5.webp" alt="Constant-voltage PI controller regulating the cell at 4.2 V" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_6.webp" alt="Constant-voltage result: current tapers as SOC approaches 1 with voltage held at 4.2 V" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_7.webp" alt="Constant-power PI controller using measured voltage times current as feedback" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_8.webp" alt="Constant-power result: 5 W held flat as current falls and voltage rises" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_9.webp" alt="Open-loop buck converter charging stage: switch, diode, inductor and output capacitor" loading="lazy"></figure>
-                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/img_10.webp" alt="Open-loop buck result: inductor current ripple at the switching frequency" loading="lazy"></figure>
+                                <div class="carousel" data-carousel data-title="Closed-Loop Li-ion Charger &amp; TI C2000 PIL Simulation">
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/c2000_pil_architecture.webp" alt="Processor-in-the-Loop (PIL) Co-Simulation: Texas Instruments C2000 DSP running embedded C code in real time with Simscape battery plant" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/c2000_pil_scope.webp" alt="PIL Scope: Real-time embedded DSP power loop regulating 50 W charging power at 11 A and 4.5 V with zero timing slip" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_power_100w_model.webp" alt="100 W High-Power Charging Controller: Discrete-time PI(z) + (V_ref/V_in) voltage feedforward and anti-windup" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_power_100w_scope.webp" alt="100 W Scope: Ultra-fast 5 ms settling time, zero overshoot, and dead flat 100 W power regulation" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_current_feedforward.webp" alt="PWM Current PI Controller: Dual-loop architecture with feedforward duty cycle injection for fast dynamic response" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_current_scope.webp" alt="PWM Current Scope: Fast settling to 20 A reference with smooth inductor ripple filtering" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_voltage_feedforward.webp" alt="PWM Voltage PI Controller: Regulating 7.5 V terminal voltage with feedforward duty cycle" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_buck_openloop.webp" alt="Switched-Mode Buck Converter: High-side switch, freewheeling diode, LC filter sized in MATLAB Live Script" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cc_pi_model.webp" alt="Constant-Current (CC) PI Controller: P gain matched to cell internal impedance (R_INT) to eliminate current spikes" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cc_pi_scope.webp" alt="CC Scope: 1.5 A held to full charge, 4.5 V saturation ceiling, and +10 K lumped thermal rise" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cv_pi_model.webp" alt="Constant-Voltage (CV) PI Controller: Dimensionless proportional gain regulating cell at 4.2 V ceiling" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cv_pi_scope.webp" alt="CV Scope: Exponential current tapering down to C/30 cutoff as SOC reaches 1.0, with cell cooling down" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cp_pi_model.webp" alt="Constant-Power (CP) PI Controller: Dynamic V × I power feedback loop maintaining exact reference wattage" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cp_pi_scope.webp" alt="CP Scope: Exact 5 W power regulation as voltage climbs and current tapers proportionally" loading="lazy"></figure>
                                 </div>
                             </div>
                             <div class="project__body">
-                                <div class="project__top"><span class="label">Battery Controls</span><span class="project__num">03 / 06</span></div>
-                                <h3>Closed-Loop Li-ion Charger Control</h3>
-                                <p>Built and tuned PI controllers in Simulink and Simscape that charge a Panasonic 18650 cell in constant-current, constant-voltage and constant-power modes, with temperature and SOC tracked through a lumped thermal model. Then took it down to the power stage: a PWM buck converter whose duty cycle is set by a PI loop on measured current. Key finding: matching the proportional gain to the cell's total internal impedance removed current spikes.</p>
+                                <div class="project__top"><span class="label">Battery Controls &amp; Embedded DSP</span><span class="project__num">03 / 06</span></div>
+                                <h3>Closed-Loop Li-ion Charger &amp; TI C2000 Processor-in-the-Loop (PIL)</h3>
+                                <p>Engineered high-efficiency battery charging power stages in Simulink, Simscape Electrical, and Simscape Battery for a Panasonic UR18650ZTA cell across Constant-Current (CC), Constant-Voltage (CV), and Constant-Power (CP) modes up to 100 W. Sized a switched-mode buck converter (100 kHz ePWM, 130 µH, 25 µF, &le;10 mV ripple) in MATLAB Live Scripts with capacitive pre-charging to eliminate startup transient drop. Designed discrete-time PI(z) loops with feedforward duty-cycle injection +(V_ref/V_in) for deadbeat 5 ms settling. Validated embedded control code via <strong>Processor-in-the-Loop (PIL)</strong> co-simulation targeting the <strong>Texas Instruments C2000 (TMS320F28379D)</strong> microcontroller, verifying single-precision DSP execution, interrupt timing, and real-time closed-loop stability.</p>
                                 <div class="metrics">
-                                    <div class="metric"><b><span data-count="4">4</span> modes</b><span>CC, CV, CP and PWM-PI charging</span></div>
-                                    <div class="metric"><b><span data-count="10">10</span> kHz</b><span>Buck converter switching frequency</span></div>
-                                    <div class="metric"><b>+<span data-count="10">10</span> K</b><span>Cell temperature rise, full 1.5 A charge</span></div>
+                                    <div class="metric"><b><span data-count="4">4</span> modes</b><span>CC, CV, CP (100 W) &amp; ePWM</span></div>
+                                    <div class="metric"><b><span data-count="100">100</span> kHz</b><span>Buck converter ePWM frequency</span></div>
+                                    <div class="metric"><b>TI C2000</b><span>Processor-in-the-Loop (PIL) DSP</span></div>
                                 </div>
-                                <div class="chips"><span class="chip">Simulink</span><span class="chip">Simscape Battery</span><span class="chip">PI Control</span><span class="chip">Power Electronics</span><span class="chip">Thermal Modeling</span></div>
+                                <div class="chips"><span class="chip">Simulink</span><span class="chip">Simscape Battery</span><span class="chip">TI C2000 (DSP)</span><span class="chip">PIL Co-Simulation</span><span class="chip">Embedded Coder</span><span class="chip">Power Electronics</span><span class="chip">Feedforward PI(z)</span><span class="chip">Buck Converter</span></div>
                                 <div class="project__actions">
-                                    <a class="btn btn--light magnetic" href="docs/Battery_Charger_Simulink_Models.zip" download><svg><use href="#i-download"/></svg>Simulink Models</a>
+                                    <a class="btn btn--light magnetic" href="docs/Battery_Charger_Simulink_Models.zip" download><svg><use href="#i-download"/></svg>Simulink &amp; PIL Models (.zip)</a>
                                     <a href="#battery" class="link-plain">See the BMS work</a>
                                 </div>
                             </div>
@@ -609,7 +613,7 @@
                         <button class="bx__tab is-active" type="button" role="tab" id="bx-t1" aria-controls="bx-p1" aria-selected="true"><span class="bx__n">01</span><span><b>Electrochemistry</b><small>Voltage, energy, losses</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t2" aria-controls="bx-p2" aria-selected="false" tabindex="-1"><span class="bx__n">02</span><span><b>Cell Modeling</b><small>ECM + characterization</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t3" aria-controls="bx-p3" aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>Cell Testing &amp; ESC Model</b><small>C/30 · UDDS · 5.7 mV RMS</small></span></button>
-                        <button class="bx__tab" type="button" role="tab" id="bx-t4" aria-controls="bx-p4" aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Safe Charging</b><small>CC-CV with thermal model</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t4" aria-controls="bx-p4" aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Power Stage &amp; PIL</b><small>100 kHz Buck · TI C2000 DSP</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t5" aria-controls="bx-p5" aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>Pack Design</b><small>4P10S e-scooter pack</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t6" aria-controls="bx-p6" aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>SOC Estimation</b><small>Coulomb counting vs. Kalman</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t7" aria-controls="bx-p7" aria-selected="false" tabindex="-1"><span class="bx__n">07</span><span><b>Balancing &amp; Logic</b><small>Passive balancing, Stateflow</small></span></button>
@@ -709,37 +713,24 @@
 
 <!-- 04 -->
                         <div class="bx__panel" role="tabpanel" id="bx-p4" aria-labelledby="bx-t4">
-                            <figure class="bx__fig">
-                                <svg viewBox="0 0 420 250" role="img" aria-label="CC-CV charge: current constant then tapering, voltage rising then held at 4.2 volts, temperature peaking at the switch to CV">
-                                    <g class="fx-grid"><path d="M40 200H400"/><path class="fx-dash-l" d="M263 30V200"/></g>
-                                    <g class="fx-phase" text-anchor="middle"><text x="151" y="22">CC phase</text><text x="331" y="22">CV phase</text></g>
-                                    <path class="fx-line fx-mist fx-draw" pathLength="1" d="M40 150C90 120 200 95 263 60L400 60"/>
-                                    <path class="fx-line fx-sun fx-draw" pathLength="1" d="M40 74L263 74C300 160 340 185 380 192"/>
-                                    <path class="fx-line fx-hot fx-dashed" d="M40 190C150 160 230 108 263 102C310 112 350 160 400 178"/>
-                                    <circle class="fx-dot" cx="380" cy="192" r="4"/>
-                                    <circle class="fx-dot fx-dot--hot" cx="263" cy="102" r="4"/>
-                                    <g class="fx-tick">
-                                        <text x="272" y="52">4.2 V hold</text>
-                                        <text x="394" y="216" text-anchor="end">C/30 cutoff</text>
-                                        <text x="250" y="62" text-anchor="end" class="fx-hot-t">peak 31 °C</text>
-                                    </g>
-                                    <path class="fx-lead" d="M252 64L261 96"/>
-                                    <g class="fx-legend">
-                                        <path class="fx-line fx-mist" d="M44 226h18"/><text x="68" y="230">Voltage</text>
-                                        <path class="fx-line fx-sun" d="M140 226h18"/><text x="164" y="230">Current</text>
-                                        <path class="fx-line fx-hot fx-dashed" d="M236 226h18"/><text x="260" y="230">Temperature</text>
-                                    </g>
-                                </svg>
-                                <figcaption>Shape of my 1C charge run (schematic). Most of the charge goes in during CC; the cell cools during CV.</figcaption>
+                            <figure class="bx__fig bms-media-fig">
+                                <div class="carousel" data-carousel data-title="Safe Charging &amp; Buck Converter Controls">
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/c2000_pil_architecture.webp" alt="Processor-in-the-Loop (PIL) co-simulation with Texas Instruments C2000 DSP and Simscape battery plant" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/c2000_pil_scope.webp" alt="PIL Scope: Real-time embedded DSP power loop regulating 50 W charging power at 11 A and 4.5 V" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/pwm_power_100w_scope.webp" alt="100 W Power Charging: Deadbeat 5 ms settling time, zero overshoot, and perfectly flat power regulation" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cv_pi_scope.webp" alt="Constant-Voltage scope: current tapers to C/30 cutoff as SOC reaches 1.0, with cell cooling down" loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img src="images/projects/charger/cc_pi_scope.webp" alt="Constant-Current scope: 1.5 A held to full charge with lumped thermal rise of +10 K" loading="lazy"></figure>
+                                </div>
+                                <figcaption>Closed-loop battery charging power stage: 100 kHz switched-mode buck converter with feedforward PI(z) control and TI C2000 Processor-in-the-Loop (PIL) DSP verification.</figcaption>
                             </figure>
                             <div class="bx__copy">
-                                <span class="label">Battery Design &amp; Management</span>
-                                <h3>CC-CV charging with a thermal model attached</h3>
-                                <p>Gave the cell a lumped thermal mass and a convective path to ambient, then swept charge current and voltage threshold to map the trade-off between charge time, final SOC and peak temperature, so the charger can be sized to a thermal budget instead of guessed.</p>
+                                <span class="label">Battery Design &amp; Embedded Power</span>
+                                <h3>Closed-Loop Charging &amp; TI C2000 PIL Co-Simulation</h3>
+                                <p>Engineered multi-mode battery charging stages (CC, CV, and CP up to 100 W) in Simulink, Simscape Electrical, and Simscape Battery with lumped thermal dissipation. Designed a 100 kHz switched-mode buck converter (L &approx; 130 &mu;H, C = 25 &mu;F, &Delta;V &le; 10 mV) in MATLAB Live Scripts with capacitive pre-charging to prevent startup droop. Implemented discrete-time PI(z) loops with feedforward duty-cycle injection +(V_ref/V_in) for deadbeat 5 ms settling, and validated firmware via <strong>Processor-in-the-Loop (PIL)</strong> on a <strong>Texas Instruments C2000 (TMS320F28379D)</strong> microcontroller.</p>
                                 <ul class="bx__facts">
-                                    <li><b>99% in 1.4 h</b><span>1C charge, peaking at 31 °C</span></li>
-                                    <li><b>23.5 °C</b><span>Peak at 0.5C, for one extra hour</span></li>
-                                    <li><b>82% SOC</b><span>If the threshold drops to 4.0 V</span></li>
+                                    <li><b>100 kHz</b><span>Switched-mode ePWM frequency with LC ripple filtering</span></li>
+                                    <li><b>TI C2000</b><span>Processor-in-the-Loop real-time DSP co-simulation</span></li>
+                                    <li><b>&lt; 5 ms</b><span>Deadbeat feedforward transient settling time</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -1006,6 +997,190 @@
                         <span class="ecm-course-card__done"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete · 4 modules</span>
                     </div>
                 </div>
+
+                <!-- ============ INTERACTIVE BATTERY & ECM STUDIO ============ -->
+                <div class="glass bms-studio" id="bms-studio" data-reveal style="--d:.1s" data-spotlight>
+                    <div class="bms-studio__head">
+                        <div class="bms-studio__title-wrap">
+                            <span class="label" style="color:var(--sun);">Interactive Virtual Laboratory</span>
+                            <h3 class="bms-studio__title">Cell Testing, ECM Simulator &amp; BMS Safety Console</h3>
+                            <p class="bms-studio__desc">Hands-on testing console: toggle 4-wire Kelvin sensing to eliminate lead drops, collapse hysteresis via dither excitation, simulate live UDDS drive-cycle telemetry, tune equivalent-circuit parameters, and test BMS safety interlocks.</p>
+                        </div>
+                        <!-- Mode selector pills -->
+                        <div class="bms-studio__modes" role="tablist" aria-label="Interactive simulation modes">
+                            <button class="bms-smode is-active" type="button" data-smode="kelvin"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/></svg><span>4-Wire Kelvin Bridge</span></button>
+                            <button class="bms-smode" type="button" data-smode="static"><svg viewBox="0 0 24 24"><path d="M3 12h3l3-8 4 16 3-8h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Static OCV &amp; Dither</span></button>
+                            <button class="bms-smode" type="button" data-smode="udds"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="12" r="2" fill="currentColor"/><path d="M12 9v6M17 9v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>UDDS Drive Cycle</span></button>
+                            <button class="bms-smode" type="button" data-smode="ecm"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 12h4l2-4 3 8 2-4h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ESC Decomposition</span></button>
+                            <button class="bms-smode" type="button" data-smode="bms"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>BMS Safety SOA</span></button>
+                            <button class="bms-smode" type="button" data-smode="charger"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Buck Charger &amp; PIL</span></button>
+                        </div>
+                    </div>
+
+                    <div class="bms-studio__body">
+                        <!-- Left Panel: Interactive Simulation Stage -->
+                        <div class="bms-studio__stage">
+
+                            <!-- VIEW 1: 4-Wire Kelvin Sensing Bridge -->
+                            <div class="bms-view is-active" id="sview-kelvin">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-ctrl">
+                                        <label for="kelvin-current">Test Current: <b id="kelvin-current-val">60 A</b></label>
+                                        <input type="range" id="kelvin-current" min="10" max="150" value="60" step="5">
+                                    </div>
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-toggle-btn" id="btn-2wire">2-Wire (Standard Leads)</button>
+                                        <button type="button" class="bms-toggle-btn is-active" id="btn-4wire">4-Wire Kelvin Connection</button>
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-kelvin" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner" id="kelvin-banner">
+                                    <span class="bms-status-dot is-good"></span>
+                                    <span id="kelvin-status-text">4-Wire Kelvin Active: Sense leads carry zero current (I_sense = 0). Voltmeter reads true electrochemical cell potential (3.900 V) with 0.0 mV lead error.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 2: Static OCV Characterization & Dither -->
+                            <div class="bms-view" id="sview-static">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-ctrl">
+                                        <label for="static-temp">Cell Temperature: <b id="static-temp-val">25°C</b></label>
+                                        <input type="range" id="static-temp" min="-5" max="45" value="25" step="5">
+                                    </div>
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-toggle-btn" id="btn-toggle-hyst">Show Hysteresis Loop</button>
+                                        <button type="button" class="bms-action-btn" id="btn-dither">⚡ Apply Dither Signal</button>
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-static" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner">
+                                    <span class="bms-status-dot is-sun"></span>
+                                    <span id="static-status-text">C/30 Quasi-Static Equilibrium: Dynamic polarization decays to ≈ 0. Coulombic efficiency η = 99.8%, Capacity Q = 2.50 Ah.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 3: UDDS Dynamic Drive Telemetry -->
+                            <div class="bms-view" id="sview-udds">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-action-btn is-active" id="btn-udds-run">▶ Start UDDS Drive</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-udds-pause">⏸ Pause</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-udds-reset">↺ Reset</button>
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="udds-r0">Ohmic R₀: <b id="udds-r0-val">15 mΩ</b></label>
+                                        <input type="range" id="udds-r0" min="5" max="35" value="15" step="1">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="udds-tau">Diffusion τ: <b id="udds-tau-val">15 s</b></label>
+                                        <input type="range" id="udds-tau" min="5" max="45" value="15" step="1">
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-udds" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner">
+                                    <span class="bms-status-dot is-cyan"></span>
+                                    <span id="udds-status-text">Live Oscilloscope: Accelerations produce instantaneous I·R₀ drops; regen braking pulses recharge the cell and exercise hysteresis. Model error &lt; 5.7 mV RMS.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 4: ESC Decomposition -->
+                            <div class="bms-view" id="sview-ecm">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-ctrl">
+                                        <label for="ecm-pulse-i">Discharge Pulse: <b id="ecm-pulse-val">10 A</b></label>
+                                        <input type="range" id="ecm-pulse-i" min="2" max="25" value="10" step="1">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="ecm-r0">R₀ Series: <b id="ecm-r0-val">18 mΩ</b></label>
+                                        <input type="range" id="ecm-r0" min="5" max="35" value="18" step="1">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="ecm-tau">RC τ: <b id="ecm-tau-val">20 s</b></label>
+                                        <input type="range" id="ecm-tau" min="5" max="50" value="20" step="5">
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-ecm" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner">
+                                    <span class="bms-status-dot is-good"></span>
+                                    <span>The 3 Fundamental Regimes: Instantaneous Ohmic Drop (I·R₀), Exponential RC Diffusion Sag (V_RC), and Two-Stage Relaxation Cutoff.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 5: BMS Safety SOA & Interlock -->
+                            <div class="bms-view" id="sview-bms">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-ctrl">
+                                        <label for="bms-v">Cell Voltage: <b id="bms-v-val">3.80 V</b></label>
+                                        <input type="range" id="bms-v" min="2.0" max="4.5" value="3.80" step="0.05">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="bms-i">Current: <b id="bms-i-val">15 A (Dchg)</b></label>
+                                        <input type="range" id="bms-i" min="-40" max="60" value="15" step="5">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="bms-t">Temperature: <b id="bms-t-val">28 °C</b></label>
+                                        <input type="range" id="bms-t" min="-15" max="65" value="28" step="1">
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-bms" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner" id="bms-safety-banner">
+                                    <span class="bms-status-dot is-good" id="bms-safety-dot"></span>
+                                    <span id="bms-safety-text">BMS STATUS: NORMAL OPERATING REGION · All Safety Interlocks Closed · Contactor Active.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 6: Switched-Mode Buck Charger & TI C2000 PIL Simulation -->
+                            <div class="bms-view" id="sview-charger">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-toggle-btn is-active" id="btn-chg-cc">CC (1.5 A)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-chg-cv">CV (4.2 V)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-chg-cp">CP (50 W)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-chg-pwm">100 kHz ePWM</button>
+                                    </div>
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-toggle-btn is-active" id="btn-ctrl-pil">TI C2000 PIL (DSP)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-ctrl-ff">Feedforward PI(z)</button>
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="chg-fsw">Switching f_sw: <b id="chg-fsw-val">100 kHz</b></label>
+                                        <input type="range" id="chg-fsw" min="10" max="150" value="100" step="10">
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-charger" width="600" height="280"></canvas>
+                                </div>
+                                <div class="bms-status-banner" id="chg-banner">
+                                    <span class="bms-status-dot is-good"></span>
+                                    <span id="chg-status-text">TI C2000 TMS320F28379D PIL Co-Simulation: Real-time embedded C code co-simulating with Simscape Battery; feedforward duty cycle eliminates startup droop with &lt; 5 ms deadbeat settling.</span>
+                                </div>
+                            </div>
+
+                        </div><!-- /bms-studio__stage -->
+
+                        <!-- Right Panel: Telemetry & Parameter Readout -->
+                        <div class="bms-studio__telemetry">
+                            <span class="label">Live Telemetry &amp; Physics</span>
+                            <div class="bms-telem-grid" id="bms-telem-cards">
+                                <!-- Cards injected dynamically via JS based on active mode -->
+                            </div>
+                            <div class="bms-telem-desc" id="bms-telem-explanation">
+                                <!-- Dynamic explanation text -->
+                            </div>
+                        </div>
+
+                    </div><!-- /bms-studio__body -->
+                </div><!-- /bms-studio -->
 
                 <!-- 8-tab explorer -->
                 <div class="bx glass ecm-explorer" data-reveal style="--d:.12s">
@@ -1663,6 +1838,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
     <script src="script.js?v=12" defer></script>
+    <script src="bms-studio.js?v=1" defer></script>
     <script src="gridtech/embed.js?v=5" defer></script>
 </body>
 </html>

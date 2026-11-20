@@ -853,35 +853,38 @@
         }
 
         /* ---------------------------------------------------------------
-           15b. Battery stage explorer (tabs)
+           15b. Battery stage explorer (tabs - scoped per container)
         --------------------------------------------------------------- */
-        const bxTabs = $$('.bx__tab');
-        const bxStrip = $('.bx__tabs');
-        const selectStage = (tab, focus) => {
-            bxTabs.forEach(t => {
-                const on = t === tab;
-                t.classList.toggle('is-active', on);
-                t.setAttribute('aria-selected', String(on));
-                t.tabIndex = on ? 0 : -1;
-                document.getElementById(t.getAttribute('aria-controls')).classList.toggle('is-active', on);
-            });
-            if (focus) tab.focus({ preventScroll: true });
-            // keep the chosen tab visible when the strip scrolls sideways on small screens
-            if (bxStrip && bxStrip.scrollWidth > bxStrip.clientWidth) {
-                bxStrip.scrollTo({ left: tab.offsetLeft - 8, behavior: reduceMotion ? 'auto' : 'smooth' });
-            }
-        };
-        bxTabs.forEach((tab, i) => {
-            tab.addEventListener('click', () => selectStage(tab, false));
-            tab.addEventListener('keydown', e => {
-                const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
-                let next = null;
-                if (step) next = bxTabs[(i + step + bxTabs.length) % bxTabs.length];
-                if (e.key === 'Home') next = bxTabs[0];
-                if (e.key === 'End') next = bxTabs[bxTabs.length - 1];
-                if (!next) return;
-                e.preventDefault();
-                selectStage(next, true);
+        $$('.bx').forEach(bxContainer => {
+            const bxTabs = $$('.bx__tab', bxContainer);
+            const bxStrip = $('.bx__tabs', bxContainer);
+            if (!bxTabs.length) return;
+            const selectStage = (tab, focus) => {
+                bxTabs.forEach(t => {
+                    const on = t === tab;
+                    t.classList.toggle('is-active', on);
+                    t.setAttribute('aria-selected', String(on));
+                    t.tabIndex = on ? 0 : -1;
+                    const panel = document.getElementById(t.getAttribute('aria-controls'));
+                    if (panel) panel.classList.toggle('is-active', on);
+                });
+                if (focus) tab.focus({ preventScroll: true });
+                if (bxStrip && bxStrip.scrollWidth > bxStrip.clientWidth) {
+                    bxStrip.scrollTo({ left: tab.offsetLeft - 8, behavior: reduceMotion ? 'auto' : 'smooth' });
+                }
+            };
+            bxTabs.forEach((tab, i) => {
+                tab.addEventListener('click', () => selectStage(tab, false));
+                tab.addEventListener('keydown', e => {
+                    const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+                    let next = null;
+                    if (step) next = bxTabs[(i + step + bxTabs.length) % bxTabs.length];
+                    if (e.key === 'Home') next = bxTabs[0];
+                    if (e.key === 'End') next = bxTabs[bxTabs.length - 1];
+                    if (!next) return;
+                    e.preventDefault();
+                    selectStage(next, true);
+                });
             });
         });
 

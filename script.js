@@ -708,7 +708,7 @@
             });
 
             const images = slides.map(s => $('img:not(.carousel__backdrop)', s)).filter(Boolean);
-            slides.forEach(s => { if ($('img:not(.carousel__backdrop)', s)) s.dataset.cursor = 'View'; });
+            // Intentionally omit dataset.cursor = 'View' so the cursor badge does not obstruct engineering schematics & diagrams
 
             let index = 0;
             slides[0].classList.add('is-active');

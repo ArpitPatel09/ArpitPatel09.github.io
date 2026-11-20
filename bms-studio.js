@@ -804,21 +804,23 @@
         // =====================================================================
         // MODE 6: SWITCHED-MODE BUCK CHARGER & TI C2000 PIL SIMULATION
         // =====================================================================
+        const btnChgViewCircuit = document.getElementById('btn-chg-view-circuit');
+        const btnChgViewScope = document.getElementById('btn-chg-view-scope');
         const btnChgCC = document.getElementById('btn-chg-cc');
         const btnChgCV = document.getElementById('btn-chg-cv');
         const btnChgCP = document.getElementById('btn-chg-cp');
         const btnChgPWM = document.getElementById('btn-chg-pwm');
-        const btnCtrlPIL = document.getElementById('btn-ctrl-pil');
-        const btnCtrlFF = document.getElementById('btn-ctrl-ff');
         const chgFswSlider = document.getElementById('chg-fsw');
         const chgFswVal = document.getElementById('chg-fsw-val');
         const canvasCharger = document.getElementById('canvas-charger');
         const chgBanner = document.getElementById('chg-banner');
         const chgStatusText = document.getElementById('chg-status-text');
 
-        let chgMode = 'cc'; // 'cc', 'cv', 'cp', 'pwm'
-        let ctrlType = 'pil'; // 'pil', 'ff'
+        let chgMode = 'cp'; // 'cc', 'cv', 'cp', 'pwm'
+        let chgView = 'circuit'; // 'circuit' or 'scope'
         let fsw_kHz = 100;
+        let pilAnimOffset = 0;
+        let pilAnimId = null;
 
         function updateCharger() {
             fsw_kHz = parseInt(chgFswSlider.value);
@@ -833,34 +835,34 @@
             const L_uH = ((Vin - Vout) * D) / (fsw_Hz * delta_IL) * 1e6;
             const C_uF = (delta_IL / (8 * fsw_Hz * delta_Vo)) * 1e6;
 
-            if (ctrlType === 'pil') {
-                chgStatusText.innerHTML = `<b>TI C2000 TMS320F28379D PIL Co-Simulation:</b> Embedded C code compiled for DSP target co-simulating with Simscape Battery; feedforward duty cycle eliminates startup droop with <b>&lt; 5 ms deadbeat settling</b>.`;
+            if (chgView === 'circuit') {
+                chgStatusText.innerHTML = `<b>PIL Architecture Active:</b> <code>C2000_power (PIL)</code> co-simulates compiled C code on the TMS320F28379D target with the <code>Battery_Model</code> Simscape plant via <code>single</code> float feedback buses.`;
             } else {
-                chgStatusText.innerHTML = `<b>Discrete Feedforward PI(z) Active:</b> Direct feedforward term <code>+(V_ref/V_in)</code> decouples DC bus fluctuations, guaranteeing zero overshoot across continuous &amp; discrete modes.`;
+                chgStatusText.innerHTML = `<b>Live Scopes Active:</b> 100 kHz switched-mode PWM buck converter regulating ${chgMode.toUpperCase()} mode with feedforward duty cycle <code>+(V_ref/V_in)</code> achieving <b>&lt; 5 ms deadbeat settling</b>.`;
             }
 
-            renderChargerCanvas(canvasCharger, chgMode, ctrlType, fsw_kHz, L_uH, C_uF);
+            renderChargerCanvas(canvasCharger, chgView, chgMode, fsw_kHz, L_uH, C_uF);
             if (currentMode === 'charger') updateTelemetry('charger');
         }
 
-        if (btnChgCC) {
+        if (btnChgViewCircuit) {
+            btnChgViewCircuit.addEventListener('click', () => {
+                chgView = 'circuit';
+                btnChgViewCircuit.classList.add('is-active');
+                btnChgViewScope.classList.remove('is-active');
+                updateCharger();
+            });
+            btnChgViewScope.addEventListener('click', () => {
+                chgView = 'scope';
+                btnChgViewScope.classList.add('is-active');
+                btnChgViewCircuit.classList.remove('is-active');
+                updateCharger();
+            });
+
             btnChgCC.addEventListener('click', () => { chgMode = 'cc'; updateChgBtns(); updateCharger(); });
             btnChgCV.addEventListener('click', () => { chgMode = 'cv'; updateChgBtns(); updateCharger(); });
             btnChgCP.addEventListener('click', () => { chgMode = 'cp'; updateChgBtns(); updateCharger(); });
             btnChgPWM.addEventListener('click', () => { chgMode = 'pwm'; updateChgBtns(); updateCharger(); });
-
-            btnCtrlPIL.addEventListener('click', () => {
-                ctrlType = 'pil';
-                btnCtrlPIL.classList.add('is-active');
-                btnCtrlFF.classList.remove('is-active');
-                updateCharger();
-            });
-            btnCtrlFF.addEventListener('click', () => {
-                ctrlType = 'ff';
-                btnCtrlFF.classList.add('is-active');
-                btnCtrlPIL.classList.remove('is-active');
-                updateCharger();
-            });
 
             chgFswSlider.addEventListener('input', updateCharger);
         }
@@ -872,12 +874,367 @@
             btnChgPWM.classList.toggle('is-active', chgMode === 'pwm');
         }
 
-        function renderChargerCanvas(canvas, mode, ctrl, fsw, L_uH, C_uF) {
+        // Animation loop for PIL closed-loop signal pulses
+        function animatePIL() {
+            if (currentMode === 'charger' && chgView === 'circuit') {
+                pilAnimOffset = (pilAnimOffset + 0.08) % 1.0;
+                const Vin = 12.0;
+                const Vout = (chgMode === 'cv') ? 4.2 : 3.8;
+                const D = Vout / Vin;
+                const L_uH = ((Vin - Vout) * D) / ((fsw_kHz * 1000) * 0.20) * 1e6;
+                const C_uF = (0.20 / (8 * (fsw_kHz * 1000) * 0.010)) * 1e6;
+                renderChargerCanvas(canvasCharger, chgView, chgMode, fsw_kHz, L_uH, C_uF);
+            }
+            pilAnimId = requestAnimationFrame(animatePIL);
+        }
+        animatePIL();
+
+        function renderChargerCanvas(canvas, view, mode, fsw, L_uH, C_uF) {
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
             const h = canvas.height;
             ctx.clearRect(0, 0, w, h);
 
+            if (view === 'circuit') {
+                renderPILCircuitSchematic(ctx, w, h, mode, fsw, L_uH, C_uF, pilAnimOffset);
+            } else {
+                renderChargerScopeTraces(ctx, w, h, mode, fsw, L_uH, C_uF);
+            }
+        }
+
+        // =====================================================================
+        // RENDER PIL CIRCUIT SCHEMATIC (Exact Simulink PIL Block Diagram)
+        // =====================================================================
+        function renderPILCircuitSchematic(ctx, w, h, mode, fsw, L_uH, C_uF, anim) {
+            // Background grid
+            ctx.strokeStyle = '#14202a';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (let y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            // 1. Reference Power Constant Block [50] (Far Left)
+            const refP = mode === 'cp' ? 50 : (mode === 'cc' ? 1.5 : (mode === 'cv' ? 4.2 : 10));
+            const refUnit = mode === 'cp' ? 'W' : (mode === 'cc' ? 'A' : (mode === 'cv' ? 'V' : '%'));
+            const refLabel = mode === 'cp' ? 'P_ref' : (mode === 'cc' ? 'I_ref' : (mode === 'cv' ? 'V_ref' : 'Duty'));
+
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.roundRect(14, 52, 36, 36, 4);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillStyle = '#f8fafc';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${refP}`, 32, 75);
+            ctx.font = '9px sans-serif';
+            ctx.fillStyle = '#f5c542';
+            ctx.fillText(refLabel, 32, 44);
+
+            // Wire from [50] to Summing Junction
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(50, 70);
+            ctx.lineTo(76, 70);
+            ctx.stroke();
+
+            // Summing Junction Circle
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = '#f8fafc';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(88, 70, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillText('+', 82, 73);
+            ctx.fillText('−', 88, 86);
+
+            // Wire from Sum to C2000 Reference input
+            ctx.strokeStyle = '#f8fafc';
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(98, 70);
+            ctx.lineTo(125, 70);
+            ctx.stroke();
+
+            // 2. C2000_power (PIL) Block (Left-Center)
+            const pilX = 125, pilY = 40, pilW = 150, pilH = 150;
+            ctx.fillStyle = '#111e28';
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2.4;
+            ctx.beginPath();
+            ctx.roundRect(pilX, pilY, pilW, pilH, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            // C2000 Header badge
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+            ctx.fillRect(pilX, pilY, pilW, 26);
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('C2000_power (PIL)', pilX + pilW / 2, pilY + 17);
+
+            // Target Details inside C2000 Block
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = 'bold 9px sans-serif';
+            ctx.fillText('TMS320F28379D (200 MHz)', pilX + pilW / 2, pilY + 45);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px sans-serif';
+            ctx.fillText('Compiled Embedded C Binary', pilX + pilW / 2, pilY + 58);
+            ctx.fillText('PI(z) + Feedforward (V_ref/V_in)', pilX + pilW / 2, pilY + 70);
+
+            // Left Inports on C2000
+            ctx.font = '9px sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.textAlign = 'left';
+            ctx.fillText('Reference Power', pilX + 6, 73);
+            ctx.fillText('Current', pilX + 6, 115);
+            ctx.fillText('Output Voltage', pilX + 6, 155);
+
+            // Right Outports on C2000
+            ctx.textAlign = 'right';
+            ctx.fillText('Output Power', pilX + pilW - 6, 73);
+            ctx.fillText('PWM', pilX + pilW - 6, 125);
+
+            // 3. [double] Bridge Block
+            const dblX = 295, dblY = 113, dblW = 44, dblH = 22;
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.roundRect(dblX, dblY, dblW, dblH, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = 'bold 9px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('double', dblX + dblW / 2, dblY + 14);
+
+            // PWM Wire from C2000 -> [double] -> Battery_Model
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(pilX + pilW, 124);
+            ctx.lineTo(dblX, 124);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(dblX + dblW, 124);
+            ctx.lineTo(360, 124);
+            ctx.stroke();
+
+            // 4. Battery_Model Simscape Plant Block (Right-Center)
+            const batX = 360, batY = 40, batW = 150, batH = 150;
+            ctx.fillStyle = '#14232a';
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 2.4;
+            ctx.beginPath();
+            ctx.roundRect(batX, batY, batW, batH, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            // Battery Header badge
+            ctx.fillStyle = 'rgba(245, 197, 66, 0.15)';
+            ctx.fillRect(batX, batY, batW, 26);
+            ctx.fillStyle = '#f5c542';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Battery_Model', batX + batW / 2, batY + 17);
+
+            // Inside Plant Schematic elements
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px sans-serif';
+            ctx.fillText(`Buck Stage: ${fsw} kHz ePWM`, batX + batW / 2, batY + 45);
+            ctx.fillText(`L = ${L_uH.toFixed(0)} µH · C = ${C_uF.toFixed(0)} µF`, batX + batW / 2, batY + 58);
+            ctx.fillStyle = '#34d378';
+            ctx.fillText(`Panasonic UR18650ZTA (4.2V)`, batX + batW / 2, batY + 70);
+
+            // Inport on Battery_Model
+            ctx.font = '9px sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.textAlign = 'left';
+            ctx.fillText('PWM', batX + 6, 125);
+
+            // Outports on Battery_Model
+            ctx.textAlign = 'right';
+            ctx.fillText('Current', batX + batW - 6, 73);
+            ctx.fillText('Output_Voltage', batX + batW - 6, 115);
+            ctx.fillText('SoC', batX + batW - 6, 155);
+
+            // 5. Scope Block (Far Right)
+            const scpX = 538, scpY = 55, scpW = 46, scpH = 120;
+            ctx.fillStyle = '#0a1017';
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.roundRect(scpX, scpY, scpW, scpH, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            // Miniature scope grid & signal
+            ctx.strokeStyle = '#182b3a';
+            ctx.beginPath();
+            ctx.moveTo(scpX + 4, scpY + 30); ctx.lineTo(scpX + scpW - 4, scpY + 30);
+            ctx.moveTo(scpX + 4, scpY + 60); ctx.lineTo(scpX + scpW - 4, scpY + 60);
+            ctx.moveTo(scpX + 4, scpY + 90); ctx.lineTo(scpX + scpW - 4, scpY + 90);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(scpX + 6, scpY + 45);
+            ctx.lineTo(scpX + 16, scpY + 20);
+            ctx.lineTo(scpX + 26, scpY + 23);
+            ctx.lineTo(scpX + scpW - 6, scpY + 23);
+            ctx.stroke();
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Scope', scpX + scpW / 2, scpY + scpH - 8);
+
+            // Wires from Battery_Model to Scope
+            ctx.strokeStyle = '#f5c542';
+            ctx.beginPath(); ctx.moveTo(batX + batW, 70); ctx.lineTo(scpX, 70); ctx.stroke();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.beginPath(); ctx.moveTo(batX + batW, 112); ctx.lineTo(scpX, 112); ctx.stroke();
+            ctx.strokeStyle = '#34d378';
+            ctx.beginPath(); ctx.moveTo(batX + batW, 152); ctx.lineTo(scpX, 152); ctx.stroke();
+
+            // 6. FEEDBACK BUSES WITH [single] CONVERTERS (Exact Model Loop!)
+
+            // Feedback A: Output Power (Top loop from C2000 Output Power -> single -> Summing Junction)
+            ctx.strokeStyle = '#34d378';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(pilX + pilW, 70);
+            ctx.lineTo(pilX + pilW + 15, 70);
+            ctx.lineTo(pilX + pilW + 15, 20);
+            ctx.lineTo(190, 20);
+            ctx.stroke();
+
+            // [single] block on Power Feedback
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = '#34d378';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(145, 11, 42, 18, 3);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#34d378';
+            ctx.font = 'bold 8px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('single', 166, 23);
+
+            ctx.strokeStyle = '#34d378';
+            ctx.beginPath();
+            ctx.moveTo(145, 20);
+            ctx.lineTo(88, 20);
+            ctx.lineTo(88, 60);
+            ctx.stroke();
+
+            // Feedback B: Current Feedback (Bottom loop from Current tap -> single -> C2000 Current input)
+            // Tap off Current wire at x = 525
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(525, 70);
+            ctx.lineTo(525, 215);
+            ctx.lineTo(260, 215);
+            ctx.stroke();
+
+            // [single] block on Current
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = '#f5c542';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(215, 206, 42, 18, 3);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#f5c542';
+            ctx.font = 'bold 8px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('single', 236, 218);
+
+            ctx.strokeStyle = '#f5c542';
+            ctx.beginPath();
+            ctx.moveTo(215, 215);
+            ctx.lineTo(108, 215);
+            ctx.lineTo(108, 115);
+            ctx.lineTo(pilX, 115);
+            ctx.stroke();
+
+            // Feedback C: Output_Voltage Feedback (Bottom loop from Voltage tap -> single -> C2000 Voltage input)
+            // Tap off Voltage wire at x = 520
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(520, 112);
+            ctx.lineTo(520, 248);
+            ctx.lineTo(260, 248);
+            ctx.stroke();
+
+            // [single] block on Voltage
+            ctx.fillStyle = '#16232d';
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(215, 239, 42, 18, 3);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 8px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('single', 236, 251);
+
+            ctx.strokeStyle = '#38bdf8';
+            ctx.beginPath();
+            ctx.moveTo(215, 248);
+            ctx.lineTo(95, 248);
+            ctx.lineTo(95, 155);
+            ctx.lineTo(pilX, 155);
+            ctx.stroke();
+
+            // 7. Dynamic Animated Signal Particles
+            const dotAnimX = (anim * 100) % 65;
+            ctx.fillStyle = '#ffffff';
+
+            // Particle on PWM line (C2000 -> double -> Battery)
+            const pwmPartX = pilX + pilW + anim * (batX - (pilX + pilW));
+            ctx.beginPath();
+            ctx.arc(pwmPartX, 124, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Particle on Current feedback line
+            const curPartX = 525 - anim * (525 - 108);
+            ctx.beginPath();
+            ctx.arc(curPartX, 215, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Particle on Voltage feedback line
+            const vPartX = 520 - ((anim + 0.3) % 1.0) * (520 - 95);
+            ctx.beginPath();
+            ctx.arc(vPartX, 248, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bottom explanatory label
+            ctx.font = 'bold 10px sans-serif';
+            ctx.fillStyle = '#34d378';
+            ctx.textAlign = 'center';
+            ctx.fillText(`● Closed-Loop PIL Active: TI C2000 C Code Co-Simulates with Simscape Battery Plant at ${fsw} kHz`, w / 2, h - 8);
+        }
+
+        // =====================================================================
+        // RENDER LIVE CHARGER SCOPE TRACES (Dual-Channel Waveforms)
+        // =====================================================================
+        function renderChargerScopeTraces(ctx, w, h, mode, fsw, L_uH, C_uF) {
             const padL = 55, padR = 25, padT = 25, padB = 30;
             const pw = w - padL - padR;
             const ph = h - padT - padB;
@@ -907,7 +1264,6 @@
 
             for (let i = 0; i < nPts; i++) {
                 const tFrac = i / nPts;
-                // Step settling in first 10% if feedforward, or triangular ripple
                 let baseI = targetI;
                 if (tFrac < 0.12) {
                     baseI = targetI * (1 - Math.exp(-tFrac * 40));
@@ -945,7 +1301,6 @@
                 } else {
                     vVal = 3.80 + (tFrac < 0.08 ? tFrac * 5 : 0.40);
                 }
-                // Cap precharge prevents t=0 drop
                 const vRipple = Math.sin(i * 1.2 + 1) * (0.005 * (100 / fsw));
                 const totalV = vVal + vRipple;
 
@@ -955,9 +1310,9 @@
             }
             ctx.stroke();
 
-            // Hardware Annotation Badge (TI C2000 PIL)
-            ctx.fillStyle = ctrl === 'pil' ? 'rgba(52, 211, 120, 0.15)' : 'rgba(56, 189, 248, 0.15)';
-            ctx.strokeStyle = ctrl === 'pil' ? '#34d378' : '#38bdf8';
+            // Annotation badge
+            ctx.fillStyle = 'rgba(52, 211, 120, 0.15)';
+            ctx.strokeStyle = '#34d378';
             ctx.lineWidth = 1.2;
             ctx.beginPath();
             ctx.roundRect(padL + pw - 210, padT + 8, 200, 24, 6);
@@ -965,9 +1320,9 @@
             ctx.stroke();
 
             ctx.font = 'bold 10px sans-serif';
-            ctx.fillStyle = ctrl === 'pil' ? '#34d378' : '#38bdf8';
+            ctx.fillStyle = '#34d378';
             ctx.textAlign = 'center';
-            ctx.fillText(ctrl === 'pil' ? 'TI C2000 TMS320F28379D PIL · 200 MHz' : 'Simulink Discrete PI(z) Feedforward', padL + pw - 110, padT + 23);
+            ctx.fillText('TI C2000 TMS320F28379D PIL · 200 MHz', padL + pw - 110, padT + 23);
         }
 
         // =====================================================================

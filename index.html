@@ -1143,14 +1143,14 @@
                             <div class="bms-view" id="sview-charger">
                                 <div class="bms-controls-bar">
                                     <div class="bms-btn-group">
+                                        <button type="button" class="bms-action-btn is-active" id="btn-chg-view-circuit">⚡ PIL Circuit Diagram</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-chg-view-scope">📈 Live Scopes</button>
+                                    </div>
+                                    <div class="bms-btn-group">
                                         <button type="button" class="bms-toggle-btn is-active" id="btn-chg-cc">CC (1.5 A)</button>
                                         <button type="button" class="bms-toggle-btn" id="btn-chg-cv">CV (4.2 V)</button>
                                         <button type="button" class="bms-toggle-btn" id="btn-chg-cp">CP (50 W)</button>
                                         <button type="button" class="bms-toggle-btn" id="btn-chg-pwm">100 kHz ePWM</button>
-                                    </div>
-                                    <div class="bms-btn-group">
-                                        <button type="button" class="bms-toggle-btn is-active" id="btn-ctrl-pil">TI C2000 PIL (DSP)</button>
-                                        <button type="button" class="bms-toggle-btn" id="btn-ctrl-ff">Feedforward PI(z)</button>
                                     </div>
                                     <div class="bms-ctrl">
                                         <label for="chg-fsw">Switching f_sw: <b id="chg-fsw-val">100 kHz</b></label>
@@ -1162,7 +1162,7 @@
                                 </div>
                                 <div class="bms-status-banner" id="chg-banner">
                                     <span class="bms-status-dot is-good"></span>
-                                    <span id="chg-status-text">TI C2000 TMS320F28379D PIL Co-Simulation: Real-time embedded C code co-simulating with Simscape Battery; feedforward duty cycle eliminates startup droop with &lt; 5 ms deadbeat settling.</span>
+                                    <span id="chg-status-text">TI C2000 TMS320F28379D PIL Co-Simulation Active: Embedded C code running on 200 MHz DSP co-simulates with Simscape Battery; feedforward duty cycle eliminates startup droop with &lt; 5 ms deadbeat settling.</span>
                                 </div>
                             </div>
 

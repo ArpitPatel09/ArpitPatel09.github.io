@@ -224,6 +224,640 @@
         }
 
         // =====================================================================
+        // MODE 1B: PRE-CHARACTERIZATION & RESISTANCE EXTRACTION (MATLAB/SIMULINK)
+        // =====================================================================
+        const btnPrecharFull = document.getElementById('btn-prechar-full');
+        const btnPrecharR0 = document.getElementById('btn-prechar-r0');
+        const btnPrecharR1 = document.getElementById('btn-prechar-r1');
+        const btnPrecharMatlab = document.getElementById('btn-prechar-matlab');
+        const btnPrecharPulses = document.getElementById('btn-prechar-pulses');
+        const precharR0Slider = document.getElementById('prechar-r0');
+        const precharR0Val = document.getElementById('prechar-r0-val');
+        const precharR1Slider = document.getElementById('prechar-r1');
+        const precharR1Val = document.getElementById('prechar-r1-val');
+        const canvasPrechar = document.getElementById('canvas-prechar');
+        const imgPrecharMatlab = document.getElementById('img-prechar-matlab');
+        const precharStatusText = document.getElementById('prechar-status-text');
+
+        let precharView = 'full'; // 'full', 'r0', 'r1', 'matlab'
+        let precharPulses = true;
+        let precharR0_mOhm = 42;
+        let precharR1_mOhm = 28;
+        let precharCacheKey = '';
+        let precharData = null;
+
+        const PRECHAR_SOC_TAB = [0.00, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 1.00];
+        const PRECHAR_OCV_TAB = [2.85, 3.32, 3.48, 3.62, 3.70, 3.76, 3.82, 3.89, 3.96, 4.05, 4.14, 4.18, 4.20];
+
+        function interpOCV(soc) {
+            const s = Math.max(0, Math.min(1, soc));
+            for (let i = 0; i < PRECHAR_SOC_TAB.length - 1; i++) {
+                const s0 = PRECHAR_SOC_TAB[i];
+                const s1 = PRECHAR_SOC_TAB[i + 1];
+                if (s <= s1) {
+                    const f = (s - s0) / (s1 - s0);
+                    return PRECHAR_OCV_TAB[i] + f * (PRECHAR_OCV_TAB[i + 1] - PRECHAR_OCV_TAB[i]);
+                }
+            }
+            return PRECHAR_OCV_TAB[PRECHAR_OCV_TAB.length - 1];
+        }
+
+        function simulatePreCharacterization(r0_mOhm, r1_mOhm, enablePulses) {
+            const key = `${r0_mOhm}_${r1_mOhm}_${enablePulses ? 1 : 0}`;
+            if (precharCacheKey === key && precharData) return precharData;
+
+            // Exact parameters from init_battery_characterization.m & build_battery_characterization_model.m
+            const Q_Ah = 2.5;
+            const Q_C = Q_Ah * 3600;
+            const V_max = 4.20;
+            const V_min = 2.80;
+            const SOC_init = 0.50;
+            const R0 = r0_mOhm * 1e-3;
+            const R1 = r1_mOhm * 1e-3;
+            const C1 = 1800.0;
+            const tau1_true = R1 * C1;
+
+            const I_dis = -Q_Ah / 3.0;
+            const I_chg = Q_Ah / 3.0;
+            const T_rest1 = 3600.0;
+            const T_rest2 = 3600.0;
+            const pulsePeriod = 600.0;
+            const pulseDur = 10.0;
+            const I_pulse = -Q_Ah * 1.0;
+
+            const Ts = 0.1;
+            const maxSteps = Math.floor(30000.0 / Ts);
+
+            // State machine & ECM states
+            let state = 1;
+            let t_rest1_start = 0;
+            let t_rest2_start = 0;
+            let x_soc = SOC_init;
+            let x_vC1 = 0.0;
+            let iDelayed = 0.0; // Unit Delay block output
+            let vTermPrev = interpOCV(SOC_init);
+
+            // Key transition captures
+            let idxDisToRest1 = -1;
+            let tDisToRest1 = 0;
+            let iBeforeR1 = 0, vBeforeR1 = 0;
+            let iAfterR1 = 0, vAfterR1 = 0;
+            let vOcvRelaxedDis = 0;
+
+            let idxChgToRest2 = -1;
+            let tChgToRest2 = 0;
+            let iBeforeR2 = 0, vBeforeR2 = 0;
+            let iAfterR2 = 0, vAfterR2 = 0;
+            let vOcvRelaxedChg = 0;
+
+            let qDisAs = 0, qChgAs = 0;
+
+            // Overview downsampled trace & zoom buffers
+            const overview = [];
+            const preRing = []; // last 250 steps (25 s) before V_min cutoff
+            const r0Zoom = [];  // [-20 s, +60 s] around V_min cutoff
+            const r1Relax = []; // [0, 300 s] from idxDisToRest1 + 2
+
+            let prevPulseActive = false;
+            let prevState = 1;
+            let lastT = 0;
+            let lastVTerm = vTermPrev;
+            let lastIBatt = 0;
+
+            for (let k = 0; k <= maxSteps; k++) {
+                const t = k * Ts;
+
+                // 1. Test_Sequencer uses V_term from previous step (matches algebraic-loop break)
+                let iCmd = 0.0;
+                let stopSim = false;
+                let pulseActive = false;
+
+                if (state === 1) {
+                    if (enablePulses && x_soc > 0.03 && (t % pulsePeriod < pulseDur) && t > 5.0) {
+                        iCmd = I_pulse;
+                        pulseActive = true;
+                    } else {
+                        iCmd = I_dis;
+                    }
+                    if (vTermPrev <= V_min || x_soc <= 0.0001) {
+                        state = 2;
+                        t_rest1_start = t;
+                        iCmd = 0.0;
+                        pulseActive = false;
+                        idxDisToRest1 = k;
+                        tDisToRest1 = t;
+                    }
+                } else if (state === 2) {
+                    iCmd = 0.0;
+                    if (t - t_rest1_start >= T_rest1) {
+                        state = 3;
+                        iCmd = I_chg;
+                        vOcvRelaxedDis = vTermPrev;
+                    }
+                } else if (state === 3) {
+                    iCmd = I_chg;
+                    if (vTermPrev >= V_max || x_soc >= 0.9999) {
+                        state = 4;
+                        t_rest2_start = t;
+                        iCmd = 0.0;
+                        idxChgToRest2 = k;
+                        tChgToRest2 = t;
+                    }
+                } else if (state === 4) {
+                    iCmd = 0.0;
+                    if (t - t_rest2_start >= T_rest2) {
+                        state = 5;
+                        stopSim = true;
+                        vOcvRelaxedChg = vTermPrev;
+                    }
+                } else {
+                    stopSim = true;
+                }
+
+                // 2. Battery_ECM_Plant runs with Unit-Delayed current
+                const iBatt = iDelayed;
+                const Voc = interpOCV(x_soc);
+                const dvC1_dt = -x_vC1 / (R1 * C1) + iBatt / C1;
+                x_vC1 = x_vC1 + dvC1_dt * Ts;
+                x_soc = Math.max(0.0, Math.min(1.0, x_soc + (iBatt / Q_C) * Ts));
+                const vTerm = Voc + iBatt * R0 + x_vC1;
+
+                // Capacity integration (trapezoidal)
+                if (k > 0) {
+                    if (idxDisToRest1 === -1) {
+                        qDisAs += 0.5 * (-lastIBatt + -iBatt) * Ts;
+                    } else if (idxChgToRest2 === -1 && state === 3) {
+                        qChgAs += 0.5 * (lastIBatt + iBatt) * Ts;
+                    }
+                }
+
+                // Capture transition samples exactly like extract_battery_resistance.m
+                if (k === idxDisToRest1) {
+                    iBeforeR1 = iBatt;
+                    vBeforeR1 = vTerm;
+                    // Flush ring buffer into r0Zoom (-20s..0s)
+                    for (let r = 0; r < preRing.length; r++) {
+                        const pt = preRing[r];
+                        if (pt.t - tDisToRest1 >= -20.0) {
+                            r0Zoom.push({ dt: pt.t - tDisToRest1, v: pt.v });
+                        }
+                    }
+                    r0Zoom.push({ dt: 0, v: vTerm });
+                } else if (idxDisToRest1 > 0) {
+                    const dtFromCut = t - tDisToRest1;
+                    if (k === idxDisToRest1 + 2) {
+                        iAfterR1 = iBatt;
+                        vAfterR1 = vTerm;
+                    }
+                    if (dtFromCut > 0 && dtFromCut <= 60.05) {
+                        r0Zoom.push({ dt: dtFromCut, v: vTerm });
+                    }
+                    if (k >= idxDisToRest1 + 2 && dtFromCut <= 300.25) {
+                        r1Relax.push({ dt: t - (tDisToRest1 + 2 * Ts), v: vTerm });
+                    }
+                }
+
+                if (k === idxChgToRest2) {
+                    iBeforeR2 = iBatt;
+                    vBeforeR2 = vTerm;
+                } else if (idxChgToRest2 > 0 && k === idxChgToRest2 + 2) {
+                    iAfterR2 = iBatt;
+                    vAfterR2 = vTerm;
+                }
+
+                // Keep pre-cutoff ring buffer while in state 1
+                if (idxDisToRest1 === -1) {
+                    preRing.push({ t, v: vTerm });
+                    if (preRing.length > 220) preRing.shift();
+                }
+
+                // Overview trace sampling (every 2.0 s or on state/pulse change)
+                if (k % 20 === 0 || state !== prevState || pulseActive !== prevPulseActive || stopSim) {
+                    overview.push({
+                        tHr: t / 3600.0,
+                        v: vTerm,
+                        ocv: Voc,
+                        i: iBatt,
+                        soc: x_soc * 100.0,
+                        state
+                    });
+                }
+
+                prevPulseActive = pulseActive;
+                prevState = state;
+                vTermPrev = vTerm;
+                iDelayed = iCmd;
+                lastT = t;
+                lastVTerm = vTerm;
+                lastIBatt = iBatt;
+
+                if (stopSim) break;
+            }
+
+            // Parameter Extraction (exact extract_battery_resistance.m math)
+            const dI_r0_dis = Math.max(1e-6, Math.abs(iBeforeR1 - iAfterR1));
+            const R0_dis = (vAfterR1 - vBeforeR1) / dI_r0_dis;
+
+            const dI_r0_chg = Math.max(1e-6, Math.abs(iBeforeR2 - iAfterR2));
+            const R0_chg = (vBeforeR2 - vAfterR2) / dI_r0_chg;
+
+            const R0_avg = 0.5 * (R0_dis + R0_chg);
+
+            const dVp_dis = vOcvRelaxedDis - vAfterR1;
+            const R1_dis = dVp_dis / dI_r0_dis;
+
+            const dVp_chg = vAfterR2 - vOcvRelaxedChg;
+            const R1_chg = dVp_chg / dI_r0_chg;
+
+            const R1_avg = 0.5 * (R1_dis + R1_chg);
+            const R_total = R0_avg + R1_avg;
+
+            // Log-space OLS fit: ln((V_ocv - V(t)) / dVp_dis) = -(1/tau1) * t
+            let sumX = 0, sumY = 0, sumXX = 0, sumXY = 0, nValid = 0;
+            const denom = Math.max(1e-4, dVp_dis);
+            for (let i = 0; i < r1Relax.length; i++) {
+                const y = Math.max(1e-4, (vOcvRelaxedDis - r1Relax[i].v) / denom);
+                if (y > 0.02 && y < 0.98) {
+                    const lx = r1Relax[i].dt;
+                    const ly = Math.log(y);
+                    sumX += lx;
+                    sumY += ly;
+                    sumXX += lx * lx;
+                    sumXY += lx * ly;
+                    nValid++;
+                }
+            }
+            let tau1_ext = tau1_true;
+            const varX = nValid * sumXX - sumX * sumX;
+            if (nValid > 5 && Math.abs(varX) > 1e-9) {
+                const slope = (nValid * sumXY - sumX * sumY) / varX;
+                if (slope < -1e-6) tau1_ext = -1.0 / slope;
+            }
+            const C1_ext = tau1_ext / Math.max(1e-6, R1_avg);
+
+            precharCacheKey = key;
+            precharData = {
+                R0_true: R0, R1_true: R1, C1_true: C1, tau1_true, R_total_true: R0 + R1,
+                R0_dis, R0_chg, R0_avg, R1_dis, R1_chg, R1_avg, R_total,
+                tau1_ext, C1_ext,
+                vBeforeR1, vAfterR1, vOcvRelaxedDis, dVp_dis,
+                tDisHr: tDisToRest1 / 3600.0,
+                tRest1EndHr: (tDisToRest1 + T_rest1) / 3600.0,
+                tChgHr: tChgToRest2 / 3600.0,
+                tEndHr: lastT / 3600.0,
+                qDisAh: qDisAs / 3600.0,
+                qChgAh: qChgAs / 3600.0,
+                overview, r0Zoom, r1Relax
+            };
+            return precharData;
+        }
+
+        function updatePrechar() {
+            if (!canvasPrechar) return;
+            precharR0_mOhm = parseInt(precharR0Slider.value, 10);
+            precharR1_mOhm = parseInt(precharR1Slider.value, 10);
+            precharR0Val.textContent = `${precharR0_mOhm} mΩ`;
+            precharR1Val.textContent = `${precharR1_mOhm} mΩ`;
+
+            const sim = simulatePreCharacterization(precharR0_mOhm, precharR1_mOhm, precharPulses);
+
+            const showImg = (precharView === 'matlab');
+            canvasPrechar.style.display = showImg ? 'none' : 'block';
+            if (imgPrecharMatlab) imgPrecharMatlab.style.display = showImg ? 'block' : 'none';
+
+            if (!showImg) {
+                renderPrecharCanvas(canvasPrechar, sim, precharView);
+            }
+
+            if (precharView === 'full') {
+                precharStatusText.innerHTML = `<b>5-Phase Protocol Complete (${sim.tEndHr.toFixed(2)} h):</b> Discharged ${sim.qDisAh.toFixed(2)} Ah to V<sub>min</sub> = 2.80 V, rested 1 h, charged ${sim.qChgAh.toFixed(2)} Ah to 4.20 V, rested 1 h. Extracted DCIR = <b>${(sim.R_total * 1e3).toFixed(2)} mΩ</b>.`;
+            } else if (precharView === 'r0') {
+                precharStatusText.innerHTML = `<b>Ohmic Step at V<sub>min</sub> Cutoff:</b> Instantaneous jump ΔV₀ = ${((sim.vAfterR1 - sim.vBeforeR1) * 1e3).toFixed(1)} mV yields <b>R₀ = ${(sim.R0_dis * 1e3).toFixed(2)} mΩ</b> (avg: ${(sim.R0_avg * 1e3).toFixed(2)} mΩ vs. ${precharR0_mOhm}.0 mΩ truth).`;
+            } else if (precharView === 'r1') {
+                precharStatusText.innerHTML = `<b>Log-Space Exponential Fit:</b> Regressing 1-hr relaxation yields <b>τ₁ = ${sim.tau1_ext.toFixed(1)} s</b>, <b>R₁ = ${(sim.R1_avg * 1e3).toFixed(2)} mΩ</b>, and <b>C₁ = ${sim.C1_ext.toFixed(0)} F</b> (truth: ${sim.tau1_true.toFixed(1)} s, 1800 F).`;
+            } else {
+                precharStatusText.innerHTML = `<b>MATLAB R2024b Reference Output:</b> Official 6-panel validation figure generated by <code>extract_battery_resistance.m</code> at benchmark parameters (R₀ = 41.94 mΩ, R₁ = 27.95 mΩ, DCIR = 69.89 mΩ).`;
+            }
+
+            if (currentMode === 'prechar') updateTelemetry('prechar');
+        }
+
+        if (btnPrecharFull) {
+            const setPrecharView = (view, activeBtn) => {
+                precharView = view;
+                [btnPrecharFull, btnPrecharR0, btnPrecharR1, btnPrecharMatlab].forEach(b => b.classList.toggle('is-active', b === activeBtn));
+                updatePrechar();
+            };
+            btnPrecharFull.addEventListener('click', () => setPrecharView('full', btnPrecharFull));
+            btnPrecharR0.addEventListener('click', () => setPrecharView('r0', btnPrecharR0));
+            btnPrecharR1.addEventListener('click', () => setPrecharView('r1', btnPrecharR1));
+            btnPrecharMatlab.addEventListener('click', () => setPrecharView('matlab', btnPrecharMatlab));
+
+            btnPrecharPulses.addEventListener('click', () => {
+                precharPulses = !precharPulses;
+                btnPrecharPulses.classList.toggle('is-active', precharPulses);
+                btnPrecharPulses.textContent = `1C Hybrid Pulses: ${precharPulses ? 'ON' : 'OFF'}`;
+                updatePrechar();
+            });
+            precharR0Slider.addEventListener('input', updatePrechar);
+            precharR1Slider.addEventListener('input', updatePrechar);
+        }
+
+        function renderPrecharCanvas(canvas, sim, view) {
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            if (view === 'full') {
+                const padL = 52, padR = 46, padT = 22, padB = 26;
+                const pw = w - padL - padR;
+                const gap = 18;
+                const topH = 128;
+                const botTop = padT + topH + gap;
+                const botH = h - botTop - padB;
+                const maxHr = Math.max(4, sim.tEndHr);
+
+                // Phase shading bands across top & bottom
+                const xDis = padL + (sim.tDisHr / maxHr) * pw;
+                const xR1 = padL + (sim.tRest1EndHr / maxHr) * pw;
+                const xChg = padL + (sim.tChgHr / maxHr) * pw;
+                ctx.fillStyle = 'rgba(251, 113, 133, 0.06)';
+                ctx.fillRect(padL, padT, xDis - padL, topH);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.06)';
+                ctx.fillRect(xDis, padT, xR1 - xDis, topH);
+                ctx.fillStyle = 'rgba(52, 211, 120, 0.06)';
+                ctx.fillRect(xR1, padT, xChg - xR1, topH);
+                ctx.fillStyle = 'rgba(245, 197, 66, 0.06)';
+                ctx.fillRect(xChg, padT, padL + pw - xChg, topH);
+
+                // Top grid: Voltage 2.6 -> 4.4 V
+                ctx.strokeStyle = '#182530';
+                ctx.lineWidth = 1;
+                const vMinAxis = 2.6, vMaxAxis = 4.4;
+                const vToY = v => padT + topH - ((v - vMinAxis) / (vMaxAxis - vMinAxis)) * topH;
+                for (let v = 2.8; v <= 4.3; v += 0.4) {
+                    const y = vToY(v);
+                    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + pw, y); ctx.stroke();
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(v.toFixed(1) + 'V', padL - 6, y + 3);
+                }
+
+                // V_max / V_min limits
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = 'rgba(52, 211, 120, 0.5)';
+                ctx.beginPath(); ctx.moveTo(padL, vToY(4.2)); ctx.lineTo(padL + pw, vToY(4.2)); ctx.stroke();
+                ctx.strokeStyle = 'rgba(251, 113, 133, 0.5)';
+                ctx.beginPath(); ctx.moveTo(padL, vToY(2.8)); ctx.lineTo(padL + pw, vToY(2.8)); ctx.stroke();
+                ctx.setLineDash([]);
+
+                // OCV dashed trace
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.lineWidth = 1.4;
+                ctx.setLineDash([5, 3]);
+                ctx.beginPath();
+                for (let i = 0; i < sim.overview.length; i++) {
+                    const p = sim.overview[i];
+                    const x = padL + (p.tHr / maxHr) * pw;
+                    const y = vToY(p.ocv);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Terminal Voltage solid trace
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.1;
+                ctx.beginPath();
+                for (let i = 0; i < sim.overview.length; i++) {
+                    const p = sim.overview[i];
+                    const x = padL + (p.tHr / maxHr) * pw;
+                    const y = vToY(p.v);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Top legends & phase labels
+                ctx.font = 'bold 10px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#38bdf8';
+                ctx.fillText('— Terminal V_T(t)', padL + 6, padT + 12);
+                ctx.fillStyle = 'rgba(255,255,255,0.65)';
+                ctx.fillText('--- OCV(t)', padL + 115, padT + 12);
+
+                ctx.font = '9px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#fb7185';
+                ctx.fillText('1: Disch', (padL + xDis) / 2, padT + topH - 5);
+                ctx.fillStyle = '#38bdf8';
+                ctx.fillText('2: Rest 1h', (xDis + xR1) / 2, padT + topH - 5);
+                ctx.fillStyle = '#34d378';
+                ctx.fillText('3: C/3 Chg', (xR1 + xChg) / 2, padT + topH - 5);
+                ctx.fillStyle = '#f5c542';
+                ctx.fillText('4: Rest 1h', (xChg + padL + pw) / 2, padT + topH - 5);
+
+                // Bottom panel: Current (-2.8..+1.2 A) & SOC (0..100%)
+                ctx.strokeStyle = '#182530';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(padL, botTop, pw, botH);
+                const iMin = -2.8, iMax = 1.2;
+                const iToY = val => botTop + botH - ((val - iMin) / (iMax - iMin)) * botH;
+                const socToY = s => botTop + botH - (s / 100.0) * botH;
+
+                ctx.beginPath(); ctx.moveTo(padL, iToY(0)); ctx.lineTo(padL + pw, iToY(0)); ctx.stroke();
+                ctx.fillStyle = '#64748b';
+                ctx.font = '9px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText('+0.8A', padL - 5, iToY(0.83) + 3);
+                ctx.fillText('0A', padL - 5, iToY(0) + 3);
+                ctx.fillText('-2.5A', padL - 5, iToY(-2.5) + 3);
+
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#34d378';
+                ctx.fillText('100%', padL + pw + 5, socToY(100) + 4);
+                ctx.fillText('0%', padL + pw + 5, socToY(0) + 3);
+
+                // SOC trace (green)
+                ctx.strokeStyle = 'rgba(52, 211, 120, 0.75)';
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                for (let i = 0; i < sim.overview.length; i++) {
+                    const p = sim.overview[i];
+                    const x = padL + (p.tHr / maxHr) * pw;
+                    const y = socToY(p.soc);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Current trace (coral)
+                ctx.strokeStyle = '#fb7185';
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                for (let i = 0; i < sim.overview.length; i++) {
+                    const p = sim.overview[i];
+                    const x = padL + (p.tHr / maxHr) * pw;
+                    const y = iToY(p.i);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // X-axis ticks
+                ctx.fillStyle = '#64748b';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                for (let hr = 0; hr <= Math.floor(maxHr); hr++) {
+                    const x = padL + (hr / maxHr) * pw;
+                    ctx.fillText(hr + ' h', x, h - 8);
+                }
+                ctx.fillText('Test Time (hours)  ·  I_batt(t) [Coral] & SOC % [Green]', padL + pw / 2, botTop - 5);
+            } else if (view === 'r0') {
+                const padL = 62, padR = 25, padT = 32, padB = 38;
+                const pw = w - padL - padR;
+                const ph = h - padT - padB;
+                const pts = sim.r0Zoom;
+                if (!pts.length) return;
+
+                let vMin = Infinity, vMax = -Infinity;
+                for (let i = 0; i < pts.length; i++) {
+                    if (pts[i].v < vMin) vMin = pts[i].v;
+                    if (pts[i].v > vMax) vMax = pts[i].v;
+                }
+                const span = Math.max(0.03, vMax - vMin);
+                vMin -= span * 0.15;
+                vMax += span * 0.2;
+
+                const tToX = dt => padL + ((dt + 20) / 80) * pw;
+                const vToY = v => padT + ph - ((v - vMin) / (vMax - vMin)) * ph;
+
+                // Grid
+                ctx.strokeStyle = '#182530';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 4; i++) {
+                    const v = vMin + (i / 4) * (vMax - vMin);
+                    const y = vToY(v);
+                    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + pw, y); ctx.stroke();
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(v.toFixed(3) + ' V', padL - 7, y + 3);
+                }
+                for (let dt = -20; dt <= 60; dt += 10) {
+                    const x = tToX(dt);
+                    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + ph); ctx.stroke();
+                    ctx.fillStyle = '#64748b';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(dt + ' s', x, padT + ph + 15);
+                }
+                ctx.fillText('Relative Time Around V_min Cutoff (seconds)', padL + pw / 2, h - 7);
+
+                // Cutoff line at dt = 0
+                const x0 = tToX(0);
+                ctx.strokeStyle = '#fb7185';
+                ctx.lineWidth = 1.6;
+                ctx.setLineDash([5, 4]);
+                ctx.beginPath(); ctx.moveTo(x0, padT); ctx.lineTo(x0, padT + ph); ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Voltage trace
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.4;
+                ctx.beginPath();
+                for (let i = 0; i < pts.length; i++) {
+                    const x = tToX(pts[i].dt);
+                    const y = vToY(pts[i].v);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Highlight ohmic jump bracket
+                const yBot = vToY(sim.vBeforeR1);
+                const yTop = vToY(sim.vAfterR1);
+                ctx.strokeStyle = '#f5c542';
+                ctx.lineWidth = 2.2;
+                ctx.beginPath();
+                ctx.moveTo(x0 + 10, yBot);
+                ctx.lineTo(x0 + 10, yTop);
+                ctx.stroke();
+
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#f5c542';
+                ctx.fillText(`ΔV₀ = ${((sim.vAfterR1 - sim.vBeforeR1) * 1e3).toFixed(1)} mV → R₀ = ${(sim.R0_dis * 1e3).toFixed(2)} mΩ`, x0 + 18, (yBot + yTop) / 2 + 4);
+                ctx.fillStyle = '#fb7185';
+                ctx.fillText('Discharge Stop (I → 0)', x0 + 6, padT + 14);
+            } else if (view === 'r1') {
+                const padL = 62, padR = 25, padT = 32, padB = 38;
+                const pw = w - padL - padR;
+                const ph = h - padT - padB;
+                const pts = sim.r1Relax;
+                if (!pts.length) return;
+
+                let vMin = Math.min(sim.vAfterR1, sim.vOcvRelaxedDis - sim.dVp_dis);
+                let vMax = sim.vOcvRelaxedDis;
+                const span = Math.max(0.015, vMax - vMin);
+                vMin -= span * 0.12;
+                vMax += span * 0.15;
+
+                const tToX = dt => padL + (dt / 300.0) * pw;
+                const vToY = v => padT + ph - ((v - vMin) / (vMax - vMin)) * ph;
+
+                ctx.strokeStyle = '#182530';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 4; i++) {
+                    const v = vMin + (i / 4) * (vMax - vMin);
+                    const y = vToY(v);
+                    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + pw, y); ctx.stroke();
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(v.toFixed(3) + ' V', padL - 7, y + 3);
+                }
+                for (let t = 0; t <= 300; t += 50) {
+                    const x = tToX(t);
+                    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + ph); ctx.stroke();
+                    ctx.fillStyle = '#64748b';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(t + ' s', x, padT + ph + 15);
+                }
+                ctx.fillText('Relaxation Time After Cutoff (seconds)', padL + pw / 2, h - 7);
+
+                // Simulated V_T relaxation (cyan solid)
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.6;
+                ctx.beginPath();
+                for (let i = 0; i < pts.length; i += 4) {
+                    const x = tToX(pts[i].dt);
+                    const y = vToY(pts[i].v);
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Exponential 1-RC Fit (gold dashed)
+                ctx.strokeStyle = '#f5c542';
+                ctx.lineWidth = 2.0;
+                ctx.setLineDash([6, 4]);
+                ctx.beginPath();
+                for (let t = 0; t <= 300; t += 4) {
+                    const vFit = sim.vOcvRelaxedDis - sim.dVp_dis * Math.exp(-t / sim.tau1_ext);
+                    const x = tToX(t);
+                    const y = vToY(vFit);
+                    if (t === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#38bdf8';
+                ctx.fillText('— Simulated V_T(t) Relaxation', padL + 14, padT + 18);
+                ctx.fillStyle = '#f5c542';
+                ctx.fillText(`--- 1-RC Exponential Fit (τ₁ = ${sim.tau1_ext.toFixed(1)} s, R₁ = ${(sim.R1_avg * 1e3).toFixed(2)} mΩ, C₁ = ${sim.C1_ext.toFixed(0)} F)`, padL + 14, padT + 36);
+            }
+        }
+
+        // =====================================================================
         // MODE 2: STATIC OCV & DITHER HYSTERESIS COLLAPSE
         // =====================================================================
         const staticTempSlider = document.getElementById('static-temp');
@@ -804,8 +1438,8 @@
         // =====================================================================
         // MODE 6: SWITCHED-MODE BUCK CHARGER & TI C2000 PIL SIMULATION
         // =====================================================================
-        const btnChgViewCircuit = document.getElementById('btn-chg-view-circuit');
-        const btnChgViewScope = document.getElementById('btn-chg-view-scope');
+        const btnCtrlPil = document.getElementById('btn-ctrl-pil');
+        const btnCtrlFf = document.getElementById('btn-ctrl-ff');
         const btnChgCC = document.getElementById('btn-chg-cc');
         const btnChgCV = document.getElementById('btn-chg-cv');
         const btnChgCP = document.getElementById('btn-chg-cp');
@@ -818,6 +1452,7 @@
 
         let chgMode = 'cp'; // 'cc', 'cv', 'cp', 'pwm'
         let chgView = 'circuit'; // 'circuit' or 'scope'
+        let ctrlType = 'pil'; // 'pil' or 'ff'
         let fsw_kHz = 100;
         let pilAnimOffset = 0;
         let pilAnimId = null;
@@ -845,25 +1480,27 @@
             if (currentMode === 'charger') updateTelemetry('charger');
         }
 
-        if (btnChgViewCircuit) {
-            btnChgViewCircuit.addEventListener('click', () => {
+        if (btnCtrlPil && btnCtrlFf) {
+            btnCtrlPil.addEventListener('click', () => {
+                ctrlType = 'pil';
                 chgView = 'circuit';
-                btnChgViewCircuit.classList.add('is-active');
-                btnChgViewScope.classList.remove('is-active');
+                btnCtrlPil.classList.add('is-active');
+                btnCtrlFf.classList.remove('is-active');
                 updateCharger();
             });
-            btnChgViewScope.addEventListener('click', () => {
+            btnCtrlFf.addEventListener('click', () => {
+                ctrlType = 'ff';
                 chgView = 'scope';
-                btnChgViewScope.classList.add('is-active');
-                btnChgViewCircuit.classList.remove('is-active');
+                btnCtrlFf.classList.add('is-active');
+                btnCtrlPil.classList.remove('is-active');
                 updateCharger();
             });
-
+        }
+        if (btnChgCC) {
             btnChgCC.addEventListener('click', () => { chgMode = 'cc'; updateChgBtns(); updateCharger(); });
             btnChgCV.addEventListener('click', () => { chgMode = 'cv'; updateChgBtns(); updateCharger(); });
             btnChgCP.addEventListener('click', () => { chgMode = 'cp'; updateChgBtns(); updateCharger(); });
             btnChgPWM.addEventListener('click', () => { chgMode = 'pwm'; updateChgBtns(); updateCharger(); });
-
             chgFswSlider.addEventListener('input', updateCharger);
         }
 
@@ -1332,7 +1969,40 @@
         const telemDesc = document.getElementById('bms-telem-explanation');
 
         function updateTelemetry(mode) {
-            if (mode === 'kelvin') {
+            if (mode === 'prechar') {
+                const sim = simulatePreCharacterization(precharR0_mOhm, precharR1_mOhm, precharPulses);
+                const r0_m = sim.R0_avg * 1e3;
+                const r1_m = sim.R1_avg * 1e3;
+                const rtot_m = sim.R_total * 1e3;
+                const r0_err = ((r0_m - precharR0_mOhm) / precharR0_mOhm) * 100;
+                const r1_err = ((r1_m - precharR1_mOhm) / precharR1_mOhm) * 100;
+                const rtot_true = precharR0_mOhm + precharR1_mOhm;
+                const rtot_err = ((rtot_m - rtot_true) / rtot_true) * 100;
+
+                telemCards.innerHTML = `
+                    <div class="bms-tcard">
+                        <span class="bms-tcard__label">Extracted R₀ (Ohmic)</span>
+                        <span class="bms-tcard__val" style="color:#38bdf8;">${r0_m.toFixed(2)} mΩ</span>
+                        <span class="bms-tcard__sub">True: ${precharR0_mOhm}.0 mΩ (${r0_err >= 0 ? '+' : ''}${r0_err.toFixed(2)}%)</span>
+                    </div>
+                    <div class="bms-tcard">
+                        <span class="bms-tcard__label">Polarization R₁</span>
+                        <span class="bms-tcard__val" style="color:#f5c542;">${r1_m.toFixed(2)} mΩ</span>
+                        <span class="bms-tcard__sub">True: ${precharR1_mOhm}.0 mΩ (${r1_err >= 0 ? '+' : ''}${r1_err.toFixed(2)}%)</span>
+                    </div>
+                    <div class="bms-tcard">
+                        <span class="bms-tcard__label">Total DCIR (R₀ + R₁)</span>
+                        <span class="bms-tcard__val" style="color:#34d378;">${rtot_m.toFixed(2)} mΩ</span>
+                        <span class="bms-tcard__sub">True: ${rtot_true}.0 mΩ (${rtot_err >= 0 ? '+' : ''}${rtot_err.toFixed(2)}%)</span>
+                    </div>
+                    <div class="bms-tcard">
+                        <span class="bms-tcard__label">Time Constant τ₁ · C₁</span>
+                        <span class="bms-tcard__val">${sim.tau1_ext.toFixed(1)} s</span>
+                        <span class="bms-tcard__sub">C₁ = ${sim.C1_ext.toFixed(0)} F (Truth: ${sim.tau1_true.toFixed(1)} s)</span>
+                    </div>
+                `;
+                telemDesc.innerHTML = `<b>5-Phase Pre-Characterization &amp; Resistance Extraction:</b> Simulates the Samsung INR18650-25R (2.5 Ah NMC) 1-RC Thévenin plant under the MATLAB/Simulink <code>Test_Sequencer</code> state machine: C/3 discharge (${precharPulses ? 'with 10 s 1C hybrid pulses every 10 min' : 'continuous'}) to 2.80 V → 1-hr OCV rest → C/3 charge to 4.20 V → 1-hr rest. Instantaneous step jumps extract <b>R₀ = ΔV₀ / ΔI</b>, and log-space linear regression of the 1-hr relaxation curve recovers <b>τ₁ = R₁C₁</b>.`;
+            } else if (mode === 'kelvin') {
                 const drop_mV = is4Wire ? 0.0 : (testCurrent * R_lead * 2 * 1000);
                 const vMeas = is4Wire ? 3.900 : (3.900 - drop_mV / 1000);
                 telemCards.innerHTML = `
@@ -1495,6 +2165,7 @@
 
         function drawActiveCanvas(mode) {
             if (mode === 'kelvin') updateKelvin();
+            else if (mode === 'prechar') updatePrechar();
             else if (mode === 'static') updateStatic();
             else if (mode === 'udds') renderUDDSCanvas(canvasUDDS, uddsTime, uddsR0, uddsTau);
             else if (mode === 'ecm') updateECM();

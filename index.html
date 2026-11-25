@@ -738,52 +738,64 @@
                                 <div class="carousel" data-carousel
                                     data-title="Closed-Loop Li-ion Charger &amp; TI C2000 PIL Simulation">
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/c2000_pil_architecture.webp"
-                                            alt="Processor-in-the-Loop (PIL) Co-Simulation: Texas Instruments C2000 DSP running embedded C code in real time with Simscape battery plant"
+                                            src="images/projects/charger/c2000_pil_architecture.png"
+                                            alt="PIL CP Co-Simulation: TI C2000 (TMS320F28379D) DSP running embedded C power controller in real time with Simscape battery plant — 50 W reference"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/c2000_pil_scope.webp"
-                                            alt="PIL Scope: Real-time embedded DSP power loop regulating 50 W charging power at 11 A and 4.5 V with zero timing slip"
+                                            src="images/projects/charger/c2000_pil_scope.png"
+                                            alt="PIL CP Scope: Current rises to ~49 A, voltage to ~7.1 V, SoC increments — real-time C2000 DSP closed-loop execution verified"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_power_100w_model.webp"
-                                            alt="100 W High-Power Charging Controller: Discrete-time PI(z) + (V_ref/V_in) voltage feedforward and anti-windup"
+                                            src="images/projects/charger/c2000_pil_cv_architecture.png"
+                                            alt="PIL CV Co-Simulation: TI C2000 DSP voltage controller running PIL with 7.5 V reference and Simscape battery plant"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_power_100w_scope.webp"
-                                            alt="100 W Scope: Ultra-fast 5 ms settling time, zero overshoot, and dead flat 100 W power regulation"
+                                            src="images/projects/charger/pwm_power_100w_model.png"
+                                            alt="PWM CP 100 W Model: Discrete-time PI(z) with V_ref x V_in feedforward + PWM generator driving switched-mode buck converter"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_current_feedforward.webp"
-                                            alt="PWM Current PI Controller: Dual-loop architecture with feedforward duty cycle injection for fast dynamic response"
+                                            src="images/projects/charger/pwm_power_100w_scope.png"
+                                            alt="PWM CP Scope: Power settles at 100 W, current at ~20 A, voltage at ~5.1 V — deadbeat PI(z) convergence"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_current_scope.webp"
-                                            alt="PWM Current Scope: Fast settling to 20 A reference with smooth inductor ripple filtering"
+                                            src="images/projects/charger/pwm_current_feedforward.png"
+                                            alt="PWM CC Discrete PI(z) Model: 20 A reference with V_in feedforward duty-cycle injection driving buck converter"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_voltage_feedforward.webp"
-                                            alt="PWM Voltage PI Controller: Regulating 7.5 V terminal voltage with feedforward duty cycle"
+                                            src="images/projects/charger/pwm_current_scope.png"
+                                            alt="PWM CC Scope: Current settles toward 20 A reference, voltage to ~5.2 V — switched-mode PI(z) convergence"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cc_pi_model.webp"
-                                            alt="Constant-Current (CC) PI Controller: P gain matched to cell internal impedance (R_INT) to eliminate current spikes"
+                                            src="images/projects/charger/pwm_voltage_feedforward.png"
+                                            alt="PWM CV Discrete PI(z) Model: 7.5 V set point with V_in/V_out feedforward duty cycle, duty = 0.859 displayed"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cc_pi_scope.webp"
-                                            alt="CC Scope: 1.5 A held to full charge, 4.5 V saturation ceiling, and +10 K lumped thermal rise"
+                                            src="images/projects/charger/pwm_voltage_scope.png"
+                                            alt="PWM CV Scope: Terminal voltage converges to 7.5 V reference, current settles at ~52 A with PI(z) feedforward"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cv_pi_scope.webp"
-                                            alt="CV Scope: Exponential current tapering down to C/30 cutoff as SOC reaches 1.0, with cell cooling down"
+                                            src="images/projects/charger/cc_pi_model.png"
+                                            alt="CC PI Model: 1.5 A reference into PI(s) driving voltage-controlled source into Panasonic UR18650ZTA; P gain tuned to R_INT to eliminate spikes"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cp_pi_model.webp"
+                                            src="images/projects/charger/cc_pi_scope.png"
+                                            alt="CC Scope: 1.5 A held constant, voltage rises 3.9 V to 4.5 V, SoC 0.55 to 1.0, temperature +10 K over 1 hour"
+                                            loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img
+                                            src="images/projects/charger/cv_pi_scope.png"
+                                            alt="CV Scope: Current tapers exponentially from 6.1 A to 0, voltage clamped at 4.2 V, SoC 0.55 to 1.0 over 1 hour"
+                                            loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img
+                                            src="images/projects/charger/cv_pi_model.png"
+                                            alt="CV PI Model: 4.2 V reference into PI(s) driving voltage-controlled source into Panasonic UR18650ZTA with current and voltage sensing"
+                                            loading="lazy"></figure>
+                                    <figure class="carousel__slide" data-fit="contain"><img
+                                            src="images/projects/charger/cp_pi_model.png"
                                             alt="Constant-Power (CP) PI Controller: Dynamic V × I power feedback loop maintaining exact reference wattage"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cp_pi_scope.webp"
-                                            alt="CP Scope: Exact 5 W power regulation as voltage climbs and current tapers proportionally"
+                                            src="images/projects/charger/cp_pi_scope.png"
+                                            alt="CP Scope: Power held at ~5 W, current tapers ~0.3 to 0.2 A as voltage climbs 3.8 to 4.2 V, SoC 0.55 to 1.0"
                                             loading="lazy"></figure>
                                 </div>
                             </div>
@@ -990,19 +1002,22 @@
                             aria-selected="false" tabindex="-1"><span class="bx__n">02</span><span><b>Cell
                                     Modeling</b><small>ECM + characterization</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t3" aria-controls="bx-p3"
-                            aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>Cell Testing &amp;
-                                    ESC Model</b><small>C/30 · UDDS · 5.7 mV RMS</small></span></button>
+                            aria-selected="false" tabindex="-1"><span class="bx__n">03</span><span><b>Pre-Characterization
+                                    </b><small>R₀ · R₁ · DCIR extraction</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t4" aria-controls="bx-p4"
-                            aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Power Stage &amp;
-                                    PIL</b><small>100 kHz Buck · TI C2000 DSP</small></span></button>
+                            aria-selected="false" tabindex="-1"><span class="bx__n">04</span><span><b>Cell Testing &amp;
+                                    ESC Model</b><small>C/30 · UDDS · 5.7 mV RMS</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t5" aria-controls="bx-p5"
-                            aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>Pack
-                                    Design</b><small>4P10S e-scooter pack</small></span></button>
+                            aria-selected="false" tabindex="-1"><span class="bx__n">05</span><span><b>Power Stage &amp;
+                                    PIL</b><small>100 kHz Buck · TI C2000 DSP</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t6" aria-controls="bx-p6"
-                            aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>SOC
-                                    Estimation</b><small>Coulomb counting vs. Kalman</small></span></button>
+                            aria-selected="false" tabindex="-1"><span class="bx__n">06</span><span><b>Pack
+                                    Design</b><small>4P10S e-scooter pack</small></span></button>
                         <button class="bx__tab" type="button" role="tab" id="bx-t7" aria-controls="bx-p7"
-                            aria-selected="false" tabindex="-1"><span class="bx__n">07</span><span><b>Balancing &amp;
+                            aria-selected="false" tabindex="-1"><span class="bx__n">07</span><span><b>SOC
+                                    Estimation</b><small>Coulomb counting vs. Kalman</small></span></button>
+                        <button class="bx__tab" type="button" role="tab" id="bx-t8" aria-controls="bx-p8"
+                            aria-selected="false" tabindex="-1"><span class="bx__n">08</span><span><b>Balancing &amp;
                                     Logic</b><small>Passive balancing, Stateflow</small></span></button>
                     </div>
 
@@ -1098,9 +1113,32 @@
                                 </ul>
                             </div>
                         </div>
-
                         <!-- 03 -->
                         <div class="bx__panel" role="tabpanel" id="bx-p3" aria-labelledby="bx-t3">
+                            <figure class="bx__fig bms-media-fig">
+                                <img src="images/projects/bms/bms_prechar_results.png"
+                                    alt="6-panel MATLAB pre-characterization results: C/3 hybrid discharge to 2.80 V, 1-hour OCV relaxation, C/3 charge to 4.20 V, second rest, ohmic R0 step jump (41.85 mOhm), and 1-RC relaxation fit (R1 = 27.95 mOhm, C1 = 1802 F)"
+                                    loading="lazy" class="bms-fig-img">
+                                <figcaption>5-phase automated protocol on a Samsung INR18650-25R (2.5 Ah NMC/Graphite): C/3 hybrid discharge → 1-hr rest → C/3 charge → 1-hr rest → automated R₀, R₁, C₁ &amp; DCIR identification.</figcaption>
+                            </figure>
+                            <div class="bx__copy">
+                                <span class="label">MATLAB R2024b · Simulink · 1-RC Thévenin ECM</span>
+                                <h3>Pre-characterization &amp; internal resistance extraction</h3>
+                                <p>Built a programmatic Simulink state machine (<code>Test_Sequencer</code>) and 1-RC Thévenin plant for a Samsung 25R 18650 cell (2.5 Ah, 2.80–4.20 V). The protocol executes a C/3 discharge with periodic 10 s 1C hybrid pulses to V<sub>min</sub>, holds zero current for 1 hour to reach equilibrium OCV, charges at C/3 to V<sub>max</sub>, and rests again. Automated edge analysis and log-space exponential regression in MATLAB recover R₀, R₁, τ₁, C₁, and total DCIR to within &lt;0.4% of true plant parameters.</p>
+                                <ul class="bx__facts">
+                                    <li><b>41.94 mΩ</b><span>Avg. ohmic R₀ (41.85 mΩ disch · 42.04 mΩ chg vs. 42.00 mΩ plant, −0.14%)</span></li>
+                                    <li><b>69.89 mΩ</b><span>Total DCIR R<sub>total</sub> = R₀ + R₁ (R₁ = 27.95 mΩ vs. 70.00 mΩ plant, −0.16%)</span></li>
+                                    <li><b>50.3 s · 1802 F</b><span>Polarization time constant τ₁ = R₁C₁ via log-space fit (plant: 50.4 s, 1800 F)</span></li>
+                                </ul>
+                                <div class="project__actions" style="margin-top:8px;">
+                                    <a class="btn btn--light magnetic" href="docs/Battery_PreCharacterization_Test.zip" download><svg><use href="#i-download" /></svg>MATLAB &amp; Simulink Suite (.zip)</a>
+                                    <a href="#bms-studio" class="link-plain">Run in Virtual Lab</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 04 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p4" aria-labelledby="bx-t4">
                             <figure class="bx__fig">
                                 <div class="carousel" data-carousel data-title="ESC Model Simulation — MATLAB Outputs">
                                     <figure class="carousel__slide" data-fit="contain"><img
@@ -1140,29 +1178,29 @@
                             </div>
                         </div>
 
-                        <!-- 04 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p4" aria-labelledby="bx-t4">
+                        <!-- 05 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p5" aria-labelledby="bx-t5">
                             <figure class="bx__fig bms-media-fig">
                                 <div class="carousel" data-carousel
                                     data-title="Safe Charging &amp; Buck Converter Controls">
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/c2000_pil_architecture.webp"
+                                            src="images/projects/charger/c2000_pil_architecture.png"
                                             alt="Processor-in-the-Loop (PIL) co-simulation with Texas Instruments C2000 DSP and Simscape battery plant"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/c2000_pil_scope.webp"
+                                            src="images/projects/charger/c2000_pil_scope.png"
                                             alt="PIL Scope: Real-time embedded DSP power loop regulating 50 W charging power at 11 A and 4.5 V"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/pwm_power_100w_scope.webp"
+                                            src="images/projects/charger/pwm_power_100w_scope.png"
                                             alt="100 W Power Charging: Deadbeat 5 ms settling time, zero overshoot, and perfectly flat power regulation"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cv_pi_scope.webp"
+                                            src="images/projects/charger/cv_pi_scope.png"
                                             alt="Constant-Voltage scope: current tapers to C/30 cutoff as SOC reaches 1.0, with cell cooling down"
                                             loading="lazy"></figure>
                                     <figure class="carousel__slide" data-fit="contain"><img
-                                            src="images/projects/charger/cc_pi_scope.webp"
+                                            src="images/projects/charger/cc_pi_scope.png"
                                             alt="Constant-Current scope: 1.5 A held to full charge with lumped thermal rise of +10 K"
                                             loading="lazy"></figure>
                                 </div>
@@ -1191,8 +1229,8 @@
                             </div>
                         </div>
 
-                        <!-- 05 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p5" aria-labelledby="bx-t5">
+                        <!-- 06 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p6" aria-labelledby="bx-t6">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img"
                                     aria-label="Two modules of five parallel assemblies with four cells each, connected in series: 4P10S in a five by eight layout">
@@ -1269,8 +1307,8 @@
                             </div>
                         </div>
 
-                        <!-- 06 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p6" aria-labelledby="bx-t6">
+                        <!-- 07 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p7" aria-labelledby="bx-t7">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img"
                                     aria-label="True SOC, a Coulomb counting estimate with a permanent offset, and a Kalman filter estimate that converges to the true SOC">
@@ -1317,8 +1355,8 @@
                             </div>
                         </div>
 
-                        <!-- 07 -->
-                        <div class="bx__panel" role="tabpanel" id="bx-p7" aria-labelledby="bx-t7">
+                        <!-- 08 -->
+                        <div class="bx__panel" role="tabpanel" id="bx-p8" aria-labelledby="bx-t8">
                             <figure class="bx__fig">
                                 <svg viewBox="0 0 420 250" role="img"
                                     aria-label="Stateflow BMS: Off, On and Charging states, with Charging split into constant-current and constant-voltage substates">
@@ -1563,7 +1601,8 @@
                             <span class="label" style="color:var(--sun);">Interactive Virtual Laboratory</span>
                             <h3 class="bms-studio__title">Cell Testing, ECM Simulator &amp; BMS Safety Console</h3>
                             <p class="bms-studio__desc">Hands-on testing console: toggle 4-wire Kelvin sensing to
-                                eliminate lead drops, collapse hysteresis via dither excitation, simulate live UDDS
+                                eliminate lead drops, run the 5-phase MATLAB pre-characterization test to extract
+                                R₀/R₁/DCIR, collapse hysteresis via dither excitation, simulate live UDDS
                                 drive-cycle telemetry, tune equivalent-circuit parameters, and test BMS safety
                                 interlocks.</p>
                         </div>
@@ -1573,6 +1612,10 @@
                                     viewBox="0 0 24 24">
                                     <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" />
                                 </svg><span>4-Wire Kelvin Bridge</span></button>
+                            <button class="bms-smode" type="button" data-smode="prechar"><svg viewBox="0 0 24 24">
+                                    <path d="M4 19V5M4 19h16M7 15l4-5 3 3 5-7" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg><span>Pre-Characterization</span></button>
                             <button class="bms-smode" type="button" data-smode="static"><svg viewBox="0 0 24 24">
                                     <path d="M3 12h3l3-8 4 16 3-8h5" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
@@ -1630,6 +1673,37 @@
                                     <span id="kelvin-status-text">4-Wire Kelvin Active: Sense leads carry zero current
                                         (I_sense = 0). Voltmeter reads true electrochemical cell potential (3.900 V)
                                         with 0.0 mV lead error.</span>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 1B: Pre-Characterization & Resistance Extraction -->
+                            <div class="bms-view" id="sview-prechar">
+                                <div class="bms-controls-bar">
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-toggle-btn is-active" id="btn-prechar-full">Full Protocol</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-prechar-r0">R₀ Step (V<sub>min</sub>)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-prechar-r1">1-Hr Fit (R₁, τ₁)</button>
+                                        <button type="button" class="bms-toggle-btn" id="btn-prechar-matlab">MATLAB 6-Panel</button>
+                                    </div>
+                                    <div class="bms-btn-group">
+                                        <button type="button" class="bms-action-btn is-active" id="btn-prechar-pulses">1C Hybrid Pulses: ON</button>
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="prechar-r0">Plant R₀: <b id="prechar-r0-val">42 mΩ</b></label>
+                                        <input type="range" id="prechar-r0" min="30" max="75" value="42" step="1">
+                                    </div>
+                                    <div class="bms-ctrl">
+                                        <label for="prechar-r1">Plant R₁: <b id="prechar-r1-val">28 mΩ</b></label>
+                                        <input type="range" id="prechar-r1" min="15" max="50" value="28" step="1">
+                                    </div>
+                                </div>
+                                <div class="bms-canvas-wrap">
+                                    <canvas id="canvas-prechar" width="600" height="280"></canvas>
+                                    <img id="img-prechar-matlab" src="images/projects/bms/bms_prechar_results.png" alt="MATLAB 6-panel Battery Pre-Characterization Validation Results" loading="lazy" style="display:none; width:100%; height:auto; background:#ffffff;">
+                                </div>
+                                <div class="bms-status-banner" id="prechar-banner">
+                                    <span class="bms-status-dot is-good"></span>
+                                    <span id="prechar-status-text"><b>5-Phase MATLAB/Simulink Protocol:</b> C/3 hybrid discharge to 2.80 V → 1h rest → C/3 charge to 4.20 V → 1h rest → automated ECM parameter extraction.</span>
                                 </div>
                             </div>
 
@@ -2785,7 +2859,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
     <script src="script.js?v=13" defer></script>
-    <script src="bms-studio.js?v=1" defer></script>
+    <script src="bms-studio.js?v=2" defer></script>
     <script src="gridtech/embed.js?v=5" defer></script>
 </body>
 
